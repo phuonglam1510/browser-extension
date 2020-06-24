@@ -1,13 +1,13 @@
 let aha = {};
 
-(function($) {
+(function ($) {
     const baseUrl = "https://appword.kie.io";
     function buildUrl(path, paramsObj) {
         let recursiveEncodedParams = "";
         if (paramsObj) {
             recursiveEncodedParams += $.param(paramsObj);
         }
-        return baseUrl + path + (recursiveEncodedParams ? "?"+recursiveEncodedParams : "");
+        return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
     aha.util = {
@@ -29,11 +29,11 @@ let aha = {};
     aha.apiListSavedWords = apiListSavedWords;
     aha.showListSavedWords = showListSavedWords;
 
-    function firstLine(str){
+    function firstLine(str) {
         var breakIndex = str.indexOf("\n");
 
         // consider that there can be line without a break
-        if (breakIndex === -1){
+        if (breakIndex === -1) {
             return str;
         }
 
@@ -64,7 +64,7 @@ let aha = {};
             url: buildUrl("/api/word"),
             type: "POST",
             data: params,
-       }))
+        }))
     }
 
     function apiListSavedWords() {
@@ -72,26 +72,52 @@ let aha = {};
     }
 
     function createElementCard(item) {
-        const { word, updatedAt, definition, id} = item
+        const { word, updatedAt, definition, id } = item
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
-        const idCollapse = `collapseExample${id}`
-        return `<div class='card-item'>
-            <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                <span>${word}</span>
-                <span class="lnr lnr-trash btn-delete" id="${id}"></span>
+        // const idCollapse = `collapseExample${id}`
+        // return `<div class='card-item'>
+        //     <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
+        //         <span>${word || 'Word is empty'}</span>
+        //         <div class="collapse" id="${idCollapse}">
+        //             <div class="card card-body">
+        //                 <span>${definition || 'Definition is empty'}</span>
+        //                 <span>${date}</span>
+        //                 <span class="lnr lnr-trash btn-delete" id="${id}"></span>
+        //             </div>
+        //         </div>
+        //     </div>
+
+        // </div>`
+
+        // return `<div class='card-item-wrap col-sm-6 col-md-4 mt-5'>
+        //     <div class="card-item-wrap-content">
+        //         <h1 class="word">${word}</h1>
+        //         <p class="define">${definition || 'Definition is empty'}</p>
+        //         <p class="lnr lnr-trash btn-delete" id="$ {id}"></p>
+        //     </div>
+        // </div>`
+        return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h1 class="word">${word}</h1>
+          </div>
+          <div class="flip-card-back">
+            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
+          </div>
+        </div>
+        <div class="detail-wrap">
+            <div class="detail-content">
+                <p>${date}</p>
+                <input class="form-check-input" type="checkbox" value="" id="${id}">
+                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${id}"></p></div>
             </div>
-            <div class="collapse" id="${idCollapse}">
-                    <div class="card card-body">
-                        <span>${definition || 'Definition is empty'}</span>
-                        <span>${date}</span>
-                    </div>
-            </div>
-        </div>`
+        </div>
+      </div>`
     }
 
-    function createPageElement (number) {
+    function createPageElement(number) {
         const pageElement = `<li class="page-item"><a class="page-link" href="#" id="${number}">${number}</a></li>`
         return pageElement
     }
@@ -102,11 +128,11 @@ let aha = {};
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination">
                         `
-        for (let i = currentPage; i< currentPage + 10 && i< numberPage ; i++){
-            element += createPageElement(i+1)
+        for (let i = currentPage; i < currentPage + 10 && i < numberPage; i++) {
+            element += createPageElement(i + 1)
         }
 
-        if (numberPage > 10){
+        if (numberPage > 10) {
             element += `
             <li>...</li>
             `
@@ -133,7 +159,7 @@ let aha = {};
     }
 
     function onPagination(page) {
-        currentPage  = page
+        currentPage = page
         const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
         $(".list-words").html(list)
 
@@ -145,10 +171,11 @@ let aha = {};
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
+                console.log("result API: ", result)
                 listWords = [...result, ...result, ...result, ...result, ...result]
                 console.log("PAGE_SIZE: ", PAGE_SIZE)
                 console.log("result: ", listWords)
-                const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+                const list = result.map(item => createElementCard(item))
                 $(".list-words").html(list)
 
                 $(".list-words__pagination").html(createElementPagination())
@@ -158,9 +185,9 @@ let aha = {};
                     const page = parseInt(e.target.id)
                     console.log("page: ", page)
                     onPagination(page)
-                   
+
                 });
-                
+
                 $(".btn-delete").click(function (e) {
                     e.stopPropagation()
                     console.log(" e.target.attributes: ", e.target.id)
@@ -176,16 +203,16 @@ let aha = {};
 
     function checkLogin() {
         aha.apiGetUserProfile().
-        done(function (profile) {
-            $(".login-nav").toggleClass("d-none", true);
-            $(".user-profile-nav").toggleClass("d-none", false);
-            $(".user-profile").text("Hi, " + profile.lastName);
-        }).
-        fail(function (jqXHR) {
-            $(".user-profile-nav").toggleClass("d-none", true);
-            $(".login-nav").toggleClass("d-none", false);
-            window.location.href = "/page/login.html";
-        });
+            done(function (profile) {
+                $(".login-nav").toggleClass("d-none", true);
+                $(".user-profile-nav").toggleClass("d-none", false);
+                $(".user-profile").text("Hi, " + profile.lastName);
+            }).
+            fail(function (jqXHR) {
+                $(".user-profile-nav").toggleClass("d-none", true);
+                $(".login-nav").toggleClass("d-none", false);
+                window.location.href = "/page/login.html";
+            });
     }
 
     function getClipboardText() {
@@ -212,7 +239,7 @@ let aha = {};
                         code: "window.getSelection().toString();",
                         allFrames: true
                     },
-                    function(selections) {
+                    function (selections) {
                         cb(selections);
                     });
             } else {
@@ -228,7 +255,7 @@ let aha = {};
                             code: "window.getSelection().toString();",
                             allFrames: true
                         },
-                        function(selections) {
+                        function (selections) {
                             cb(selections);
                         });
                 });
@@ -242,7 +269,7 @@ let aha = {};
         chrome.tabs.query({
             active: true,
             currentWindow: true
-        }, function(tabs) {
+        }, function (tabs) {
             cb(tabs);
         })
     }
@@ -263,7 +290,7 @@ let aha = {};
         }
 
         let results = [];
-        sentences.forEach(function(e, i) {
+        sentences.forEach(function (e, i) {
             let txt = "" + e;
             results = results.concat(removeFaulty(_.split(txt, /\s+/)));
         });

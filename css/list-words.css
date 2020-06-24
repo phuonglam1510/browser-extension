@@ -28,8 +28,208 @@ $height-btn-small: 45px;
 $height-btn-large: 60px;
 */
 
-
-
-.card-item {
+/* .card-item {
     background-color: rgba(#80D0C7, .3);
+} */
+body {
+    background: rgb(128, 208, 199);
+    background: linear-gradient(
+        124deg,
+        rgba(128, 208, 199, 1) 0%,
+        rgba(0, 147, 233, 1) 100%
+    );
 }
+
+.header {
+    background-color: #fff;
+    padding-left: 115px;
+    padding-right: 115px;
+    display: flex;
+    justify-content: space-between;
+}
+.header .logo {
+    font-size: 45px;
+    background: rgb(0, 147, 233);
+    background: linear-gradient(
+        124deg,
+        rgba(0, 147, 233, 1) 0%,
+        rgba(128, 208, 199, 1) 100%
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+.header .social {
+    display: flex;
+    align-items: center;
+}
+.header .social .social__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+.header .social .social__list .social__item {
+    border-radius: 50%;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 6px 20px rgba(black, 0.5);
+    transition: all 0.2s;
+    margin: 0 10px;
+}
+.header .social .social__list .social__item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.header .social .social__list .social__item a i.fab::before {
+    font-size: 30px;
+}
+.header .social .social__list .social__item a:hover {
+    transform: scale(1.1);
+}
+.header .social .social__list .social__item--instagram a {
+    color: #7c4a3a;
+}
+.header .social .social__list .social__item--youtube a {
+    color: #ff0000;
+}
+
+.list-words {
+    width: 100%;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 20px;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+/* .card-item-wrap .card-item-wrap-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+.card-item-wrap .card-item-wrap-content .word {
+    color: #0093e9;
+    word-wrap: break-word;
+    font-size: 22px;
+}
+.card-item-wrap .card-item-wrap-content .define {
+}
+.card-item-wrap .card-item-wrap-content .btn-delete {
+    text-align: right;
+} */
+
+.flip-card {
+    background-color: transparent;
+    width: 350px;
+    height: 200px;
+    perspective: 1000px;
+    margin-bottom: 100px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-card-front {
+    background-color: #fff;
+    color: black;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.flip-card-front .word {
+    text-align: center;
+    margin: 0;
+    font-size: 22px;
+    color: #2980b9;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.flip-card-back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.flip-card-back .definition {
+    font-size: 22px;
+    margin: 0;
+}
+
+/* .flip-card-back .delete {
+    align-content: end;
+    align-self: flex-end;
+} */
+
+.detail-content {
+    background-color: #fff;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.detail-content input {
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.detail-content p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+.detail-content .delete {
+    margin-left: 10px;
+}
+
+.detail-content .btn-delete {
+    margin-left: 10px;
+}
+
+/* .detail-content {
+    margin: 0;
+    padding: 10px;
+} */
