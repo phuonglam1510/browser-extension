@@ -28,6 +28,10 @@ let aha = {};
     aha.checkLogin = checkLogin;
     aha.apiListSavedWords = apiListSavedWords;
     aha.showListSavedWords = showListSavedWords;
+    aha.apiDeleteWord = apiDeleteWord;
+    aha.deleteWord = deleteWord;
+    aha.onPaginationListWord = onPagination
+    aha.deleteMultipleWord = deleteMultipleWord
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -71,33 +75,54 @@ let aha = {};
         return $.when($.ajax(buildUrl("/api/word/list")));
     }
 
+    function apiDeleteWord(word) {
+        return $.when($.ajax({
+            url: buildUrl(`/api/word?word=${word}`),
+            type: "DELETE"
+        }))
+    }
+
+    function updateListWordAfterDelete(words) {
+        // listWords = listWords.filter(item => item.word !== word)
+        listWords = listWords.filter(item => !words.includes(item.word))
+    }
+
+    function deleteWord(word) {
+        aha.apiDeleteWord(word).
+            done(function (result) {
+                updateListWordAfterDelete([word])
+                onPagination(1)
+
+            }).
+            fail(function (jqXHR) {
+                // TODO
+            });
+    }
+
+
+    function ajaxDelete(word) {
+        return $.ajax({
+            url: buildUrl(`/api/word?word=${word}`),
+            type: "DELETE"
+        });
+    }
+
+    function deleteMultipleWord() {
+        console.log("deleword: ", listWordsChecked)
+        const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
+        $.when(...ajaxArr).done(function (...result) {
+            console.log("after delete: ", result)
+                updateListWordAfterDelete(listWordsChecked)
+                onPagination(1)
+                listWordsChecked = []
+        });
+    }
+
     function createElementCard(item) {
         const { word, updatedAt, definition, id } = item
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
-        // const idCollapse = `collapseExample${id}`
-        // return `<div class='card-item'>
-        //     <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
-        //         <span>${word || 'Word is empty'}</span>
-        //         <div class="collapse" id="${idCollapse}">
-        //             <div class="card card-body">
-        //                 <span>${definition || 'Definition is empty'}</span>
-        //                 <span>${date}</span>
-        //                 <span class="lnr lnr-trash btn-delete" id="${id}"></span>
-        //             </div>
-        //         </div>
-        //     </div>
-
-        // </div>`
-
-        // return `<div class='card-item-wrap col-sm-6 col-md-4 mt-5'>
-        //     <div class="card-item-wrap-content">
-        //         <h1 class="word">${word}</h1>
-        //         <p class="define">${definition || 'Definition is empty'}</p>
-        //         <p class="lnr lnr-trash btn-delete" id="$ {id}"></p>
-        //     </div>
-        // </div>`
         return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
         <div class="flip-card-inner">
           <div class="flip-card-front">
@@ -110,90 +135,126 @@ let aha = {};
         <div class="detail-wrap">
             <div class="detail-content">
                 <p>${date}</p>
-                <input class="form-check-input" type="checkbox" value="" id="${id}">
-                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${id}"></p></div>
+                 <input class="word-item-checkbox" type="checkbox" id="${word}">
+                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
             </div>
         </div>
       </div>`
     }
 
-    function createPageElement(number) {
-        const pageElement = `<li class="page-item"><a class="page-link" href="#" id="${number}">${number}</a></li>`
+    function createPageElement (number) {
+        const pageElement = `<li class="page-item list-words__page-item"><a class="page-link ${number === currentPage ? 'current-page' : ''}" href="#" id="${number}">${number}</a></li>`
         return pageElement
     }
 
-    function createElementPagination() {
-        const numberPage = Math.floor(listWords.length / PAGE_SIZE)
-        console.log(numberPage)
+    function createElementPagination(total) {
+        const numberPage = Math.floor( total / PAGE_SIZE)
         let element = `<nav aria-label="Page navigation example">
-                        <ul class="pagination">
+                        <ul class="pagination list-words__pagination-content">
                         `
-        for (let i = currentPage; i < currentPage + 10 && i < numberPage; i++) {
-            element += createPageElement(i + 1)
+        if (numberPage > PAGE_NUMBER_DISPLAY) {
+            if (currentPage > PAGE_NUMBER_DISPLAY) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="1">First</a></li>`
+            }
+            if (currentPage > 1) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${PREV_PAGE}">Previous</a></li>`
+            }
         }
 
-        if (numberPage > 10) {
-            element += `
-            <li>...</li>
-            `
+        const start = currentPage + 10 <= numberPage ? currentPage : Math.max(numberPage - 10, 1)
+        for (let i = start; i <= currentPage + 10 && i <= numberPage ; i++){
+            element += createPageElement(i)
+        }
+
+        // if (currentPage + 10 < numberPage){
+        //     element += `
+        //     <li>...</li>
+        //     `
+        // }
+
+        if (numberPage > PAGE_NUMBER_DISPLAY) {
+            if (currentPage < numberPage - 1) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${NEXT_PAGE}">Next</a></li>`
+            }
+            if (currentPage < numberPage) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${numberPage}">Last</a></li>`
+            }
         }
 
         element += ` </ul>
                 </nav>`
 
         return element
-
-
-        // let element = `
-        // <nav aria-label="Page navigation example">
-        //     <ul class="pagination">
-        //         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">1</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">2</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">3</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        //     </ul>
-        // </nav>
-        // `
-
     }
 
+    function updateListWordsChecked (word, isCheck) {
+        if (isCheck) {
+            listWordsChecked = [...listWordsChecked, word]
+        } else {
+            listWordsChecked = listWordsChecked.filter(item => item !== word)
+        }
+        console.log("list: ", listWordsChecked)
+    }
+
+    // function deleteListWordsChecked(word){
+    //     for (word in listWordsChecked){
+    //        api
+    //      }
+    //     })
+    // }
+
+
+
     function onPagination(page) {
-        currentPage = page
-        const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+        currentPage  = page
+        const list = ( listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+        
         $(".list-words").html(list)
 
         // update pagination UI
-        $(".list-words__pagination").html(createElementPagination())
+        $(".list-words__pagination").html(createElementPagination((listWordsDisplay || listWords).length))
+        $(".list-words__current-page").text(currentPage)
+
+        $(".page-item").click(function (e) {
+            e.stopPropagation()
+            const page = parseInt(e.target.id)
+            if (page === PREV_PAGE)  {
+                onPagination(currentPage - 1) // prev page
+            } else if (page === NEXT_PAGE) {
+                onPagination(currentPage + 1) // next page
+            } else {
+                onPagination(page)
+            }    
+        });
+
+        $(".btn-delete").click(function (e) {
+            e.stopPropagation()
+            const word = e.target.id
+            deleteWord(word)
+        });
+
+        $(".word-item-checkbox").click(function (e) {
+            e.stopPropagation()
+            // console.log(" e.target.attributes: ", e.target.id)
+            // console.log(" e.target.attributes: ", e.target.checked)
+            const word = e.target.id
+            updateListWordsChecked(word, e.target.checked)
+           
+        });
+
+// ////////////////////////////////////////////
+//         $(...).click(function (e) {
+//             e.stopPropagation()
+//             const select = e.target.checked
+//             });
 
     }
 
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                console.log("result API: ", result)
-                listWords = [...result, ...result, ...result, ...result, ...result]
-                console.log("PAGE_SIZE: ", PAGE_SIZE)
-                console.log("result: ", listWords)
-                const list = result.map(item => createElementCard(item))
-                $(".list-words").html(list)
-
-                $(".list-words__pagination").html(createElementPagination())
-
-                $(".page-item").click(function (e) {
-                    e.stopPropagation()
-                    const page = parseInt(e.target.id)
-                    console.log("page: ", page)
-                    onPagination(page)
-
-                });
-
-                $(".btn-delete").click(function (e) {
-                    e.stopPropagation()
-                    console.log(" e.target.attributes: ", e.target.id)
-                    alert(`ID of element ${e.target.id}`);
-                    // TODO: delete word
-                });
+                listWords = result
+                onPagination(1)
             }).
             fail(function (jqXHR) {
                 // TODO
