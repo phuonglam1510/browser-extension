@@ -42,8 +42,8 @@ body {
 
 .header {
     background-color: #fff;
-    padding-left: 165px;
-    padding-right: 165px;
+    padding-left: 115px;
+    padding-right: 115px;
     display: flex;
     justify-content: space-between;
 }
@@ -103,8 +103,8 @@ body {
 
 .list-words {
     width: 100%;
-    padding-left: 150px;
-    padding-right: 150px;
+    padding-left: 100px;
+    padding-right: 100px;
     margin-top: 20px;
     margin-right: 0 !important;
     margin-left: 0 !important;
@@ -127,7 +127,7 @@ body {
 
 .flip-card {
     background-color: transparent;
-    width: 200px;
+    width: 350px;
     height: 200px;
     perspective: 1000px;
     margin-bottom: 100px;
@@ -175,6 +175,8 @@ body {
     margin: 0;
     font-size: 22px;
     color: #2980b9;
+    word-wrap: break-word;
+    width: 100%;
 }
 
 .flip-card-back {
@@ -210,10 +212,21 @@ body {
 
 .detail-content input {
     margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .detail-content p {
     margin: 0;
+    margin-right: 10px;
+}
+
+.detail-content .delete {
+    margin-left: 10px;
+}
+
+.detail-content .btn-delete {
+    margin-left: 10px;
 }
 
 /* .detail-content {
