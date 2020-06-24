@@ -22,13 +22,13 @@ $(document).ready(function () {
         isCollpase = !isCollpase
     });
 
-    $(".list-words__search--btn").click(function (e) {
+    $(".list-words__search-btn").click(function (e) {
             const keyword = $("#keyword-search").val();
             if (keyword) {
                 const regExp = new RegExp(`${keyword}`, "i") 
                 listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
                 aha.onPaginationListWord(1, listWordsDisplay)
-            } else {
+            } else if (listWordsDisplay!== null) {
                 listWordsDisplay = null
                 aha.onPaginationListWord(1)
             }
