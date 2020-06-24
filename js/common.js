@@ -86,18 +86,13 @@ let aha = {};
     }
 
     function deleteWord(word) {
-        console.log("deleword: ", word)
         aha.apiDeleteWord(word).
             done(function (result) {
-                console.log("rs after delete: ", result)
                 updateListWordAfterDelete(word)
-                
                 onPagination(1)
 
             }).
             fail(function (jqXHR) {
-                console.log("get err")
-                console.log(JSON.stringify(jqXHR))
                 // TODO
             });
     }
@@ -128,10 +123,7 @@ let aha = {};
     }
 
     function createElementPagination(total) {
-        // console.log("** on create ")
         const numberPage = Math.floor( total / PAGE_SIZE)
-        console.log("numberPage: ", numberPage)
-        // let count = 0;
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination list-words__pagination-content">
                         `
@@ -183,7 +175,6 @@ let aha = {};
         $(".page-item").click(function (e) {
             e.stopPropagation()
             const page = parseInt(e.target.id)
-            console.log("page: ", page)
             if (page === PREV_PAGE)  {
                 onPagination(currentPage - 1) // prev page
             } else if (page === NEXT_PAGE) {
@@ -195,7 +186,6 @@ let aha = {};
 
         $(".btn-delete").click(function (e) {
             e.stopPropagation()
-            console.log(" e.target.attributes: ", e.target.id)
             const word = e.target.id
             deleteWord(word)
         });
@@ -206,9 +196,6 @@ let aha = {};
         aha.apiListSavedWords().
             done(function (result) {
                 listWords = result
-            
-                console.log("result: ", listWords)
-
                 onPagination(1)
             }).
             fail(function (jqXHR) {
