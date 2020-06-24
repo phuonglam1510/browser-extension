@@ -1,4 +1,4 @@
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 10;
 const PAGE_NUMBER_DISPLAY = 10;
 const PREV_PAGE = -1;
 const NEXT_PAGE = -2;
@@ -7,6 +7,7 @@ let isCollpase =  false;
 let currentPage = 1;
 let listWords = []
 let listWordsDisplay = null
+let listWordsChecked = []
 
 
 $(document).ready(function () {
@@ -17,7 +18,7 @@ $(document).ready(function () {
         $('.collapse').collapse(isCollpase ? 'hide' : 'show')
 
         // $('#list-words__collpase-all').bootstrapToggle(isCollpase ? 'off' : 'on')
-
+    
 
         isCollpase = !isCollpase
     });
@@ -33,6 +34,8 @@ $(document).ready(function () {
                 aha.onPaginationListWord(1)
             }
     });
-
-
+    
+    $(".list-words__delete-all").click(function (e) {
+        aha.deleteMultipleWord()
+    });
 });
