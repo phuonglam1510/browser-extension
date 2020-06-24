@@ -14,7 +14,9 @@ $(document).ready(function () {
         let jForm = $(this);
         aha.apiLogin(jForm.serialize()).
             done(function (profile) {
+                console.log("profile: ", profile)
                 console.log(profile);
+                alert(`${JSON.stringify(profile)}`)
                 $(".login-alert").
                     toggleClass("alert-danger", false).
                     toggleClass("alert-success", true).
