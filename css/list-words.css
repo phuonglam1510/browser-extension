@@ -133,6 +133,7 @@ body {
     padding-right: 115px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.016);
 }
 .list-words__header .list-words__logo {
@@ -324,7 +325,14 @@ body {
     transition: all .2s;
 }
 
-/* .detail-content {
-    margin: 0;
-    padding: 10px;
-} */
+@media only screen and (max-width: 720px) {
+    .list-words__header {
+        padding: 0 50px;
+    }
+    .list-words__logo {
+        font-size: 30px !important;
+    }
+    .list-words {
+        padding: 20px;
+    }
+}
