@@ -1,4 +1,4 @@
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 5;
 const PAGE_NUMBER_DISPLAY = 10;
 const PREV_PAGE = -1;
 const NEXT_PAGE = -2;
@@ -12,7 +12,8 @@ let listWordsChecked = []
 $(document).ready(function () {
     aha.showListSavedWords()
     $(".list-words__search-btn").click(function (e) {
-            const keyword = $("#keyword-search").val();
+            let keyword = $("#keyword-search").val();
+            keyword = keyword.trim()
             if (keyword) {
                 const regExp = new RegExp(`${keyword}`, "i") 
                 listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
