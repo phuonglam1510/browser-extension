@@ -97,48 +97,67 @@ let aha = {};
     }
 
     function createElementPagination() {
+        console.log("** on create ")
         const numberPage = Math.floor(listWords.length / PAGE_SIZE)
-        console.log(numberPage)
+        console.log("numberPage: ", numberPage)
+        // let count = 0;
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination">
                         `
-        for (let i = currentPage; i< currentPage + 10 && i< numberPage ; i++){
-            element += createPageElement(i+1)
+        if (currentPage > PAGE_NUMBER_DISPLAY) {
+            element += `<li class="page-item"><a class="page-link" href="#" id="1">First</a></li>`
+        }
+        if (currentPage > 1) {
+            element += `<li class="page-item"><a class="page-link" href="#" id="${PREV_PAGE}">Previous</a></li>`
         }
 
-        if (numberPage > 10){
+        const start = currentPage + 10 <= numberPage ? currentPage : numberPage - 10
+        for (let i = start; i <= currentPage + 10 && i <= numberPage ; i++){
+            element += createPageElement(i)
+        }
+
+        if (currentPage + 10 < numberPage){
             element += `
             <li>...</li>
             `
+        }
+
+        if (currentPage < numberPage - 1) {
+            element += `<li class="page-item"><a class="page-link" href="#" id="${NEXT_PAGE}">Next</a></li>`
+        }
+        if (currentPage < numberPage) {
+            element += `<li class="page-item"><a class="page-link" href="#" id="${numberPage}">Last</a></li>`
         }
 
         element += ` </ul>
                 </nav>`
 
         return element
-
-
-        // let element = `
-        // <nav aria-label="Page navigation example">
-        //     <ul class="pagination">
-        //         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">1</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">2</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">3</a></li>
-        //         <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        //     </ul>
-        // </nav>
-        // `
-
     }
 
     function onPagination(page) {
+        console.log("** on create 1 ")
+
         currentPage  = page
         const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
         $(".list-words").html(list)
 
         // update pagination UI
         $(".list-words__pagination").html(createElementPagination())
+        $(".list-words__current-page").text(currentPage)
+
+        $(".page-item").click(function (e) {
+            e.stopPropagation()
+            const page = parseInt(e.target.id)
+            console.log("page: ", page)
+            if (page === PREV_PAGE)  {
+                onPagination(currentPage - 1) // prev page
+            } else if (page === NEXT_PAGE) {
+                onPagination(currentPage + 1) // next page
+            } else {
+                onPagination(page)
+            }    
+        });
 
     }
 
@@ -146,20 +165,10 @@ let aha = {};
         aha.apiListSavedWords().
             done(function (result) {
                 listWords = [...result, ...result, ...result, ...result, ...result]
-                console.log("PAGE_SIZE: ", PAGE_SIZE)
+            
                 console.log("result: ", listWords)
-                const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
-                $(".list-words").html(list)
 
-                $(".list-words__pagination").html(createElementPagination())
-
-                $(".page-item").click(function (e) {
-                    e.stopPropagation()
-                    const page = parseInt(e.target.id)
-                    console.log("page: ", page)
-                    onPagination(page)
-                   
-                });
+                onPagination(1)
                 
                 $(".btn-delete").click(function (e) {
                     e.stopPropagation()

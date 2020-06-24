@@ -1,4 +1,8 @@
 const PAGE_SIZE = 1;
+const PAGE_NUMBER_DISPLAY = 10;;
+const PREV_PAGE = -1;
+const NEXT_PAGE = -2;
+
 let isCollpase =  false;
 let currentPage = 1;
 let listWords = []
