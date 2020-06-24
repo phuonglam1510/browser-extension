@@ -152,7 +152,7 @@ let aha = {};
     }
 
     function createElementPagination(total) {
-        const numberPage = Math.floor( total / PAGE_SIZE)
+        const numberPage = Math.ceil( total / PAGE_SIZE)
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination list-words__pagination-content">
                         `
