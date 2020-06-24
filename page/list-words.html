@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="/css/common.css"> -->
     <link rel="stylesheet" href="/css/list-words.css">
+    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 
     <title>Wordsmine</title>
 </head>
+
 <body>
-    <main>
-        Hello, this is option page
-        <button class="list-words__collpase-all">Collapse all</button>
-        <div class="list-words__pagination"></div>
-        <div class="list-words"></div>
-    </main>
+    <header class="header">
+        <div class="logo">
+            Words, mine!
+        </div>
+        <div class="social">
+            <ul class="social__list">
+                <li class="social__item social__item--facebook">
+                    <a href="/">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </li>
+                <li class="social__item social__item--instagram">
+                    <a href="/">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+                <li class="social__item social__item--youtube">
+                    <a href="/">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- <div class="list-words__pagination"></div> -->
+    <section class="list-words row"></section>
+
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
-    <script src="/js/lib/jquery-3.5.1.min.js"
-        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
-        crossorigin="anonymous"></script>
-    <script src="/js/lib/popper-1.12.9.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="/js/lib/bootstrap-4.0.0.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="/js/lib/jquery-3.5.1.min.js"></script>
+    <script src="/js/lib/popper-1.12.9.min.js"></script>
+    <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/list-words.js"></script>
 </body>
+
 </html>
