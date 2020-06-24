@@ -116,19 +116,8 @@ let aha = {};
             console.log("after delete: ", result)
                 updateListWordAfterDelete(listWordsChecked)
                 onPagination(1)
+                listWordsChecked = []
         });
-        // aha.apiDeleteWord(word).
-        //     done(function (result) {
-        //         console.log("rs after delete: ", result)
-        //         updateListWordAfterDelete(word)
-        //         onPagination(1)
-
-        //     }).
-        //     fail(function (jqXHR) {
-        //         console.log("get err")
-        //         console.log(JSON.stringify(jqXHR))
-        //         // TODO
-        //     });
     }
 
     function createElementCard(item) {
@@ -136,28 +125,6 @@ let aha = {};
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
-        // const idCollapse = `collapseExample${id}`
-        // return `<div class='card-item'>
-        //     <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
-        //         <span>${word || 'Word is empty'}</span>
-        //         <div class="collapse" id="${idCollapse}">
-        //             <div class="card card-body">
-        //                 <span>${definition || 'Definition is empty'}</span>
-        //                 <span>${date}</span>
-        //                 <span class="lnr lnr-trash btn-delete" id="${id}"></span>
-        //             </div>
-        //         </div>
-        //     </div>
-
-        // </div>`
-
-        // return `<div class='card-item-wrap col-sm-6 col-md-4 mt-5'>
-        //     <div class="card-item-wrap-content">
-        //         <h1 class="word">${word}</h1>
-        //         <p class="define">${definition || 'Definition is empty'}</p>
-        //         <p class="lnr lnr-trash btn-delete" id="$ {id}"></p>
-        //     </div>
-        // </div>`
         return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
         <div class="flip-card-inner">
           <div class="flip-card-front">
@@ -170,8 +137,8 @@ let aha = {};
         <div class="detail-wrap">
             <div class="detail-content">
                 <p>${date}</p>
-                <input class="form-check-input" type="checkbox" value="" id="${id}">
-                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${id}"></p></div>
+                 <input class="word-item-checkbox" type="checkbox" id="${word}">
+                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
             </div>
         </div>
       </div>`
