@@ -29,7 +29,26 @@ $height-btn-large: 60px;
 */
 
 
+.list-words__pagination {
+    transition: all .2s;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 1rem;
+}
+
+.list-words__pagination-content {
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.list-words__page-item {
+    margin: .5rem 0;
+}
 
 .card-item {
     background-color: rgba(#80D0C7, .3);
+}
+
+.current-page {
+    color: #ff0180 !important;
 }

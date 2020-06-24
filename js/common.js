@@ -28,6 +28,8 @@ let aha = {};
     aha.checkLogin = checkLogin;
     aha.apiListSavedWords = apiListSavedWords;
     aha.showListSavedWords = showListSavedWords;
+    aha.apiDeleteWord = apiDeleteWord;
+    aha.deleteWord = deleteWord;
 
     function firstLine(str){
         var breakIndex = str.indexOf("\n");
@@ -71,6 +73,33 @@ let aha = {};
         return $.when($.ajax(buildUrl("/api/word/list")));
     }
 
+    function apiDeleteWord(word) {
+        return $.when($.ajax({
+            url: buildUrl(`/api/word?word=${word}`),
+            type: "DELETE"
+        }))
+    }
+
+    function updateListWordAfterDelete(word) {
+        listWords = listWords.filter(item => item.word !== word)
+    }
+
+    function deleteWord(word) {
+        console.log("deleword: ", word)
+        aha.apiDeleteWord(word).
+            done(function (result) {
+                console.log("rs after delete: ", result)
+                updateListWordAfterDelete()
+                onPagination(1)
+
+            }).
+            fail(function (jqXHR) {
+                console.log("get err")
+                console.log(JSON.stringify(jqXHR))
+                // TODO
+            });
+    }
+
     function createElementCard(item) {
         const { word, updatedAt, definition, id} = item
         let date = new Date(updatedAt)
@@ -80,7 +109,7 @@ let aha = {};
         return `<div class='card-item'>
             <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <span>${word}</span>
-                <span class="lnr lnr-trash btn-delete" id="${id}"></span>
+                <span class="lnr lnr-trash btn-delete" id="${word}"></span>
             </div>
             <div class="collapse" id="${idCollapse}">
                     <div class="card card-body">
@@ -92,7 +121,7 @@ let aha = {};
     }
 
     function createPageElement (number) {
-        const pageElement = `<li class="page-item"><a class="page-link" href="#" id="${number}">${number}</a></li>`
+        const pageElement = `<li class="page-item list-words__page-item"><a class="page-link ${number === currentPage ? 'current-page' : ''}" href="#" id="${number}">${number}</a></li>`
         return pageElement
     }
 
@@ -102,31 +131,35 @@ let aha = {};
         console.log("numberPage: ", numberPage)
         // let count = 0;
         let element = `<nav aria-label="Page navigation example">
-                        <ul class="pagination">
+                        <ul class="pagination list-words__pagination-content">
                         `
-        if (currentPage > PAGE_NUMBER_DISPLAY) {
-            element += `<li class="page-item"><a class="page-link" href="#" id="1">First</a></li>`
-        }
-        if (currentPage > 1) {
-            element += `<li class="page-item"><a class="page-link" href="#" id="${PREV_PAGE}">Previous</a></li>`
+        if (numberPage > PAGE_NUMBER_DISPLAY) {
+            if (currentPage > PAGE_NUMBER_DISPLAY) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="1">First</a></li>`
+            }
+            if (currentPage > 1) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${PREV_PAGE}">Previous</a></li>`
+            }
         }
 
-        const start = currentPage + 10 <= numberPage ? currentPage : numberPage - 10
+        const start = currentPage + 10 <= numberPage ? currentPage : Math.max(numberPage - 10, 1)
         for (let i = start; i <= currentPage + 10 && i <= numberPage ; i++){
             element += createPageElement(i)
         }
 
-        if (currentPage + 10 < numberPage){
-            element += `
-            <li>...</li>
-            `
-        }
+        // if (currentPage + 10 < numberPage){
+        //     element += `
+        //     <li>...</li>
+        //     `
+        // }
 
-        if (currentPage < numberPage - 1) {
-            element += `<li class="page-item"><a class="page-link" href="#" id="${NEXT_PAGE}">Next</a></li>`
-        }
-        if (currentPage < numberPage) {
-            element += `<li class="page-item"><a class="page-link" href="#" id="${numberPage}">Last</a></li>`
+        if (numberPage > PAGE_NUMBER_DISPLAY) {
+            if (currentPage < numberPage - 1) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${NEXT_PAGE}">Next</a></li>`
+            }
+            if (currentPage < numberPage) {
+                element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${numberPage}">Last</a></li>`
+            }
         }
 
         element += ` </ul>
@@ -159,23 +192,23 @@ let aha = {};
             }    
         });
 
+        $(".btn-delete").click(function (e) {
+            e.stopPropagation()
+            console.log(" e.target.attributes: ", e.target.id)
+            const word = e.target.id
+            deleteWord(word)
+        });
+
     }
 
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                listWords = [...result, ...result, ...result, ...result, ...result]
+                listWords = result
             
                 console.log("result: ", listWords)
 
                 onPagination(1)
-                
-                $(".btn-delete").click(function (e) {
-                    e.stopPropagation()
-                    console.log(" e.target.attributes: ", e.target.id)
-                    alert(`ID of element ${e.target.id}`);
-                    // TODO: delete word
-                });
             }).
             fail(function (jqXHR) {
                 // TODO
