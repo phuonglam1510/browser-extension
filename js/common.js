@@ -193,17 +193,9 @@ let aha = {};
         } else {
             listWordsChecked = listWordsChecked.filter(item => item !== word)
         }
-        console.log("list: ", listWordsChecked)
+        
+        $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
-
-    // function deleteListWordsChecked(word){
-    //     for (word in listWordsChecked){
-    //        api
-    //      }
-    //     })
-    // }
-
-
 
     function onPagination(page) {
         currentPage  = page

@@ -107,15 +107,25 @@ body {
     justify-content: flex-end;
     padding-right: 1rem;
 }
-
-.list-words__delete-all {
-    font-size: 1.7rem;
-}
-.list-words__delete-all:hover {
-    color: #0093E9;
+.list-words__tools-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #8F9BB3;
     cursor: pointer;
-}
 
+}
+.list-words__tools-item:hover {
+    color: #0093E9;
+}
+.list-words__tool-icon {
+    font-size: 1.5rem;
+    margin-right: 5px;
+
+}
+.list-words__tool-title {
+
+}
 footer {
     background: linear-gradient(
         90deg,
