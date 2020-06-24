@@ -23,5 +23,9 @@ $(document).ready(function () {
         isCollpase = !isCollpase
     });
 
+    $(".list-words__delete-all").click(function (e) {
+        aha.deleteMultipleWord()
+    });
+
 
 });

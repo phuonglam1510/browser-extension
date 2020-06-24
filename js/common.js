@@ -30,6 +30,7 @@ let aha = {};
     aha.showListSavedWords = showListSavedWords;
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
+    aha.deleteMultipleWord = deleteMultipleWord
 
     function firstLine(str){
         var breakIndex = str.indexOf("\n");
@@ -80,15 +81,16 @@ let aha = {};
         }))
     }
 
-    function updateListWordAfterDelete(word) {
-        listWords = listWords.filter(item => item.word !== word)
+    function updateListWordAfterDelete(words) {
+        // listWords = listWords.filter(item => item.word !== word)
+        listWords = listWords.filter(item => !words.includes(item.word))
     }
 
     function deleteWord(word) {
         aha.apiDeleteWord(word).
             done(function (result) {
                 console.log("rs after delete: ", result)
-                updateListWordAfterDelete(word)
+                updateListWordAfterDelete([word])
                 onPagination(1)
 
             }).
@@ -99,20 +101,34 @@ let aha = {};
             });
     }
 
-    function deleteMultipleWord(words) {
-        console.log("deleword: ", words)
-        aha.apiDeleteWord(word).
-            done(function (result) {
-                console.log("rs after delete: ", result)
-                updateListWordAfterDelete(word)
-                onPagination(1)
 
-            }).
-            fail(function (jqXHR) {
-                console.log("get err")
-                console.log(JSON.stringify(jqXHR))
-                // TODO
-            });
+    function ajaxDelete(word) {
+        return $.ajax({
+            url: buildUrl(`/api/word?word=${word}`),
+            type: "DELETE"
+        });
+    }
+
+    function deleteMultipleWord() {
+        console.log("deleword: ", listWordsChecked)
+        const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
+        $.when(...ajaxArr).done(function (...result) {
+            console.log("after delete: ", result)
+                updateListWordAfterDelete(listWordsChecked)
+                onPagination(1)
+        });
+        // aha.apiDeleteWord(word).
+        //     done(function (result) {
+        //         console.log("rs after delete: ", result)
+        //         updateListWordAfterDelete(word)
+        //         onPagination(1)
+
+        //     }).
+        //     fail(function (jqXHR) {
+        //         console.log("get err")
+        //         console.log(JSON.stringify(jqXHR))
+        //         // TODO
+        //     });
     }
 
     function createElementCard(item) {
@@ -193,12 +209,12 @@ let aha = {};
         console.log("list: ", listWordsChecked)
     }
 
-    function deleteListWordsChecked(word){
-        for (word in listWordsChecked){
-           api
-         }
-        })
-    }
+    // function deleteListWordsChecked(word){
+    //     for (word in listWordsChecked){
+    //        api
+    //      }
+    //     })
+    // }
 
 
 
