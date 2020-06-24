@@ -108,18 +108,18 @@ let aha = {};
     }
 
     function deleteMultipleWord() {
-        console.log("deleword: ", listWordsChecked)
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
-        $.when(...ajaxArr).done(function (...result) {
-            console.log("after delete: ", result)
+        $.when(...ajaxArr).done(function () {
                 updateListWordAfterDelete(listWordsChecked)
                 onPagination(1)
                 listWordsChecked = []
+        }).fail(function (err) {
+            // TODO
         });
     }
 
     function createElementCard(item) {
-        const { word, updatedAt, definition, id } = item
+        const { word, updatedAt, definition, id, isCheck } = item
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
@@ -135,7 +135,11 @@ let aha = {};
         <div class="detail-wrap">
             <div class="detail-content">
                 <p>${date}</p>
-                 <input class="word-item-checkbox" type="checkbox" id="${word}">
+                ${
+                    isCheck ? 
+                `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
+                `<input class="word-item-checkbox" type="checkbox" id="${word}">` 
+                }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
             </div>
         </div>
@@ -188,11 +192,19 @@ let aha = {};
     }
 
     function updateListWordsChecked (word, isCheck) {
+        // update listWordsChecked
         if (isCheck) {
             listWordsChecked = [...listWordsChecked, word]
         } else {
             listWordsChecked = listWordsChecked.filter(item => item !== word)
         }
+        // update listWord
+        listWords = listWords.map(item =>{
+            if (item.word === word) {
+                return {...item, isCheck}
+            }
+            return item
+        })
         
         $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
@@ -227,19 +239,10 @@ let aha = {};
 
         $(".word-item-checkbox").click(function (e) {
             e.stopPropagation()
-            // console.log(" e.target.attributes: ", e.target.id)
-            // console.log(" e.target.attributes: ", e.target.checked)
             const word = e.target.id
             updateListWordsChecked(word, e.target.checked)
            
         });
-
-// ////////////////////////////////////////////
-//         $(...).click(function (e) {
-//             e.stopPropagation()
-//             const select = e.target.checked
-//             });
-
     }
 
     function showListSavedWords() {
