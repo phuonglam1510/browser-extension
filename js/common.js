@@ -89,7 +89,7 @@ let aha = {};
         aha.apiDeleteWord(word).
             done(function (result) {
                 console.log("rs after delete: ", result)
-                updateListWordAfterDelete()
+                updateListWordAfterDelete(word)
                 onPagination(1)
 
             }).
@@ -99,9 +99,18 @@ let aha = {};
                 // TODO
             });
     }
+// //delete a lot of words
+//     function deleteManyWord(select){
+        
+//         if( $(id).is(":checked") )
+//             // listWordsCopytoDelete = $(id)
+
+
+   
+//     }
 
     function createElementCard(item) {
-        const { word, updatedAt, definition, id} = item
+        const { word, updatedAt, definition, id, isCheck} = item
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
@@ -109,7 +118,8 @@ let aha = {};
         return `<div class='card-item'>
             <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <span>${word}</span>
-                <span class="lnr lnr-trash btn-delete" id="${word}"></span>
+                <span class="lnr lnr-trash btn-delete" id="${word}" ></span>
+                <input class="word-item-checkbox" type="checkbox" id="${word}">
             </div>
             <div class="collapse" id="${idCollapse}">
                     <div class="card card-body">
@@ -168,6 +178,24 @@ let aha = {};
         return element
     }
 
+    function updateListWordsChecked (word, isCheck) {
+        if (isCheck) {
+            listWordsChecked = [...listWordsChecked, word]
+        } else {
+            listWordsChecked = listWordsChecked.filter(item => item !== word)
+        }
+
+        console.log("list: ", listWordsChecked)
+
+
+
+
+        // listWords = listWords.map(item => {
+        //     if (item.word === word) {
+        //     }
+        // })
+    }
+
     function onPagination(page) {
         console.log("** on create 1 ")
 
@@ -198,6 +226,21 @@ let aha = {};
             const word = e.target.id
             deleteWord(word)
         });
+
+        $(".word-item-checkbox").click(function (e) {
+            e.stopPropagation()
+            // console.log(" e.target.attributes: ", e.target.id)
+            // console.log(" e.target.attributes: ", e.target.checked)
+            const word = e.target.id
+
+            updateListWordsChecked(word, e.target.checked)
+        });
+
+// ////////////////////////////////////////////
+//         $(...).click(function (e) {
+//             e.stopPropagation()
+//             const select = e.target.checked
+//             });
 
     }
 

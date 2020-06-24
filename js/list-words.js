@@ -5,7 +5,8 @@ const NEXT_PAGE = -2;
 
 let isCollpase =  false;
 let currentPage = 1;
-let listWords = []
+let listWords = [];
+let listWordsChecked = []
 
 
 $(document).ready(function () {
@@ -16,7 +17,7 @@ $(document).ready(function () {
         $('.collapse').collapse(isCollpase ? 'hide' : 'show')
         
         // $('#list-words__collpase-all').bootstrapToggle(isCollpase ? 'off' : 'on')
-
+    
 
         isCollpase = !isCollpase
     });
