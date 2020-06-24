@@ -30,6 +30,7 @@ let aha = {};
     aha.showListSavedWords = showListSavedWords;
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
+    aha.onPaginationListWord = onPagination
     aha.deleteMultipleWord = deleteMultipleWord
 
     function firstLine(str) {
@@ -89,14 +90,11 @@ let aha = {};
     function deleteWord(word) {
         aha.apiDeleteWord(word).
             done(function (result) {
-                console.log("rs after delete: ", result)
                 updateListWordAfterDelete([word])
                 onPagination(1)
 
             }).
             fail(function (jqXHR) {
-                console.log("get err")
-                console.log(JSON.stringify(jqXHR))
                 // TODO
             });
     }
@@ -149,11 +147,8 @@ let aha = {};
         return pageElement
     }
 
-    function createElementPagination() {
-        console.log("** on create ")
-        const numberPage = Math.floor(listWords.length / PAGE_SIZE)
-        console.log("numberPage: ", numberPage)
-        // let count = 0;
+    function createElementPagination(total) {
+        const numberPage = Math.floor( total / PAGE_SIZE)
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination list-words__pagination-content">
                         `
@@ -211,19 +206,18 @@ let aha = {};
 
 
     function onPagination(page) {
-
         currentPage  = page
-        const list = listWords.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+        const list = ( listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+        
         $(".list-words").html(list)
 
         // update pagination UI
-        $(".list-words__pagination").html(createElementPagination())
+        $(".list-words__pagination").html(createElementPagination((listWordsDisplay || listWords).length))
         $(".list-words__current-page").text(currentPage)
 
         $(".page-item").click(function (e) {
             e.stopPropagation()
             const page = parseInt(e.target.id)
-            console.log("page: ", page)
             if (page === PREV_PAGE)  {
                 onPagination(currentPage - 1) // prev page
             } else if (page === NEXT_PAGE) {
@@ -235,7 +229,6 @@ let aha = {};
 
         $(".btn-delete").click(function (e) {
             e.stopPropagation()
-            console.log(" e.target.attributes: ", e.target.id)
             const word = e.target.id
             deleteWord(word)
         });
@@ -261,9 +254,6 @@ let aha = {};
         aha.apiListSavedWords().
             done(function (result) {
                 listWords = result
-            
-                console.log("result: ", listWords)
-
                 onPagination(1)
             }).
             fail(function (jqXHR) {

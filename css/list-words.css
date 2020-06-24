@@ -64,6 +64,39 @@ body {
     color: #ff0180 !important;
 }
 
+.list-words__search-input {
+    all: none;
+        border: none;
+        outline: none;
+        height: 2.5rem;
+        background-color: #f0f0f0;
+        padding: 0 2rem;
+        border-radius: .5rem;
+        transition: all .2s;
+}
+
+.list-words__search-input:focus {
+    background-color: #e4e4e4;
+}
+
+.list-words__search-btn {
+    height: 2.5rem;
+    padding: 0 1.8rem;
+    background-color: #0093E9;
+    color: #fff;
+    border-radius: .5rem;
+    /* font-size: 1.8rem; */
+    /* min-width: 9rem; */
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+.list-words__search-btn:focus {
+    background-color: #0093E9;
+    outline: none;
+}
 
 footer{
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
