@@ -76,20 +76,20 @@ let aha = {};
         let date = new Date(updatedAt)
         date = date.toLocaleDateString()
 
-        const idCollapse = `collapseExample${id}`
-        return `<div class='card-item col-xs-12 col-sm-6 col-md-4'>
-            <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                <span>${word || 'Word is empty'}</span>
-                <div class="collapse" id="${idCollapse}">
-                    <div class="card card-body">
-                        <span>${definition || 'Definition is empty'}</span>
-                        <span>${date}</span>
-                        <span class="lnr lnr-trash btn-delete" id="${id}"></span>
-                    </div>
-                </div>
-            </div>
-            
-        </div>`
+        // const idCollapse = `collapseExample${id}`
+        // return `<div class='card-item'>
+        //     <div data-toggle="collapse" href="#${idCollapse}" role="button" aria-expanded="false" aria-controls="collapseExample">
+        //         <span>${word || 'Word is empty'}</span>
+        //         <div class="collapse" id="${idCollapse}">
+        //             <div class="card card-body">
+        //                 <span>${definition || 'Definition is empty'}</span>
+        //                 <span>${date}</span>
+        //                 <span class="lnr lnr-trash btn-delete" id="${id}"></span>
+        //             </div>
+        //         </div>
+        //     </div>
+
+        // </div>`
 
         // return `<div class='card-item-wrap col-sm-6 col-md-4 mt-5'>
         //     <div class="card-item-wrap-content">
@@ -98,17 +98,23 @@ let aha = {};
         //         <p class="lnr lnr-trash btn-delete" id="$ {id}"></p>
         //     </div>
         // </div>`
-    //     return `<div class="flip-card col-xs-12 col-sm-6 col-md-4 mt-5">
-    //     <div class="flip-card-inner">
-    //       <div class="flip-card-front">
-    //         <h1 class="word">${word}</h1>
-    //       </div>
-    //       <div class="flip-card-back">
-    //         <h1 class="definition">${definition || 'Definition is empty'}</h1>
-    //         <div class="delete"><p class="lnr lnr-trash btn-delete" id="$ {id}"></p></div>  
-    //       </div>
-    //     </div>
-    //   </div>`
+        return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h1 class="word">${word}</h1>
+          </div>
+          <div class="flip-card-back">
+            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
+          </div>
+        </div>
+        <div class="detail-wrap">
+            <div class="detail-content">
+                <p>${date}</p>
+                <input class="form-check-input" type="checkbox" value="" id="${id}">
+                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${id}"></p></div>
+            </div>
+        </div>
+      </div>`
     }
 
     function createPageElement(number) {

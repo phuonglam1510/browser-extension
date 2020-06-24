@@ -127,9 +127,10 @@ body {
 
 .flip-card {
     background-color: transparent;
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     perspective: 1000px;
+    margin-bottom: 100px;
 }
 
 .flip-card-inner {
@@ -139,8 +140,10 @@ body {
     text-align: center;
     transition: transform 0.5s;
     transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
     border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .flip-card:hover .flip-card-inner {
@@ -163,6 +166,8 @@ body {
     background-color: #fff;
     color: black;
     border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .flip-card-front .word {
@@ -177,11 +182,8 @@ body {
     color: white;
     transform: rotateY(180deg);
     border-radius: 15px;
-    /* display: flex; */
-    /* position: relative; */
-    /* align-items: center; */
-    /* flex-direction: column; */
-    /* justify-content: left; */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .flip-card-back .definition {
@@ -189,23 +191,32 @@ body {
     margin: 0;
 }
 
-.flip-card-back div {
-    /* width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-    position: relative;
-    text-align: right; */
+/* .flip-card-back .delete {
+    align-content: end;
+    align-self: flex-end;
+} */
+
+.detail-content {
+    background-color: #fff;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
-.flip-card-back .delete {
-    /* width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-    position: re;
-    bottom: 0;
-    right: 0; 
-    text-align: right; */
-    align-content: end;
-    
-    align-self: flex-end;
+.detail-content input {
+    margin: 0;
 }
+
+.detail-content p {
+    margin: 0;
+}
+
+/* .detail-content {
+    margin: 0;
+    padding: 10px;
+} */
