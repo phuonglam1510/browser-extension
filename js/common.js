@@ -134,7 +134,7 @@ let aha = {};
         </div>
         <div class="detail-wrap">
             <div class="detail-content">
-                <p>${date}</p>
+                <p class="date">${date}</p>
                  <input class="word-item-checkbox" type="checkbox" id="${word}">
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
             </div>

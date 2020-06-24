@@ -98,22 +98,14 @@ body {
     outline: none;
 }
 
-footer{
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
-}
-
-body{
-    background: linear-gradient(124.45deg, #80D0C7 6.66%, rgba(128, 208, 199, 0) 23.51%), #0093E9;
-}
-.header {
+.list-words__header {
     background-color: #fff;
     padding-left: 115px;
     padding-right: 115px;
     display: flex;
     justify-content: space-between;
 }
-.header .logo {
+.list-words__header .list-words__logo {
     font-size: 45px;
     background: rgb(0, 147, 233);
     background: linear-gradient(
@@ -125,18 +117,18 @@ body{
     color: transparent;
     font-weight: bold;
 }
-.header .social {
+.list-words__header .list-words__social {
     display: flex;
     align-items: center;
 }
-.header .social .social__list {
+.list-words__header .list-words__social .list-words__social__list {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
     margin: 0;
 }
-.header .social .social__list .social__item {
+.list-words__header .list-words__social .list-words__social__list .list-words__social__item {
     border-radius: 50%;
     background-color: #fff;
     width: 30px;
@@ -148,22 +140,22 @@ body{
     transition: all 0.2s;
     margin: 0 10px;
 }
-.header .social .social__list .social__item a {
+.list-words__header .list-words__social .list-words__social__list .list-words__social__item a {
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
 }
-.header .social .social__list .social__item a i.fab::before {
+.list-words__header .list-words__social .list-words__social__list .list-words__social__item a i.fab::before {
     font-size: 30px;
 }
-.header .social .social__list .social__item a:hover {
+.list-words__header .list-words__social .list-words__social__list .list-words__social__item a:hover {
     transform: scale(1.1);
 }
-.header .social .social__list .social__item--instagram a {
+.list-words__header .list-words__social .list-words__social__list .social__item--instagram a {
     color: #7c4a3a;
 }
-.header .social .social__list .social__item--youtube a {
+.list-words__header .list-words__social .list-words__social__list .social__item--youtube a {
     color: #ff0000;
 }
 
@@ -282,9 +274,12 @@ body{
     margin-right: 10px;
 }
 
-.detail-content p {
+.detail-content .date {
     margin: 0;
     margin-right: 10px;
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 500;
 }
 
 .detail-content .delete {
@@ -293,6 +288,13 @@ body{
 
 .detail-content .btn-delete {
     margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.detail-content .btn-delete:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+    transition: all .2s;
 }
 
 /* .detail-content {
