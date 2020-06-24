@@ -9,6 +9,7 @@ let listWords = [];
 let listWordsChecked = []
 
 
+
 $(document).ready(function () {
     aha.showListSavedWords()
 

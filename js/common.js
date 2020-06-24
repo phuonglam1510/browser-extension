@@ -85,7 +85,6 @@ let aha = {};
     }
 
     function deleteWord(word) {
-        console.log("deleword: ", word)
         aha.apiDeleteWord(word).
             done(function (result) {
                 console.log("rs after delete: ", result)
@@ -99,15 +98,22 @@ let aha = {};
                 // TODO
             });
     }
-// //delete a lot of words
-//     function deleteManyWord(select){
-        
-//         if( $(id).is(":checked") )
-//             // listWordsCopytoDelete = $(id)
 
+    function deleteMultipleWord(words) {
+        console.log("deleword: ", words)
+        aha.apiDeleteWord(word).
+            done(function (result) {
+                console.log("rs after delete: ", result)
+                updateListWordAfterDelete(word)
+                onPagination(1)
 
-   
-//     }
+            }).
+            fail(function (jqXHR) {
+                console.log("get err")
+                console.log(JSON.stringify(jqXHR))
+                // TODO
+            });
+    }
 
     function createElementCard(item) {
         const { word, updatedAt, definition, id, isCheck} = item
@@ -184,17 +190,17 @@ let aha = {};
         } else {
             listWordsChecked = listWordsChecked.filter(item => item !== word)
         }
-
         console.log("list: ", listWordsChecked)
-
-
-
-
-        // listWords = listWords.map(item => {
-        //     if (item.word === word) {
-        //     }
-        // })
     }
+
+    function deleteListWordsChecked(word){
+        for (word in listWordsChecked){
+           api
+         }
+        })
+    }
+
+
 
     function onPagination(page) {
         console.log("** on create 1 ")
@@ -232,8 +238,8 @@ let aha = {};
             // console.log(" e.target.attributes: ", e.target.id)
             // console.log(" e.target.attributes: ", e.target.checked)
             const word = e.target.id
-
             updateListWordsChecked(word, e.target.checked)
+           
         });
 
 // ////////////////////////////////////////////
