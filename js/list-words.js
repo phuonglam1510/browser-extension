@@ -24,8 +24,9 @@ $(document).ready(function () {
 
     $(".list-words__search--btn").click(function (e) {
             const keyword = $("#keyword-search").val();
-            if (keyword) {/
-                listWordsDisplay = listWords.filter(item => item.word.includes(keyword))
+            if (keyword) {
+                const regExp = new RegExp(`${keyword}`, "i") 
+                listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
                 aha.onPaginationListWord(1, listWordsDisplay)
             } else {
                 listWordsDisplay = null
