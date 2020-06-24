@@ -134,7 +134,7 @@ let aha = {};
         </div>
         <div class="detail-wrap">
             <div class="detail-content">
-                <p>${date}</p>
+                <p class="date">${date}</p>
                 ${
                     isCheck ? 
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
