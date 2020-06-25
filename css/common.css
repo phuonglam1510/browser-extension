@@ -3,10 +3,6 @@ body {
     min-height: 450px;
     /* padding-top: 5rem; */
 }
-main{
-    background: linear-gradient(124deg, rgba(0, 147, 233, 1) 0%, rgba(128, 208, 199, 1) 100%);
-    min-height: 450px;
-}
 .container {
     margin: auto;
     width: 100%;
@@ -15,31 +11,12 @@ main{
 a.navbar-brand.font_WM{
     font-size: 25px;
     background: linear-gradient(124deg, rgba(0, 147, 233, 1) 0%, rgba(128, 208, 199, 1) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     font-weight: bold;
 } 
 
-
-nav.nav_border.navbar.navbar-expand-md.fixed-top{
-    background: white;
-}
-
-
-nav.nav_border{
-    border-bottom-style: ridge;
-}
-
-/* .nav-link {
-    color: snow;
-    background: linear-gradient(124deg, rgba(128, 208, 199, 1) 0%, rgba(0, 147, 233, 1) 100%);
-    max-width: 30vw;
-} */
-
-ul.navbar-nav.mr-auto {
-    text-align: right;
-}
-
-button.navbar-toggler {
-    background: aliceblue;
+a.navbar-brand.font_WM:hover {
+    color: transparent;
 }
