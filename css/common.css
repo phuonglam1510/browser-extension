@@ -1,5 +1,22 @@
 body {
-    min-width: 640px;
-    min-height: 480px;
-    padding-top: 5rem;
+    min-width: 600px;
+    min-height: 450px;
+    /* padding-top: 5rem; */
+}
+.container {
+    margin: auto;
+    width: 100%;
+    padding-top: 80px;
+}
+a.navbar-brand.font_WM{
+    font-size: 25px;
+    background: linear-gradient(124deg, rgba(0, 147, 233, 1) 0%, rgba(128, 208, 199, 1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+} 
+
+a.navbar-brand.font_WM:hover {
+    color: transparent;
 }
