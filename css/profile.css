@@ -104,6 +104,7 @@ body {
     background-color: #80D0C7;
     flex-grow: 1;
     /* height: 90vh; */
+    height: 100%;
 }
 
 .profile__content {
@@ -147,8 +148,8 @@ body {
     width: 500px;
     max-width: 100%;
     text-align: center;
-    margin-top: 42px;
-    margin-bottom: 42px;
+    /* margin-top: 42px;
+    margin-bottom: 42px; */
 }
 
 .profile__card.card-container .profile__type.profile__pro {
