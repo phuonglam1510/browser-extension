@@ -1,8 +1,8 @@
 {
-  "name" : "ahaWords2",
+  "name" : "Word, mine!",
   "version" : "1.0.1",
   "manifest_version": 2,
-  "description" : "ahaWords tools for quick gathering of words",
+  "description" : "Word, mine! tools for quick gathering of words",
   "background" : {
     "scripts": [
       "js/lib/lodash-4.17.15.min.js",

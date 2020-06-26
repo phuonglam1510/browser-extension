@@ -93,39 +93,39 @@ function saveFirstWordFromClipboard() {
 }
 
 (function() {
-  var parentSaveWord = chrome.contextMenus.create({
-    "title" : "Save word...",
-    "type" : "normal",
-    "contexts" : ["selection"],
-  });
+  // var parentSaveWord = chrome.contextMenus.create({
+  //   "title" : "Save word...",
+  //   "type" : "normal",
+  //   "contexts" : ["selection"],
+  // });
 
   /**
    * Create a context menu which will only show up for selection.
    */
   chrome.contextMenus.create({
-    "title" : "From selected",
+    "title" : "Save Word From Selection",
     "type" : "normal",
     "contexts" : ["selection"],
     "onclick" : saveFirstSelectedWord(),
-    "parentId": parentSaveWord
+    // "parentId": parentSaveWord
   });
 
   /**
    * Create a context menu which will show up anywhere.
    */
-  chrome.contextMenus.create({
-    "title" : "From clipboard",
-    "type" : "normal",
-    "contexts" : ["all"],
-    "onclick" : saveFirstWordFromClipboard(),
-    "parentId": parentSaveWord
-  });
+  // chrome.contextMenus.create({
+  //   "title" : "From clipboard",
+  //   "type" : "normal",
+  //   "contexts" : ["all"],
+  //   "onclick" : saveFirstWordFromClipboard(),
+  //   "parentId": parentSaveWord
+  // });
 
   /**
    * Create a context menu which will show up anywhere except selection.
    */
   chrome.contextMenus.create({
-    "title" : "Save word from clipboard",
+    "title" : "Save Word From Clipboard",
     "type" : "normal",
     "contexts" : ["page", "frame", "link", "editable", "image", "video", "audio", "browser_action", "page_action"],
     "onclick" : saveFirstWordFromClipboard()
