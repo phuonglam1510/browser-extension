@@ -11,18 +11,31 @@ let listWordsChecked = []
 
 $(document).ready(function () {
     aha.showListSavedWords()
-    $(".list-words__search-btn").click(function (e) {
-            let keyword = $("#keyword-search").val();
-            keyword = keyword.trim()
-            if (keyword) {
-                const regExp = new RegExp(`${keyword}`, "i") 
-                listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
-                aha.onPaginationListWord(1, listWordsDisplay)
-            } else if (listWordsDisplay!== null) {
-                listWordsDisplay = null
-                aha.onPaginationListWord(1)
-            }
+    $("#keyword-search").keydown(function (e) {
+        let keyword = $("#keyword-search").val();
+        keyword = keyword.trim()
+        if (keyword) {
+            const regExp = new RegExp(`${keyword}`, "i")
+            listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
+            aha.onPaginationListWord(1, listWordsDisplay)
+        } else if (listWordsDisplay !== null) {
+            listWordsDisplay = null
+            aha.onPaginationListWord(1)
+        }
     });
+
+    // $(".list-words__search-btn").click(function (e) {
+    //         let keyword = $("#keyword-search").val();
+    //         keyword = keyword.trim()
+    //         if (keyword) {
+    //             const regExp = new RegExp(`${keyword}`, "i") 
+    //             listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
+    //             aha.onPaginationListWord(1, listWordsDisplay)
+    //         } else if (listWordsDisplay!== null) {
+    //             listWordsDisplay = null
+    //             aha.onPaginationListWord(1)
+    //         }
+    // });
     
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()

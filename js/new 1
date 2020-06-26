@@ -1,0 +1,12 @@
+S.O.L.I.D
+
+	open for extension
+	close for modification
+	
+Domain driver design
+
+budling
+
+
+PureComponent - memo  :   chir render lại khi props và state thay đổi (Khắc phục việc phải render lại dù không chỉnh sửa đến)
+

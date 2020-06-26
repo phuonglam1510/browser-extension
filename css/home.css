@@ -1,0 +1,10 @@
+main {
+    background: linear-gradient(124deg, rgba(0, 147, 233, 1) 0%, rgba(128, 208, 199, 1) 100%);
+    min-height: 450px;
+}
+
+.title-popup {
+    margin-bottom: 1rem;
+}
+
+        
