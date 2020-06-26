@@ -7,4 +7,8 @@ main {
     margin-bottom: 1rem;
 }
 
+.navbar-toggler:focus {
+    outline-color: #00a0fc3a !important;
+
+}
         
