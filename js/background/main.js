@@ -32,7 +32,7 @@ function saveFirstSelectedWord() {
           alert("failed to add word with error " + err.responseText);
         }).
         done(function () {
-          alert("SUCCESSFULLY added word: '" + content + "'")
+          // alert("SUCCESSFULLY added word: '" + content + "'")
         });
     });
     // // The srcUrl property is only available for image elements.
@@ -87,7 +87,7 @@ function saveFirstWordFromClipboard() {
         alert("failed to add word with error " + err.responseText);
       }).
       done(function () {
-        alert("SUCCESSFULLY added word: '" + content + "'")
+        // alert("SUCCESSFULLY added word: '" + content + "'")
       });
   }
 }
