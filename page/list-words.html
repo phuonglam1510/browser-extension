@@ -35,28 +35,39 @@
                         <i class="fab fa-youtube"></i>
                     </a>
                 </li>
-                <li class="list-words__menu__switch">
+                <!-- <li class="list-words__menu__switch">
                     <a href="/page/profile.html">
                         Profile
                     </a>
+                </li> -->
+                <li class="list-words__dropdown__menu">
+                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img
+                            src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1" />
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/page/profile.html">Profile</a>
+                        <a class="dropdown-item" href="/page/list-words.html">Setting</a>
+                    </div>
                 </li>
             </ul>
         </div>
     </header>
-            <main>
-                <div class="list-words__search">
-                    <input type="text" id="keyword-search" class="list-words__search-input" placeholder="Enter your word">
-                    <button class="list-words__search-btn"><span class="lnr lnr-magnifier"></span></button>
-                </div>
-                <div class="list-words__pagination"></div>
-                <div class="list-words__tools">
-                    <div class="list-words__tools-item list-words__delete-all">
-                        <span class="list-words__tool-icon lnr lnr-trash list-words__delete-all"></span>
-                        <span class="list-words__tool-title list-words__delete-count">Delete selected words</span>
-                    </div>
-                </div>
-                <section class="list-words row"></section>
-            </main>
+    <main>
+        <div class="list-words__search">
+            <input type="text" id="keyword-search" class="list-words__search-input" placeholder="Enter your word">
+            <button class="list-words__search-btn"><span class="lnr lnr-magnifier"></span></button>
+        </div>
+        <div class="list-words__pagination"></div>
+        <div class="list-words__tools">
+            <div class="list-words__tools-item list-words__delete-all">
+                <span class="list-words__tool-icon lnr lnr-trash list-words__delete-all"></span>
+                <span class="list-words__tool-title list-words__delete-count">Delete selected words</span>
+            </div>
+        </div>
+        <section class="list-words row"></section>
+    </main>
 
     <!-- <div class="list-words__pagination"></div> -->
 

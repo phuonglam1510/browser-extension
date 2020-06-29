@@ -33,10 +33,20 @@
                         <i class="fab fa-youtube"></i>
                     </a>
                 </li>
-                <li class="profile__menu__switch">
+                <!-- <li class="profile__menu__switch">
                     <a href="/page/list-words.html">
                         Setting
                     </a>
+                </li> -->
+                <li class="profile__dropdown__menu">
+                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img
+                            src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1" />
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/page/profile.html">Profile</a>
+                        <a class="dropdown-item" href="/page/list-words.html">Setting</a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -55,7 +65,8 @@
             <form>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="goware@kie.io" readonly>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        value="goware@kie.io" readonly>
                 </div>
                 <!-- <div class="form-group">
                     <label for="password">Password</label>
@@ -68,10 +79,11 @@
             </form>
             <div class="profile__delete pt-3">
                 <button class="btn profile__button">DELETE ACCOUNT</button>
-                <p class="profile__warning">This account will no longer be available, and all your saved data will be permanently deleted.</p>
+                <p class="profile__warning">This account will no longer be available, and all your saved data will be
+                    permanently deleted.</p>
             </div>
         </div>
-        
+
     </section>
 
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
