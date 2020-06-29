@@ -416,7 +416,7 @@ let aha = {};
             result.isAdded = false
             
         } else {
-            result.definition = (`${definition} ${definitionToggle}`).trim()
+            result.definition = (`${definition} \n ${definitionToggle}`).trim()
             result.isAdded = true   
         }
 
