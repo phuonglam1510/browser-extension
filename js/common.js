@@ -381,7 +381,7 @@ let aha = {};
         data.map(item => {
             html += `<li class="list-group-item">
                                         <div class="definition">${item.definition}</div>
-                                        <div class="content">${item.examples[0]}</div>
+                                        <div class="content">${item.examples && item.examples[0]}</div>
                                         <div class="add-btn list-group-item-add-btn">
                                             <span class="icon">&#43;</span>
                                             <span class="status">
@@ -407,11 +407,11 @@ let aha = {};
         let result = {}
 
         if (definition.includes(definitionToggle)) {
-            result.definition = definition.replace(definitionToggle, "") // delete
+            result.definition = definition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
             
         } else {
-            result.definition = `${definition}${definitionToggle}`
+            result.definition = (`${definition} ${definitionToggle}`).trim()
             result.isAdded = true   
         }
 
