@@ -17,3 +17,7 @@
     color: #8F9BB3;
     margin: 1rem 0;
 }
+
+.list-group-item-add-btn {
+    cursor: pointer;
+}
