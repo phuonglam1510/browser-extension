@@ -74,7 +74,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit word</h5>
+                        <h5 class="modal-title">Edit word</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -83,12 +83,12 @@
                         <form>
                             <div class="form-group">
                                 <label class="title" for="edit-word">Word</label>
-                                <input type="text" class="form-control" id="edit-word" placeholder="Enter new word">
+                                <input type="text" class="form-control" id="modal-edit-word-content" placeholder="Enter new word">
                             </div>
                            
                             <div class="form-group">
                                 <label class="title" for="exampleFormControlTextarea1">Definition</label>
-                                <textarea class="form-control" id="edit-Definition" rows="3" placeholder="Enter definition"></textarea>
+                                <textarea class="form-control"id="modal-edit-word-definition" rows="3" placeholder="Enter definition"></textarea>
                             </div>
                         </form>
 
@@ -114,8 +114,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary-custom">Save</button>
+                        <button type="button" class="btn btn-secondary handle-close-modal-edit" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary-custom handle-save-word">Save</button>
                     </div>
                 </div>
             </div>

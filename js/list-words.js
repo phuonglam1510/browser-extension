@@ -7,6 +7,7 @@ let currentPage = 1;
 let listWords = []
 let listWordsDisplay = null
 let listWordsChecked = []
+let currentEditedWord = null // Object: {word, id, ...}
 
 
 $(document).ready(function () {
@@ -39,5 +40,13 @@ $(document).ready(function () {
     
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()
+    });
+
+    $(".handle-save-word").click( async function (e) {
+        const newWord = $("#modal-edit-word-content").val()
+        const definition =  $("#modal-edit-word-definition").val()
+        await aha.updateWord(currentEditedWord.word, newWord, definition)
+        // close modal
+        $(".handle-close-modal-edit").click()
     });
 });

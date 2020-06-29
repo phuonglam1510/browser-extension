@@ -33,6 +33,8 @@ let aha = {};
     aha.deleteWord = deleteWord;
     aha.onPaginationListWord = onPagination
     aha.deleteMultipleWord = deleteMultipleWord
+    aha.apiUpdateWord = apiUpdateWord
+    aha.updateWord = updateWord
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -81,6 +83,35 @@ let aha = {};
             url: buildUrl(`/api/word?word=${word}`),
             type: "DELETE"
         }))
+    }
+
+    function apiUpdateWord(word, newWord, definition) {
+        return $.when($.ajax({
+            url: buildUrl(`/api/word?word=${word}&newWord=${newWord}&definition=${definition}`),
+            type: "PUT"
+        }))
+    }
+
+    function updateWord (word, newWord, definition){
+        aha.apiUpdateWord(word, newWord, definition).
+            done(function (result) {
+                updateListWordAfterUpdate(word,result )
+                onPagination(1)
+                return true
+            }).
+            fail(function (jqXHR) {
+                return false
+            });
+    }
+
+    function updateListWordAfterUpdate(word, newItem) {
+        // listWords = listWords.filter(item => item.word !== word)
+        listWords = listWords.map(item => {
+            if (item.word === word) {
+                return newItem
+            } 
+            return item
+        })
     }
 
     function updateListWordAfterDelete(words) {
@@ -142,8 +173,7 @@ let aha = {};
                 `<input class="word-item-checkbox" type="checkbox" id="${word}">` 
                 }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
-                <span class="lnr lnr-pencil" data-toggle="modal" data-target="#editWordModal"></span>
-
+                <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
             </div>
         </div>
       </div>`
@@ -212,6 +242,17 @@ let aha = {};
         $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
 
+    function openModalEditWord(word) {
+        const wordItem = listWords.find(item => item.word === word)
+        if (wordItem) {
+            console.log("word: ", wordItem) 
+            const { definition} = wordItem
+            $("#modal-edit-word-content").val(word)
+            $("#modal-edit-word-definition").val(definition)
+            currentEditedWord = wordItem
+        }
+    }
+
     function onPagination(page) {
         currentPage  = page
         const list = ( listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
@@ -244,8 +285,14 @@ let aha = {};
             e.stopPropagation()
             const word = e.target.id
             updateListWordsChecked(word, e.target.checked)
-           
         });
+
+        $(".word-item-edit").click(function (e) {
+            const word = e.target.id
+            openModalEditWord(word)
+        });
+
+        
     }
 
     function showListSavedWords() {
