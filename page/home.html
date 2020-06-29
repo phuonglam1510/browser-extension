@@ -14,12 +14,46 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md  navbar-light bg-light fixed-top">
-    <a class="navbar-brand font_WM" href="./home.html" target="_blank">Words, mine!</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-md  navbar-light bg-light fixed-top">
+        <a class="navbar-brand font_WM" href="./home.html" target="_blank">Words, mine!</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="header-menu collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="user-profile-nav nav-item active">
+                    <a class="user-profile nav-link" href="http://example.com" aria-haspopup="true"
+                        aria-expanded="false">User</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="./profile.html" target="_blank">Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="./list-words.html" target="_blank">Setting</a>
+                </li>
+                <li class="login-nav nav-item active">
+                    <a class="nav-link" href="/page/login.html">Login</a>
+                </li>
+                <li class="logout nav-item active">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+                <!-- <li class="user-profile-nav nav-item dropdown d-none">
+                    <a class="user-profile nav-link dropdown-toggle" href="http://example.com" id="dropdown01"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="#">Edit profile</a>
+                        <a class="logout dropdown-item" href="#">Logout</a>
+                    </div>
+                </li> -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0 d-none">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
 
     <div class="header-menu collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
