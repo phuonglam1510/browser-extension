@@ -17,7 +17,9 @@ let aha = {};
         listActiveTabs: listActiveTabs,
         splitWords: splitWords,
         distinctWords: distinctWords,
-        sortWords: sortWords
+        sortWords: sortWords,
+        isOnlyString: isOnlyString,
+        formatWord: formatWord
     };
     aha.baseUrl = baseUrl;
     aha.buildUrl = buildUrl;
@@ -331,9 +333,28 @@ let aha = {};
     }
 
     function removeFaulty(arr) {
-        return _.filter(arr, function (e) {
-            return !!e;
+        const result = []
+        _.map(arr, function (e) {
+            console.log("HERE ")
+            const formatedWord = formatWord(e)
+            if (formatedWord) {
+                result.push(formatedWord)
+            }
         })
+        return result
+    }
+    function formatWord(value) {
+        const regExp = /[a-z ]+/i
+        const result = regExp.exec(value)
+        if (result) {
+            return regExp.exec(value)[0]
+        } else 
+        return ""
+    }
+
+    function isOnlyString(value) {
+        const regExp =/^[a-z ]+$/i
+        return regExp.test(value)
     }
 
     function splitWords(sentences) {

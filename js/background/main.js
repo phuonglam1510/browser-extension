@@ -17,7 +17,7 @@ function saveFirstSelectedWord() {
         return;
       }
 
-      let content = words[0];
+      let content = aha.util.formatWord(words[0]);
       let yes = confirm("Are you sure you want to add this word: '" + content + "'?");
       if (!yes) {
         return;
@@ -72,7 +72,7 @@ function saveFirstWordFromClipboard() {
       return;
     }
 
-    let content = words[0];
+    let content = aha.util.formatWord(words[0]);
     let yes = confirm("Are you sure you want to add this word: '" + content + "'?");
     if (!yes) {
       return;
