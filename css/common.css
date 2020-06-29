@@ -20,3 +20,15 @@ a.navbar-brand.font_WM{
 a.navbar-brand.font_WM:hover {
     color: transparent;
 }
+
+.btn-primary-custom {
+    background-color: #0093E9;
+    color: #fff;
+}
+
+.btn-primary-outline-custom {
+    border-color: #0093E9;
+    color: #0093E9;
+    background-color: #fff;
+
+}
