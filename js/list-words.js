@@ -32,7 +32,7 @@ $(document).ready(function () {
     $(".handle-save-word").click( async function (e) {
         let newWord = $("#modal-edit-word-content").val().trim()
         const definition =  $("#modal-edit-word-definition").val().trim()
-        let message = isWordValid(newWord)
+        let message = validateWord(newWord)
         clearMessageModalEdit()
 
         if (message) {
@@ -56,19 +56,17 @@ $(document).ready(function () {
     });
 });
 
-function isWordValid (word) {
+function validateWord (word) {
     if (!word) {
         return "Word cannot be empty"
     }
     if (!isOnlyString(word)) {
         return "Word should be string only"
     }
-    
-    return true;
 }
 
 function isOnlyString(word) {
-    const regExp = /^[a-z ]$/i
+    const regExp = /^[a-z ]+$/i
     return regExp.test(word)
 }
 
