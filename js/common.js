@@ -142,6 +142,8 @@ let aha = {};
                 `<input class="word-item-checkbox" type="checkbox" id="${word}">` 
                 }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
+                <span class="lnr lnr-pencil" data-toggle="modal" data-target="#editWordModal"></span>
+
             </div>
         </div>
       </div>`

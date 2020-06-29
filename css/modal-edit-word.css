@@ -1,0 +1,18 @@
+.modal-edit-word {
+}
+.modal-edit-word .title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.modal-edit-word__suggest-definition {
+    
+}
+
+.list-group-item .add-btn {
+    text-align: right;
+    color: #0093E9;
+    cursor: pointer;
+    margin-top: 1rem;
+}

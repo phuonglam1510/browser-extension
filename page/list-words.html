@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="/css/common.css"> -->
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/list-words.css">
+    <link rel="stylesheet" href="/css/modal-edit-word.css">
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
@@ -67,6 +68,58 @@
             </div>
         </div>
         <section class="list-words row"></section>
+
+        <div class="modal-edit-word modal fade" id="editWordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit word</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="title" for="edit-word">Word</label>
+                                <input type="text" class="form-control" id="edit-word" placeholder="Enter new word">
+                            </div>
+                           
+                            <div class="form-group">
+                                <label class="title" for="exampleFormControlTextarea1">Definition</label>
+                                <textarea class="form-control" id="edit-Definition" rows="3" placeholder="Enter definition"></textarea>
+                            </div>
+                        </form>
+
+                        <div class="modal-edit-word__suggest-definition">
+                            <div class="title">From dictionary</div>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="content">Cras justo odio</div>
+                                    <div class="add-btn">
+                                        <span class="icon">&#43;</span>
+                                        <span>Add to my definition</span>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="content">Cras justo odio</div>
+                                    <div class="add-btn">
+                                        <span class="icon">&#43;</span>
+                                        <span>Add to my definition</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary-custom">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- <div class="list-words__pagination"></div> -->
