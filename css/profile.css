@@ -110,21 +110,22 @@ body {
     color: #ff0000;
 }
 
-.profile__header .profile__social .profile__menu__switch {
-    font-size: 22px;
-    margin-left: 10px;
+.profile__dropdown__menu {
+    cursor: pointer;
     list-style-type: none;
-    letter-spacing: 0.5px;
 }
 
-.profile__header .profile__social .profile__menu__switch a {
-    line-height: 34px;
-    color: #0093E9;
-    text-decoration: none;
+.profile__dropdown__menu a img {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
-.profile__header .profile__social .profile__menu__switch a:hover {
-    color: rgb(48, 107, 255);
+.profile__dropdown__menu .dropdown-menu {
+    margin-top: 20px;
+    margin-right: 100px;
+    border-radius: 5px;
 }
 
 .profile__wrap {
