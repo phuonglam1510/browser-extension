@@ -105,7 +105,6 @@ let aha = {};
     }
 
     function updateListWordAfterUpdate(word, newItem) {
-        // listWords = listWords.filter(item => item.word !== word)
         listWords = listWords.map(item => {
             if (item.word === word) {
                 return newItem
@@ -115,7 +114,6 @@ let aha = {};
     }
 
     function updateListWordAfterDelete(words) {
-        // listWords = listWords.filter(item => item.word !== word)
         listWords = listWords.filter(item => !words.includes(item.word))
     }
 
@@ -245,7 +243,6 @@ let aha = {};
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            console.log("word: ", wordItem) 
             const { definition} = wordItem
             $("#modal-edit-word-content").val(word)
             $("#modal-edit-word-definition").val(definition)
@@ -290,9 +287,7 @@ let aha = {};
         $(".word-item-edit").click(function (e) {
             const word = e.target.id
             openModalEditWord(word)
-        });
-
-        
+        });   
     }
 
     function showListSavedWords() {
