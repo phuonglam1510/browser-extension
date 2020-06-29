@@ -340,12 +340,12 @@ let aha = {};
 
         // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
 
-        $(".list-words__check-all").click(function (e) {
+        $(".list-words__check-all__content").click(function (e) {
             checkAllWords();
             onPagination(currentPage);
         });
 
-        $(".list-words__un-check-all").click(function (e) {
+        $(".list-words__un-check-all__content").click(function (e) {
             unCheckAllWords();
             onPagination(currentPage);
     })
