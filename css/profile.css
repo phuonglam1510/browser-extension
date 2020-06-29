@@ -42,6 +42,7 @@ body {
     -webkit-background-clip: text;
     color: transparent;
     font-weight: bold;
+    cursor: default;
 }
 .profile__header .profile__social {
     display: flex;
@@ -107,6 +108,24 @@ body {
     .social__item--youtube
     a {
     color: #ff0000;
+}
+
+.profile__header .profile__social .profile__menu__switch {
+    font-size: 22px;
+    margin-left: 10px;
+    list-style-type: none;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.profile__header .profile__social .profile__menu__switch a {
+    line-height: 34px;
+    color: #0093E9;
+    text-decoration: none;
+}
+
+.profile__header .profile__social .profile__menu__switch a:hover {
+    color: rgb(48, 107, 255);
 }
 
 .profile__wrap {
@@ -238,5 +257,5 @@ body {
     color: #fff;
     font-size: 12px;
     width: 80%;
-    margin: auto;
+    margin: auto
 }
