@@ -17,3 +17,24 @@
     color: #8F9BB3;
     margin: 1rem 0;
 }
+
+.list-group-item-add-btn {
+    cursor: pointer;
+}
+
+.empty {
+    font-style: italic;
+    color: #8F9BB3;
+    text-align: center;
+}
+
+.example {
+     color: #8F9BB3;
+    /* text-align: center; */
+}
+.example::before{
+    content: '\201C';
+}
+.example::after {
+    content: '\201D';
+}

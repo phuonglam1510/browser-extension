@@ -173,7 +173,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${definition.substr(0, 10) || 'Definition is empty'}</h1>  
+            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
           </div>
         </div>
         <div class="detail-wrap">
@@ -353,6 +353,7 @@ let aha = {};
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
             openModalEditWord(word)
+            $(".list-definition").html('<div class="loader"></div>')
             await showListSuggestDefinition(word)
         });
     }
@@ -374,14 +375,18 @@ let aha = {};
      * @param {Array} data array string
      */
     function createSectionSuggestDefintionHTML(title, data) {
-        console.log(title, data)
         let html = `<div class="suggest-group">
                                 <div class="subtitle">${title}</div>
                                 <ul class="list-group">`
         data.map(item => {
+            const example = (item.examples && item.examples[0]) || null
             html += `<li class="list-group-item">
                                         <div class="definition">${item.definition}</div>
-                                        <div class="content">${item.examples[0]}</div>
+                                        ${
+                                            example ?
+                                            `<div class="example">${example}</div>` :
+                                            ''
+                                        }
                                         <div class="add-btn list-group-item-add-btn">
                                             <span class="icon">&#43;</span>
                                             <span class="status">
@@ -407,11 +412,11 @@ let aha = {};
         let result = {}
 
         if (definition.includes(definitionToggle)) {
-            result.definition = definition.replace(definitionToggle, "") // delete
+            result.definition = definition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
             
         } else {
-            result.definition = `${definition}${definitionToggle}`
+            result.definition = (`${definition} ${definitionToggle}`).trim()
             result.isAdded = true   
         }
 
@@ -420,7 +425,6 @@ let aha = {};
 
     function showListSuggestDefintionHTML(data) {
         const { meanings } = data
-        console.log("in meaning", meanings)
         let list =""
         for (const [key, value] of Object.entries(meanings)) {
             list+= createSectionSuggestDefintionHTML(key, value)
@@ -434,7 +438,6 @@ let aha = {};
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
-                console.log("rs", result)
 
                 await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
@@ -455,12 +458,10 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
-                console.log("result: ", result)
                 showListSuggestDefintionHTML(result)
-
             }).
             fail(function (jqXHR) {
-                // TODO
+                $(".list-definition").html('<div class="empty">(Empty)</div>')
             });
     }
 
