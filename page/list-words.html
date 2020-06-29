@@ -60,21 +60,32 @@
             <input type="text" id="keyword-search" class="list-words__search-input" placeholder="Enter your word">
             <button class="list-words__search-btn"><span class="lnr lnr-magnifier"></span></button>
         </div>
-        <div class="list-words__pagination"></div>
-        <div class="list-words__tools list-words__check-all">
-            <p class="list-words__check-all__content">Check All</p>
-        </div>
-        <div class="list-words__tools list-words__un-check-all">
-            <p class="list-words__un-check-all__content">Uncheck All</p>
-        </div>
-        <div class="list-words__tools">
-            <div class="list-words__tools-item list-words__delete-all">
-                <span class="list-words__tool-icon lnr lnr-trash list-words__delete-all"></span>
-                <span class="list-words__tool-title list-words__delete-count">Delete selected words</span>
+        
+        <div class="list-words__tools-group">
+            <div class="list-words__tools">
+                <div class="list-words__tools-item list-words__check-all">
+                    <i class="list-words__tool-icon fa fa-check-square"></i>
+                    <span class="list-words__check-all__content">Check all</span>
+                </div>
             </div>
-
+    
+            <div class="list-words__tools">
+                <div class="list-words__tools-item list-words__un-check-all">
+                    <i class="list-words__tool-icon fa fa-square"></i>
+                    <soan class="list-words__un-check-all__content">Uncheck all</span>
+                </div>
+            </div>
+    
+            <div class="list-words__tools">
+                <div class="list-words__tools-item list-words__delete-all">
+                    <span class="list-words__tool-icon lnr lnr-trash list-words__delete-all"></span>
+                    <span class="list-words__tool-title list-words__delete-count">Delete selected words</span>
+                </div>
+            </div>
         </div>
         <section class="list-words row"></section>
+
+        <div class="list-words__pagination"></div>
 
         <div class="modal-edit-word modal fade" id="editWordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

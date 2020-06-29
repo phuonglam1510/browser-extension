@@ -173,7 +173,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${definition.substr(0, 10) || 'Definition is empty'}</h1>  
+            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
           </div>
         </div>
         <div class="detail-wrap">
