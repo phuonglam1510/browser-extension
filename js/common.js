@@ -32,8 +32,8 @@ let aha = {};
     aha.showListSavedWords = showListSavedWords;
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
-    aha.onPaginationListWord = onPagination
-    aha.deleteMultipleWord = deleteMultipleWord
+    aha.onPaginationListWord = onPagination;
+    aha.deleteMultipleWord = deleteMultipleWord;
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -112,9 +112,9 @@ let aha = {};
     function deleteMultipleWord() {
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
         $.when(...ajaxArr).done(function () {
-                updateListWordAfterDelete(listWordsChecked)
-                onPagination(1)
-                listWordsChecked = []
+            updateListWordAfterDelete(listWordsChecked)
+            onPagination(1)
+            listWordsChecked = []
         }).fail(function (err) {
             // TODO
         });
@@ -138,23 +138,23 @@ let aha = {};
             <div class="detail-content">
                 <p class="date">${date}</p>
                 ${
-                    isCheck ? 
+            isCheck ?
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
-                `<input class="word-item-checkbox" type="checkbox" id="${word}">` 
-                }
+                `<input class="word-item-checkbox" type="checkbox" id="${word}">`
+            }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
             </div>
         </div>
       </div>`
     }
 
-    function createPageElement (number) {
+    function createPageElement(number) {
         const pageElement = `<li class="page-item list-words__page-item"><a class="page-link ${number === currentPage ? 'current-page' : ''}" href="#" id="${number}">${number}</a></li>`
         return pageElement
     }
 
     function createElementPagination(total) {
-        const numberPage = Math.ceil( total / PAGE_SIZE)
+        const numberPage = Math.ceil(total / PAGE_SIZE)
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination list-words__pagination-content">
                         `
@@ -168,7 +168,7 @@ let aha = {};
         }
 
         const start = currentPage + 10 <= numberPage ? currentPage : Math.max(numberPage - 10, 1)
-        for (let i = start; i <= currentPage + 10 && i <= numberPage ; i++){
+        for (let i = start; i <= currentPage + 10 && i <= numberPage; i++) {
             element += createPageElement(i)
         }
 
@@ -193,7 +193,7 @@ let aha = {};
         return element
     }
 
-    function updateListWordsChecked (word, isCheck) {
+    function updateListWordsChecked(word, isCheck) {
         // update listWordsChecked
         if (isCheck) {
             listWordsChecked = [...listWordsChecked, word]
@@ -201,20 +201,61 @@ let aha = {};
             listWordsChecked = listWordsChecked.filter(item => item !== word)
         }
         // update listWord
-        listWords = listWords.map(item =>{
+        listWords = listWords.map(item => {
             if (item.word === word) {
-                return {...item, isCheck}
+                return { ...item, isCheck }
             }
             return item
         })
-        
+
         $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
 
+    function checkAllWords() {
+        let listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        // console.log(listData)
+
+        // if (listWordsChecked.length === 0) {
+        //     for (let i = 0; i < listData.length; i++) {
+        //         updateListWordsChecked(listData[i].word, true)
+        //         // onPagination(currentPage)
+        //     }
+        // }
+        // else if (listWordsChecked.length > 0) {
+        //     for (let i = 0; i < listData.length; i++) {
+        //         if (!listData[i].isCheck) {
+        //             updateListWordsChecked(listData[i].word, true)
+        //         }
+        //     }
+        // }
+        // else return;
+
+        for (let i = 0; i < listData.length; i++) {
+            if (!listData[i].isCheck) {
+                updateListWordsChecked(listData[i].word, true)
+            }
+        }
+        // onPagination(currentPage)
+        // console.log(listWordsChecked)
+    }
+
+    function unCheckAllWords() {
+        let listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        for (let i = 0; i < listData.length; i++) {
+            if (listData[i].isCheck) {
+                updateListWordsChecked(listData[i].word, false)
+            }
+        }
+
+        // onPagination(currentPage)
+    }
+
     function onPagination(page) {
-        currentPage  = page
-        const list = ( listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
-        
+        currentPage = page
+        const list = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+
         $(".list-words").html(list)
 
         // update pagination UI
@@ -224,13 +265,13 @@ let aha = {};
         $(".page-item").click(function (e) {
             e.stopPropagation()
             const page = parseInt(e.target.id)
-            if (page === PREV_PAGE)  {
+            if (page === PREV_PAGE) {
                 onPagination(currentPage - 1) // prev page
             } else if (page === NEXT_PAGE) {
                 onPagination(currentPage + 1) // next page
             } else {
                 onPagination(page)
-            }    
+            }
         });
 
         $(".btn-delete").click(function (e) {
@@ -243,7 +284,18 @@ let aha = {};
             e.stopPropagation()
             const word = e.target.id
             updateListWordsChecked(word, e.target.checked)
-           
+        });
+
+        // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        $(".list-words__check-all").click(function (e) {
+            checkAllWords();
+            onPagination(currentPage);
+        });
+
+        $(".list-words__un-check-all").click(function (e) {
+            unCheckAllWords();
+            onPagination(currentPage);
         });
     }
 
@@ -347,12 +399,12 @@ let aha = {};
         const result = regExp.exec(value)
         if (result) {
             return regExp.exec(value)[0]
-        } else 
-        return ""
+        } else
+            return ""
     }
 
     function isOnlyString(value) {
-        const regExp =/^[a-z ]+$/i
+        const regExp = /^[a-z ]+$/i
         return regExp.test(value)
     }
 

@@ -111,6 +111,19 @@ body {
     outline: none;
 }
 
+.list-words__tools.list-words__check-all .list-words__check-all__content {
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all .2s;
+}
+.list-words__tools.list-words__un-check-all .list-words__un-check-all__content {
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all .2s;
+}   
+
 .list-words__tools {
     display: flex;
     justify-content: flex-end;
@@ -354,6 +367,10 @@ body {
     padding: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.word-item-checkbox {
+    z-index: 2000;
 }
 
 .detail-content input {
