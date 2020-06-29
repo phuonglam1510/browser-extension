@@ -3,6 +3,11 @@
 }
 
 .form-login-custom .check-box {
-    margin-top: 2rem;
+    margin-top: 1rem;
     color: #8F9BB3;
+}
+
+.form-login-custom .btn-submit {
+    display: flex;
+    justify-content: center;
 }

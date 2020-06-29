@@ -1,3 +1,15 @@
 .user-profile  {
     color: #0093E9 !important;
 }
+
+.logout a {
+    color: #565d6b !important;
+}
+
+.nav-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.nav-item:hover {
+    background-color: #8f9bb317;
+}

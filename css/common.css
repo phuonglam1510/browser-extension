@@ -24,6 +24,8 @@ a.navbar-brand.font_WM:hover {
 .btn-primary-custom {
     background-color: #0093E9;
     color: #fff;
+    width: fit-content;
+    padding: .5rem 3rem;
 }
 
 .btn-primary-outline-custom {
