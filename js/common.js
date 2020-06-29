@@ -170,7 +170,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
+            <h1 class="definition">${definition.substr(0, 10) || 'Definition is empty'}</h1>  
           </div>
         </div>
         <div class="detail-wrap">
@@ -329,7 +329,9 @@ let aha = {};
                                         <div class="content">${item.examples[0]}</div>
                                         <div class="add-btn list-group-item-add-btn">
                                             <span class="icon">&#43;</span>
-                                            <span class="status">Add to my definition</span>
+                                            <span class="status">
+                                            ${currentEditedWord.definition.includes(item.definition) ? BTN_ADD_DEFINITION.ADDED : BTN_ADD_DEFINITION.NOT_ADDED}
+                                            </span>
                                         </div>
                     </li>`
         })
@@ -347,10 +349,10 @@ let aha = {};
      */
     function getUpdateDefinitionWord(definitionToggle) {
         const {definition} = currentEditedWord 
-        const result = {}
+        let result = {}
 
         if (definition.includes(definitionToggle)) {
-            result.definition = currentEditedWord.definition.replace(definitionToggle, "") // delete
+            result.definition = definition.replace(definitionToggle, "") // delete
             result.isAdded = false
             
         } else {
@@ -374,19 +376,19 @@ let aha = {};
             const item = e.target.parentElement.parentElement
             const definition = item.getElementsByClassName("definition")[0].textContent
             const btnAdd = item.querySelector(".list-group-item-add-btn .status")
-            console.log(btnAdd)
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
+                console.log("rs", result)
 
                 await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
+                currentEditedWord.definition = result.definition
                 if (result.isAdded){
                     btnAdd.textContent = "Added"
                 } else {
                     btnAdd.textContent = "Add to my definition"
                 }
-                
                 // update UI
                 $("#modal-edit-word-definition").val(`${result.definition}`)
             } catch (err) {
