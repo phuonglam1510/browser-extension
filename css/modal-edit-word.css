@@ -27,3 +27,14 @@
     color: #8F9BB3;
     text-align: center;
 }
+
+.example {
+     color: #8F9BB3;
+    /* text-align: center; */
+}
+.example::before{
+    content: '\201C';
+}
+.example::after {
+    content: '\201D';
+}

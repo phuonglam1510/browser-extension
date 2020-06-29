@@ -380,9 +380,14 @@ let aha = {};
                                 <div class="subtitle">${title}</div>
                                 <ul class="list-group">`
         data.map(item => {
+            const example = (item.examples && item.examples[0]) || null
             html += `<li class="list-group-item">
                                         <div class="definition">${item.definition}</div>
-                                        <div class="content">${item.examples && item.examples[0]}</div>
+                                        ${
+                                            example ?
+                                            `<div class="example">${example}</div>` :
+                                            ''
+                                        }
                                         <div class="add-btn list-group-item-add-btn">
                                             <span class="icon">&#43;</span>
                                             <span class="status">
