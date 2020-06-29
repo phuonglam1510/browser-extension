@@ -1,3 +1,9 @@
+body {
+    min-width: 400px;
+    height: 250px !important;
+    /* padding-top: 5rem; */
+}
+
 .form-login-custom .form-item {
     margin-top: 2rem;
 }
