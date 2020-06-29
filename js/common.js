@@ -375,7 +375,6 @@ let aha = {};
      * @param {Array} data array string
      */
     function createSectionSuggestDefintionHTML(title, data) {
-        console.log(title, data)
         let html = `<div class="suggest-group">
                                 <div class="subtitle">${title}</div>
                                 <ul class="list-group">`
@@ -426,7 +425,6 @@ let aha = {};
 
     function showListSuggestDefintionHTML(data) {
         const { meanings } = data
-        console.log("in meaning", meanings)
         let list =""
         for (const [key, value] of Object.entries(meanings)) {
             list+= createSectionSuggestDefintionHTML(key, value)
@@ -440,7 +438,6 @@ let aha = {};
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
-                console.log("rs", result)
 
                 await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
