@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/header-popup.css">
 </head>
 
 <body>
@@ -54,6 +55,31 @@
         </div>
     </nav>
 
+    <div class="header-menu collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="login-nav nav-item">
+                <a class=" nav-link" href="/page/login.html">Login</a>
+            </li>
+            <li class="nav-item active">
+                <a class="user-profile nav-link" href="#">User</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="./profile.html" target="_blank">Profile</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="./list-words.html" target="_blank">Settings</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link logout" href="#">Logout</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0 d-none">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+    
     <main role="main">
         <div class="container">
             <h2 class="text-white text-right title-popup"><small>Words found</small></h2>
@@ -71,17 +97,18 @@
                     </div>
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                         data-parent="#accordionExample">
-                        <!-- <div class="card-body"> -->
-                        <ul class="words-detected list-group">
-                            <li class="single-word single-word-template list-group-item"><span
-                                    class="content">...</span><button
-                                    class="btn btn-outline-success my-2 my-sm-0 float-right" type="submit">Add</button>
-                            </li>
-                        </ul>
-                        <div class="empty-words-alert alert alert-danger fade show" role="alert">
-                            <div class="message">No word found!</div>
+                        <div class="card-body">
+                            <ul class="words-detected list-group">
+                                <li class="single-word single-word-template list-group-item"><span
+                                        class="content">...</span><button
+                                        class="btn btn-outline-success my-2 my-sm-0 float-right"
+                                        type="submit">Add</button>
+                                </li>
+                            </ul>
+                            <div class="empty-words-alert alert alert-danger fade show" role="alert">
+                                <div class="message">No word found!</div>
+                            </div>
                         </div>
-                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="card">
