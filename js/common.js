@@ -27,14 +27,21 @@ let aha = {};
     aha.apiLogout = apiLogout;
     aha.apiSaveWord = apiSaveWord;
     aha.checkLogin = checkLogin;
+
     aha.apiListSavedWords = apiListSavedWords;
     aha.showListSavedWords = showListSavedWords;
+
+    aha.apiListSuggestDefintion = apiListSuggestDefintion;
+    aha.showListSuggestDefinition = showListSuggestDefinition;
+
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
-    aha.onPaginationListWord = onPagination
     aha.deleteMultipleWord = deleteMultipleWord
+
     aha.apiUpdateWord = apiUpdateWord
     aha.updateWord = updateWord
+
+    aha.onPaginationListWord = onPagination
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -78,6 +85,10 @@ let aha = {};
         return $.when($.ajax(buildUrl("/api/word/list")));
     }
 
+    function apiListSuggestDefintion(word) {
+        return $.when($.ajax(buildUrl(`/api/word/lookup?word=${word}`)));
+    }
+
     function apiDeleteWord(word) {
         return $.when($.ajax({
             url: buildUrl(`/api/word?word=${word}`),
@@ -87,15 +98,15 @@ let aha = {};
 
     function apiUpdateWord(word, newWord, definition) {
         return $.when($.ajax({
-            url: buildUrl(`/api/word?word=${word}&newWord=${newWord}&definition=${definition}`),
+            url: buildUrl(`/api/word?word=${word}&newWord=${newWord || word}&definition=${definition}`),
             type: "PUT"
         }))
     }
 
-    function updateWord (word, newWord, definition){
+    function updateWord(word, newWord, definition) {
         aha.apiUpdateWord(word, newWord, definition).
             done(function (result) {
-                updateListWordAfterUpdate(word,result )
+                updateListWordAfterUpdate(word, result)
                 onPagination(1)
                 return true
             }).
@@ -108,7 +119,7 @@ let aha = {};
         listWords = listWords.map(item => {
             if (item.word === word) {
                 return newItem
-            } 
+            }
             return item
         })
     }
@@ -140,9 +151,9 @@ let aha = {};
     function deleteMultipleWord() {
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
         $.when(...ajaxArr).done(function () {
-                updateListWordAfterDelete(listWordsChecked)
-                onPagination(1)
-                listWordsChecked = []
+            updateListWordAfterDelete(listWordsChecked)
+            onPagination(1)
+            listWordsChecked = []
         }).fail(function (err) {
             // TODO
         });
@@ -166,10 +177,10 @@ let aha = {};
             <div class="detail-content">
                 <p class="date">${date}</p>
                 ${
-                    isCheck ? 
+            isCheck ?
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
-                `<input class="word-item-checkbox" type="checkbox" id="${word}">` 
-                }
+                `<input class="word-item-checkbox" type="checkbox" id="${word}">`
+            }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
                 <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
             </div>
@@ -177,13 +188,13 @@ let aha = {};
       </div>`
     }
 
-    function createPageElement (number) {
+    function createPageElement(number) {
         const pageElement = `<li class="page-item list-words__page-item"><a class="page-link ${number === currentPage ? 'current-page' : ''}" href="#" id="${number}">${number}</a></li>`
         return pageElement
     }
 
     function createElementPagination(total) {
-        const numberPage = Math.ceil( total / PAGE_SIZE)
+        const numberPage = Math.ceil(total / PAGE_SIZE)
         let element = `<nav aria-label="Page navigation example">
                         <ul class="pagination list-words__pagination-content">
                         `
@@ -197,7 +208,7 @@ let aha = {};
         }
 
         const start = currentPage + 10 <= numberPage ? currentPage : Math.max(numberPage - 10, 1)
-        for (let i = start; i <= currentPage + 10 && i <= numberPage ; i++){
+        for (let i = start; i <= currentPage + 10 && i <= numberPage; i++) {
             element += createPageElement(i)
         }
 
@@ -222,7 +233,7 @@ let aha = {};
         return element
     }
 
-    function updateListWordsChecked (word, isCheck) {
+    function updateListWordsChecked(word, isCheck) {
         // update listWordsChecked
         if (isCheck) {
             listWordsChecked = [...listWordsChecked, word]
@@ -230,30 +241,30 @@ let aha = {};
             listWordsChecked = listWordsChecked.filter(item => item !== word)
         }
         // update listWord
-        listWords = listWords.map(item =>{
+        listWords = listWords.map(item => {
             if (item.word === word) {
-                return {...item, isCheck}
+                return { ...item, isCheck }
             }
             return item
         })
-        
+
         $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
 
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            const { definition} = wordItem
+            const { definition } = wordItem
             $("#modal-edit-word-content").val(word)
-            $("#modal-edit-word-definition").val(definition)
+            $("#modal-edit-word-definition").val(definition) 
             currentEditedWord = wordItem
         }
     }
 
     function onPagination(page) {
-        currentPage  = page
-        const list = ( listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
-        
+        currentPage = page
+        const list = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
+
         $(".list-words").html(list)
 
         // update pagination UI
@@ -263,13 +274,13 @@ let aha = {};
         $(".page-item").click(function (e) {
             e.stopPropagation()
             const page = parseInt(e.target.id)
-            if (page === PREV_PAGE)  {
+            if (page === PREV_PAGE) {
                 onPagination(currentPage - 1) // prev page
             } else if (page === NEXT_PAGE) {
                 onPagination(currentPage + 1) // next page
             } else {
                 onPagination(page)
-            }    
+            }
         });
 
         $(".btn-delete").click(function (e) {
@@ -284,10 +295,11 @@ let aha = {};
             updateListWordsChecked(word, e.target.checked)
         });
 
-        $(".word-item-edit").click(function (e) {
+        $(".word-item-edit").click(async function (e) {
             const word = e.target.id
             openModalEditWord(word)
-        });   
+            await showListSuggestDefinition(word)
+        });
     }
 
     function showListSavedWords() {
@@ -301,6 +313,99 @@ let aha = {};
             });
     }
 
+    /**
+     * 
+     * @param {string} title in [transitive verb, noun, adj]
+     * @param {Array} data array string
+     */
+    function createSectionSuggestDefintionHTML(title, data) {
+        console.log(title, data)
+        let html = `<div class="suggest-group">
+                                <div class="subtitle">${title}</div>
+                                <ul class="list-group">`
+        data.map(item => {
+            html += `<li class="list-group-item">
+                                        <div class="definition">${item.definition}</div>
+                                        <div class="content">${item.examples[0]}</div>
+                                        <div class="add-btn list-group-item-add-btn">
+                                            <span class="icon">&#43;</span>
+                                            <span class="status">Add to my definition</span>
+                                        </div>
+                    </li>`
+        })
+
+
+        html += `</ul>
+            </div>`
+
+        return html
+    }
+
+    /**
+     * @param {string} definitionToggle
+     * Output: result:Object  {definition, isAdded}
+     */
+    function getUpdateDefinitionWord(definitionToggle) {
+        const {definition} = currentEditedWord 
+        const result = {}
+
+        if (definition.includes(definitionToggle)) {
+            result.definition = currentEditedWord.definition.replace(definitionToggle, "") // delete
+            result.isAdded = false
+            
+        } else {
+            result.definition = `${definition}${definitionToggle}`
+            result.isAdded = true   
+        }
+
+        return result
+    }
+
+    function showListSuggestDefintionHTML(data) {
+        const { meanings } = data
+        console.log("in meaning", meanings)
+        let list =""
+        for (const [key, value] of Object.entries(meanings)) {
+            list+= createSectionSuggestDefintionHTML(key, value)
+        }
+
+        $(".list-definition").html(list)
+        $(".list-group-item-add-btn").click(async function (e){
+            const item = e.target.parentElement.parentElement
+            const definition = item.getElementsByClassName("definition")[0].textContent
+            const btnAdd = item.querySelector(".list-group-item-add-btn .status")
+            console.log(btnAdd)
+            // update in db 
+            try {
+                const result = getUpdateDefinitionWord(definition)
+
+                await aha.updateWord(currentEditedWord.word, null, result.definition)
+                // update currentEditedWord
+                if (result.isAdded){
+                    btnAdd.textContent = "Added"
+                } else {
+                    btnAdd.textContent = "Add to my definition"
+                }
+                
+                // update UI
+                $("#modal-edit-word-definition").val(`${result.definition}`)
+            } catch (err) {
+                console.debug(err)
+            }
+        })
+    }
+
+    function showListSuggestDefinition(word) {
+        aha.apiListSuggestDefintion(word).
+            done(function (result) {
+                console.log("result: ", result)
+                showListSuggestDefintionHTML(result)
+
+            }).
+            fail(function (jqXHR) {
+                // TODO
+            });
+    }
 
     function checkLogin() {
         aha.apiGetUserProfile().
@@ -390,8 +495,8 @@ let aha = {};
         const result = regExp.exec(value)
         if (result) {
             return regExp.exec(value)[0]
-        } else 
-        return ""
+        } else
+            return ""
     }
 
     function splitWords(sentences) {
