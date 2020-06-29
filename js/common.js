@@ -18,7 +18,6 @@ let aha = {};
         splitWords: splitWords,
         distinctWords: distinctWords,
         sortWords: sortWords,
-        isOnlyString: isOnlyString,
         formatWord: formatWord
     };
     aha.baseUrl = baseUrl;
@@ -349,11 +348,6 @@ let aha = {};
             return regExp.exec(value)[0]
         } else 
         return ""
-    }
-
-    function isOnlyString(value) {
-        const regExp =/^[a-z ]+$/i
-        return regExp.test(value)
     }
 
     function splitWords(sentences) {
