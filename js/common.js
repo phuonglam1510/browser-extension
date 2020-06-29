@@ -36,8 +36,8 @@ let aha = {};
 
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
-    aha.deleteMultipleWord = deleteMultipleWord
-
+    
+    aha.deleteMultipleWord = deleteMultipleWord;
     aha.apiUpdateWord = apiUpdateWord
     aha.updateWord = updateWord
 
@@ -254,6 +254,46 @@ let aha = {};
         $(".list-words__delete-count").text(`Delete ${listWordsChecked.length} selected words`)
     }
 
+    function checkAllWords() {
+        let listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        // console.log(listData)
+
+        // if (listWordsChecked.length === 0) {
+        //     for (let i = 0; i < listData.length; i++) {
+        //         updateListWordsChecked(listData[i].word, true)
+        //         // onPagination(currentPage)
+        //     }
+        // }
+        // else if (listWordsChecked.length > 0) {
+        //     for (let i = 0; i < listData.length; i++) {
+        //         if (!listData[i].isCheck) {
+        //             updateListWordsChecked(listData[i].word, true)
+        //         }
+        //     }
+        // }
+        // else return;
+
+        for (let i = 0; i < listData.length; i++) {
+            if (!listData[i].isCheck) {
+                updateListWordsChecked(listData[i].word, true)
+            }
+        }
+        // onPagination(currentPage)
+        // console.log(listWordsChecked)
+    }
+
+    function unCheckAllWords() {
+        let listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        for (let i = 0; i < listData.length; i++) {
+            if (listData[i].isCheck) {
+                updateListWordsChecked(listData[i].word, false)
+            }
+        }
+    }
+
+        // onPagination(currentPage)
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
@@ -297,6 +337,18 @@ let aha = {};
             const word = e.target.id
             updateListWordsChecked(word, e.target.checked)
         });
+
+        // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        $(".list-words__check-all").click(function (e) {
+            checkAllWords();
+            onPagination(currentPage);
+        });
+
+        $(".list-words__un-check-all").click(function (e) {
+            unCheckAllWords();
+            onPagination(currentPage);
+    })
 
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
