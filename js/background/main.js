@@ -9,7 +9,7 @@ function saveFirstSelectedWord() {
   return function(info, tab) {
 
     aha.util.listSelectedTexts(function (selections) {
-      console.log("Selected texts: ", selections);
+      // console.log("Selected texts: ", selections);
 
       let words = aha.util.splitWords(selections);
       if (!words || !words.length) {
@@ -64,7 +64,7 @@ function saveFirstWordFromClipboard() {
   return function(info, tab) {
     let clTxt = "" + aha.util.getClipboardText();
     clTxt.trim();
-    console.log("Clipboard text: ", clTxt);
+    // console.log("Clipboard text: ", clTxt);
 
     let words = aha.util.splitWords(clTxt);
     if (!words || !words.length) {

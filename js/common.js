@@ -335,7 +335,6 @@ let aha = {};
     function removeFaulty(arr) {
         const result = []
         _.map(arr, function (e) {
-            console.log("HERE ")
             const formatedWord = formatWord(e)
             if (formatedWord) {
                 result.push(formatedWord)

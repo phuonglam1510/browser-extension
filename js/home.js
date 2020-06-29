@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     function showSelectedWords() {
         aha.util.listSelectedTexts(function (selections) {
-            console.log("Selected texts: ", selections);
+            // console.log("Selected texts: ", selections);
             let jUL = $(".words-selected").empty();
             let jCounter = $(".words-selected-count");
 
@@ -40,7 +40,7 @@ $(document).ready(function () {
     function showClipboardWords() {
         let clTxt = "" + aha.util.getClipboardText();
         clTxt.trim();
-        console.log("Clipboard text: ", clTxt);
+        // console.log("Clipboard text: ", clTxt);
 
         let jUL = $(".words-in-clipboard").empty();
         let jCounter = $(".words-in-clipboard-count");
