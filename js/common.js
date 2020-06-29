@@ -353,6 +353,7 @@ let aha = {};
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
             openModalEditWord(word)
+            $(".list-definition").html('<div class="loader"></div>')
             await showListSuggestDefinition(word)
         });
     }
@@ -455,12 +456,10 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
-                console.log("result: ", result)
                 showListSuggestDefintionHTML(result)
-
             }).
             fail(function (jqXHR) {
-                // TODO
+                $(".list-definition").html('<div class="empty">(Empty)</div>')
             });
     }
 

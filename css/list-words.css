@@ -394,12 +394,22 @@ body {
 .detail-content .btn-delete {
     margin-left: 10px;
     margin-bottom: 0;
+    cursor: pointer;
 }
 
 .detail-content .btn-delete:hover {
     color: #ff0000;
     transform: scale(1.1);
     transition: all 0.2s;
+}
+
+
+
+.word-item-edit {
+    cursor: pointer;
+}
+.word-item-edit:hover {
+    color: #0093E9;
 }
 
 @media only screen and (max-width: 720px) {

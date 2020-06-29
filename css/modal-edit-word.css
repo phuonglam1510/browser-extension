@@ -21,3 +21,9 @@
 .list-group-item-add-btn {
     cursor: pointer;
 }
+
+.empty {
+    font-style: italic;
+    color: #8F9BB3;
+    text-align: center;
+}
