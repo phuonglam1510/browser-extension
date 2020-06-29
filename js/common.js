@@ -104,15 +104,18 @@ let aha = {};
     }
 
     function updateWord(word, newWord, definition) {
-        aha.apiUpdateWord(word, newWord, definition).
-            done(function (result) {
-                updateListWordAfterUpdate(word, result)
-                onPagination(1)
-                return true
-            }).
-            fail(function (jqXHR) {
-                return false
-            });
+        // compare before call api
+        if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
+            aha.apiUpdateWord(word, newWord, definition).
+                done(function (result) {
+                    updateListWordAfterUpdate(word, result)
+                    onPagination(1)
+                    return true
+                }).
+                fail(function (jqXHR) {
+                    return false
+                });
+        }
     }
 
     function updateListWordAfterUpdate(word, newItem) {
