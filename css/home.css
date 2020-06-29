@@ -1,3 +1,9 @@
+body {
+    min-width: 500px;
+    min-height: 450px;
+    /* padding-top: 5rem; */
+}
+
 main {
     background: linear-gradient(124deg, rgba(0, 147, 233, 1) 0%, rgba(128, 208, 199, 1) 100%);
     min-height: 450px;
@@ -10,5 +16,9 @@ main {
 .navbar-toggler:focus {
     outline-color: #00a0fc3a !important;
 
+}
+
+.list-word {
+    padding-bottom: 2rem;
 }
         

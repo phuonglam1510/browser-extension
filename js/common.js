@@ -18,7 +18,6 @@ let aha = {};
         splitWords: splitWords,
         distinctWords: distinctWords,
         sortWords: sortWords,
-        isOnlyString: isOnlyString,
         formatWord: formatWord
     };
     aha.baseUrl = baseUrl;
@@ -28,12 +27,21 @@ let aha = {};
     aha.apiLogout = apiLogout;
     aha.apiSaveWord = apiSaveWord;
     aha.checkLogin = checkLogin;
+
     aha.apiListSavedWords = apiListSavedWords;
     aha.showListSavedWords = showListSavedWords;
+
+    aha.apiListSuggestDefintion = apiListSuggestDefintion;
+    aha.showListSuggestDefinition = showListSuggestDefinition;
+
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
-    aha.onPaginationListWord = onPagination;
+    
     aha.deleteMultipleWord = deleteMultipleWord;
+    aha.apiUpdateWord = apiUpdateWord
+    aha.updateWord = updateWord
+
+    aha.onPaginationListWord = onPagination
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -77,6 +85,10 @@ let aha = {};
         return $.when($.ajax(buildUrl("/api/word/list")));
     }
 
+    function apiListSuggestDefintion(word) {
+        return $.when($.ajax(buildUrl(`/api/word/lookup?word=${word}`)));
+    }
+
     function apiDeleteWord(word) {
         return $.when($.ajax({
             url: buildUrl(`/api/word?word=${word}`),
@@ -84,8 +96,35 @@ let aha = {};
         }))
     }
 
+    function apiUpdateWord(word, newWord, definition) {
+        return $.when($.ajax({
+            url: buildUrl(`/api/word?word=${word}&newWord=${newWord || word}&definition=${definition}`),
+            type: "PUT"
+        }))
+    }
+
+    function updateWord(word, newWord, definition) {
+        aha.apiUpdateWord(word, newWord, definition).
+            done(function (result) {
+                updateListWordAfterUpdate(word, result)
+                onPagination(1)
+                return true
+            }).
+            fail(function (jqXHR) {
+                return false
+            });
+    }
+
+    function updateListWordAfterUpdate(word, newItem) {
+        listWords = listWords.map(item => {
+            if (item.word === word) {
+                return newItem
+            }
+            return item
+        })
+    }
+
     function updateListWordAfterDelete(words) {
-        // listWords = listWords.filter(item => item.word !== word)
         listWords = listWords.filter(item => !words.includes(item.word))
     }
 
@@ -131,7 +170,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
+            <h1 class="definition">${definition.substr(0, 10) || 'Definition is empty'}</h1>  
           </div>
         </div>
         <div class="detail-wrap">
@@ -143,6 +182,7 @@ let aha = {};
                 `<input class="word-item-checkbox" type="checkbox" id="${word}">`
             }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
+                <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
             </div>
         </div>
       </div>`
@@ -248,8 +288,17 @@ let aha = {};
                 updateListWordsChecked(listData[i].word, false)
             }
         }
+    }
 
         // onPagination(currentPage)
+    function openModalEditWord(word) {
+        const wordItem = listWords.find(item => item.word === word)
+        if (wordItem) {
+            const { definition } = wordItem
+            $("#modal-edit-word-content").val(word)
+            $("#modal-edit-word-definition").val(definition) 
+            currentEditedWord = wordItem
+        }
     }
 
     function onPagination(page) {
@@ -296,6 +345,12 @@ let aha = {};
         $(".list-words__un-check-all").click(function (e) {
             unCheckAllWords();
             onPagination(currentPage);
+    })
+
+        $(".word-item-edit").click(async function (e) {
+            const word = e.target.id
+            openModalEditWord(word)
+            await showListSuggestDefinition(word)
         });
     }
 
@@ -310,6 +365,101 @@ let aha = {};
             });
     }
 
+    /**
+     * 
+     * @param {string} title in [transitive verb, noun, adj]
+     * @param {Array} data array string
+     */
+    function createSectionSuggestDefintionHTML(title, data) {
+        console.log(title, data)
+        let html = `<div class="suggest-group">
+                                <div class="subtitle">${title}</div>
+                                <ul class="list-group">`
+        data.map(item => {
+            html += `<li class="list-group-item">
+                                        <div class="definition">${item.definition}</div>
+                                        <div class="content">${item.examples[0]}</div>
+                                        <div class="add-btn list-group-item-add-btn">
+                                            <span class="icon">&#43;</span>
+                                            <span class="status">
+                                            ${currentEditedWord.definition.includes(item.definition) ? BTN_ADD_DEFINITION.ADDED : BTN_ADD_DEFINITION.NOT_ADDED}
+                                            </span>
+                                        </div>
+                    </li>`
+        })
+
+
+        html += `</ul>
+            </div>`
+
+        return html
+    }
+
+    /**
+     * @param {string} definitionToggle
+     * Output: result:Object  {definition, isAdded}
+     */
+    function getUpdateDefinitionWord(definitionToggle) {
+        const {definition} = currentEditedWord 
+        let result = {}
+
+        if (definition.includes(definitionToggle)) {
+            result.definition = definition.replace(definitionToggle, "") // delete
+            result.isAdded = false
+            
+        } else {
+            result.definition = `${definition}${definitionToggle}`
+            result.isAdded = true   
+        }
+
+        return result
+    }
+
+    function showListSuggestDefintionHTML(data) {
+        const { meanings } = data
+        console.log("in meaning", meanings)
+        let list =""
+        for (const [key, value] of Object.entries(meanings)) {
+            list+= createSectionSuggestDefintionHTML(key, value)
+        }
+
+        $(".list-definition").html(list)
+        $(".list-group-item-add-btn").click(async function (e){
+            const item = e.target.parentElement.parentElement
+            const definition = item.getElementsByClassName("definition")[0].textContent
+            const btnAdd = item.querySelector(".list-group-item-add-btn .status")
+            // update in db 
+            try {
+                const result = getUpdateDefinitionWord(definition)
+                console.log("rs", result)
+
+                await aha.updateWord(currentEditedWord.word, null, result.definition)
+                // update currentEditedWord
+                currentEditedWord.definition = result.definition
+                if (result.isAdded){
+                    btnAdd.textContent = "Added"
+                } else {
+                    btnAdd.textContent = "Add to my definition"
+                }
+                // update UI
+                $("#modal-edit-word-definition").val(`${result.definition}`)
+            } catch (err) {
+                console.debug(err)
+            }
+        })
+    }
+
+    function showListSuggestDefinition(word) {
+        aha.apiListSuggestDefintion(word).
+            done(function (result) {
+                console.log("result: ", result)
+                showListSuggestDefintionHTML(result)
+
+            }).
+            fail(function (jqXHR) {
+                // TODO
+            });
+    }
 
     function checkLogin() {
         aha.apiGetUserProfile().
@@ -401,11 +551,6 @@ let aha = {};
             return regExp.exec(value)[0]
         } else
             return ""
-    }
-
-    function isOnlyString(value) {
-        const regExp = /^[a-z ]+$/i
-        return regExp.test(value)
     }
 
     function splitWords(sentences) {

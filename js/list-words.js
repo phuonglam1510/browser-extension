@@ -7,6 +7,7 @@ let currentPage = 1;
 let listWords = []
 let listWordsDisplay = null
 let listWordsChecked = []
+let currentEditedWord = null // Object: {word, id, ...}
 
 
 $(document).ready(function () {
@@ -23,21 +24,63 @@ $(document).ready(function () {
             aha.onPaginationListWord(1)
         }
     });
-
-    // $(".list-words__search-btn").click(function (e) {
-    //         let keyword = $("#keyword-search").val();
-    //         keyword = keyword.trim()
-    //         if (keyword) {
-    //             const regExp = new RegExp(`${keyword}`, "i") 
-    //             listWordsDisplay = listWords.filter(item => !!item.word.match(regExp))
-    //             aha.onPaginationListWord(1, listWordsDisplay)
-    //         } else if (listWordsDisplay!== null) {
-    //             listWordsDisplay = null
-    //             aha.onPaginationListWord(1)
-    //         }
-    // });
     
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()
     });
+
+    $(".handle-save-word").click( async function (e) {
+        let newWord = $("#modal-edit-word-content").val().trim()
+        const definition =  $("#modal-edit-word-definition").val().trim()
+        let message = isWordValid(newWord)
+        clearMessageModalEdit()
+
+        if (message) {
+            $(".modal-edit-word-msg").addClass("alert alert-danger")
+            $(".modal-edit-word-msg").text(message)
+            $("#modal-edit-word-content").focus()
+
+            return
+        }
+        
+        // message = isDefinitionValid(definition)
+        // if (message) {
+        //     $(".modal-edit-word-msg").addClass("alert alert-danger")
+        //     $(".modal-edit-word-msg").text(message)
+        //     return
+        // }
+
+        await aha.updateWord(currentEditedWord.word, newWord, definition)
+        // close modal
+        $(".handle-close-modal-edit").click()
+    });
 });
+
+function isWordValid (word) {
+    if (!word) {
+        return "Word cannot be empty"
+    }
+    if (!isOnlyString(word)) {
+        return "Word should be string only"
+    }
+    
+    return true;
+}
+
+function isOnlyString(word) {
+    const regExp = /^[a-z ]$/i
+    return regExp.test(word)
+}
+
+function clearMessageModalEdit()  {
+    $(".modal-edit-word-msg").removeClass("alert alert-danger")
+    $(".modal-edit-word-msg").text("")
+}
+
+// function isDefinitionValid (value) {
+//     if (!value) {
+//         return "Definition cannot be empty"
+//     }
+    
+//     return true
+// }
