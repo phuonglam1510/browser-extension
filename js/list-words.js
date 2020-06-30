@@ -42,18 +42,21 @@ $(document).ready(function () {
 
             return
         }
-        
-        // message = isDefinitionValid(definition)
-        // if (message) {
-        //     $(".modal-edit-word-msg").addClass("alert alert-danger")
-        //     $(".modal-edit-word-msg").text(message)
-        //     return
-        // }
 
         await aha.updateWord(currentEditedWord.word, newWord, definition)
         // close modal
         $(".handle-close-modal-edit").click()
     });
+
+    $(".list-words__check-all__content").click(function (e) {
+        aha.checkAllWords();
+        aha.onPaginationListWord(currentPage); // re-render
+    });
+
+    $(".list-words__un-check-all__content").click(function (e) {
+        aha.unCheckAllWords();
+        aha.onPaginationListWord(currentPage); // re-render
+    })
 });
 
 function validateWord (word) {
@@ -74,11 +77,3 @@ function clearMessageModalEdit()  {
     $(".modal-edit-word-msg").removeClass("alert alert-danger")
     $(".modal-edit-word-msg").text("")
 }
-
-// function isDefinitionValid (value) {
-//     if (!value) {
-//         return "Definition cannot be empty"
-//     }
-    
-//     return true
-// }

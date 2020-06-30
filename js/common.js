@@ -43,6 +43,9 @@ let aha = {};
 
     aha.onPaginationListWord = onPagination
 
+    aha.checkAllWords = checkAllWords
+    aha.unCheckAllWords = unCheckAllWords
+
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
 
@@ -338,17 +341,6 @@ let aha = {};
             updateListWordsChecked(word, e.target.checked)
         });
 
-        // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
-
-        $(".list-words__check-all__content").click(function (e) {
-            checkAllWords();
-            onPagination(currentPage);
-        });
-
-        $(".list-words__un-check-all__content").click(function (e) {
-            unCheckAllWords();
-            onPagination(currentPage);
-    })
 
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
