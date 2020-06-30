@@ -13,3 +13,17 @@
 .nav-item:hover {
     background-color: #8f9bb317;
 }
+
+
+@media only screen and (max-width: 578px){
+    .form-search {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .form-search button{
+        margin-top: .5rem;
+    }
+    
+}
