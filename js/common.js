@@ -118,12 +118,9 @@ let aha = {};
 
     function updateWord(word, newWord, definition) {
         // compare before call api
-        console.log("before: ", definition)
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
-                    console.log("after: ", result.definition)
-
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
                     return true
@@ -449,7 +446,11 @@ let aha = {};
             result.isAdded = false
 
         } else {
-            result.definition = (`${rawDefinition}\\n${definitionToggle}`).trim()
+            if (!rawDefinition) { // do not add new line at the start of definition
+                result.definition = (`${definitionToggle}`).trim()
+            } else {
+                result.definition = (`${rawDefinition}\\n${definitionToggle}`).trim()
+            }
             result.isAdded = true  
         }
         return result
