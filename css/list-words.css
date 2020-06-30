@@ -36,6 +36,8 @@ body {
     background: linear-gradient(124deg, rgba(128, 208, 199, 1) 0%, rgba(0, 147, 233, 1) 100%);
     background-repeat: no-repeat;
     min-height: 100vh;
+    /* font-family: 'Circular Std' !important; */
+
 }
 
 .list-words__pagination {
