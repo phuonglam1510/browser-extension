@@ -1,6 +1,7 @@
 body {
     min-width: 400px;
-    height: 250px !important;
+    max-height: 50px !important;
+    /* height: 250px !important; */
     /* padding-top: 5rem; */
 }
 

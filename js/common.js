@@ -23,6 +23,7 @@ let aha = {};
     aha.baseUrl = baseUrl;
     aha.buildUrl = buildUrl;
     aha.apiGetUserProfile = apiGetUserProfile;
+    aha.apiRegister = apiRegister;
     aha.apiLogin = apiLogin;
     aha.apiLogout = apiLogout;
     aha.apiSaveWord = apiSaveWord;
@@ -36,7 +37,7 @@ let aha = {};
 
     aha.apiDeleteWord = apiDeleteWord;
     aha.deleteWord = deleteWord;
-    
+
     aha.deleteMultipleWord = deleteMultipleWord;
     aha.apiUpdateWord = apiUpdateWord
     aha.updateWord = updateWord
@@ -59,6 +60,14 @@ let aha = {};
 
     function apiGetUserProfile() {
         return $.when($.ajax(buildUrl("/api/user/profile")));
+    }
+
+    function apiRegister(params) {
+        return $.when($.ajax({
+            url: buildUrl("/register"),
+            type: "POST",
+            data: params,
+        }))
     }
 
     function apiLogin(params) {
@@ -296,13 +305,13 @@ let aha = {};
         }
     }
 
-        // onPagination(currentPage)
+    // onPagination(currentPage)
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
             const { definition } = wordItem
             $("#modal-edit-word-content").val(word)
-            $("#modal-edit-word-definition").val(definition) 
+            $("#modal-edit-word-definition").val(definition)
             currentEditedWord = wordItem
         }
     }
@@ -341,6 +350,20 @@ let aha = {};
             updateListWordsChecked(word, e.target.checked)
         });
 
+<<<<<<< HEAD
+        // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
+
+        $(".list-words__check-all__content").click(function (e) {
+            checkAllWords();
+            onPagination(currentPage);
+        });
+
+        $(".list-words__un-check-all__content").click(function (e) {
+            unCheckAllWords();
+            onPagination(currentPage);
+        })
+=======
+>>>>>>> 9e3a655c8fb305a1a245091c61b30a7e7227e92a
 
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
@@ -375,10 +398,10 @@ let aha = {};
             html += `<li class="list-group-item">
                                         <div class="definition">${item.definition}</div>
                                         ${
-                                            example ?
-                                            `<div class="example">${example}</div>` :
-                                            ''
-                                        }
+                example ?
+                    `<div class="example">${example}</div>` :
+                    ''
+                }
                                         <div class="add-btn list-group-item-add-btn">
                                             <span class="icon">&#43;</span>
                                             <span class="status">
@@ -400,16 +423,21 @@ let aha = {};
      * Output: result:Object  {definition, isAdded}
      */
     function getUpdateDefinitionWord(definitionToggle) {
-        const {definition} = currentEditedWord 
+        const { definition } = currentEditedWord
         let result = {}
 
         if (definition.includes(definitionToggle)) {
             result.definition = definition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
-            
+
         } else {
+<<<<<<< HEAD
+            result.definition = (`${definition} \n ${definitionToggle}`).trim()
+            result.isAdded = true
+=======
             result.definition = (`${definition}\n${definitionToggle}`).trim()
             result.isAdded = true   
+>>>>>>> 9e3a655c8fb305a1a245091c61b30a7e7227e92a
         }
 
         return result
@@ -417,13 +445,13 @@ let aha = {};
 
     function showListSuggestDefintionHTML(data) {
         const { meanings } = data
-        let list =""
+        let list = ""
         for (const [key, value] of Object.entries(meanings)) {
-            list+= createSectionSuggestDefintionHTML(key, value)
+            list += createSectionSuggestDefintionHTML(key, value)
         }
 
         $(".list-definition").html(list)
-        $(".list-group-item-add-btn").click(async function (e){
+        $(".list-group-item-add-btn").click(async function (e) {
             const item = e.target.parentElement.parentElement
             const definition = item.getElementsByClassName("definition")[0].textContent
             const btnAdd = item.querySelector(".list-group-item-add-btn .status")
@@ -434,7 +462,7 @@ let aha = {};
                 await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
                 currentEditedWord.definition = result.definition
-                if (result.isAdded){
+                if (result.isAdded) {
                     btnAdd.textContent = "Added"
                 } else {
                     btnAdd.textContent = "Add to my definition"
