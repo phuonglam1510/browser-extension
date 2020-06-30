@@ -317,11 +317,11 @@ let aha = {};
 
             const s = definition.replace(/\\n/g, String.fromCharCode(13, 10))
 
-            $("#modal-edit-word-definition").val(s)
+            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             
             // var newline = String.fromCharCode(13, 10);
             // const temp = definition.replaceAll('\\n', newline);
-            // $("#modal-edit-word-definition").val(temp)
+            // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(temp)
 
 
             currentEditedWord = wordItem
@@ -425,7 +425,7 @@ let aha = {};
 
     // Get definition with "\n"
     function getRawDefiniton (value) {
-        return value.replace(/(?:\r\n|\r|\n)/g, '\\n');
+        return (value||"").replace(/(?:\r\n|\r|\n)/g, '\\n');
     }
 
     /**
@@ -433,7 +433,7 @@ let aha = {};
      * Output: result:Object  {definition, isAdded}
      */
     function getUpdateDefinitionWord(definitionToggle) {
-        const definition = $("#modal-edit-word-definition").val()
+        const definition = $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val()
         console.log("definition: ", )
     
         // repalce enter with string '\n'
@@ -494,7 +494,7 @@ let aha = {};
 
                 const s = result.definition.replace(/\\n/g, String.fromCharCode(13, 10))
                 console.log("** ", definition)
-                $("#modal-edit-word-definition").val(s)
+                $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             } catch (err) {
                 console.debug(err)
             }
