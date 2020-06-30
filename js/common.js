@@ -27,25 +27,20 @@ let aha = {};
     aha.apiLogin = apiLogin;
     aha.apiLogout = apiLogout;
     aha.apiSaveWord = apiSaveWord;
-    aha.checkLogin = checkLogin;
-
-    aha.apiListSavedWords = apiListSavedWords;
-    aha.showListSavedWords = showListSavedWords;
-
-    aha.apiListSuggestDefintion = apiListSuggestDefintion;
-    aha.showListSuggestDefinition = showListSuggestDefinition;
-
     aha.apiDeleteWord = apiDeleteWord;
-    aha.deleteWord = deleteWord;
-
-    aha.deleteMultipleWord = deleteMultipleWord;
+    aha.apiListSavedWords = apiListSavedWords;
+    aha.apiListSuggestDefintion = apiListSuggestDefintion;
     aha.apiUpdateWord = apiUpdateWord
+
+    aha.checkLogin = checkLogin;
+    aha.showListSavedWords = showListSavedWords;
+    aha.showListSuggestDefinition = showListSuggestDefinition;
+    aha.deleteWord = deleteWord;
+    aha.deleteMultipleWord = deleteMultipleWord;
     aha.updateWord = updateWord
-
-    aha.onPaginationListWord = onPagination
-
     aha.checkAllWords = checkAllWords
     aha.unCheckAllWords = unCheckAllWords
+    aha.onPaginationListWord = onPagination
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
 
     function firstLine(str) {
@@ -116,6 +111,13 @@ let aha = {};
         }))
     }
 
+    function ajaxDelete(word) {
+        return $.ajax({
+            url: buildUrl(`/api/word?word=${word}`),
+            type: "DELETE"
+        });
+    }
+
     function updateWord(word, newWord, definition) {
         // compare before call api
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
@@ -154,14 +156,6 @@ let aha = {};
             fail(function (jqXHR) {
                 // TODO
             });
-    }
-
-
-    function ajaxDelete(word) {
-        return $.ajax({
-            url: buildUrl(`/api/word?word=${word}`),
-            type: "DELETE"
-        });
     }
 
     function deleteMultipleWord() {
@@ -228,12 +222,6 @@ let aha = {};
             element += createPageElement(i)
         }
 
-        // if (currentPage + 10 < numberPage){
-        //     element += `
-        //     <li>...</li>
-        //     `
-        // }
-
         if (numberPage > PAGE_NUMBER_DISPLAY) {
             if (currentPage < numberPage - 1) {
                 element += `<li class="page-item list-words__page-item"><a class="page-link" href="#" id="${NEXT_PAGE}">Next</a></li>`
@@ -270,30 +258,11 @@ let aha = {};
     function checkAllWords() {
         let listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
 
-        // console.log(listData)
-
-        // if (listWordsChecked.length === 0) {
-        //     for (let i = 0; i < listData.length; i++) {
-        //         updateListWordsChecked(listData[i].word, true)
-        //         // onPagination(currentPage)
-        //     }
-        // }
-        // else if (listWordsChecked.length > 0) {
-        //     for (let i = 0; i < listData.length; i++) {
-        //         if (!listData[i].isCheck) {
-        //             updateListWordsChecked(listData[i].word, true)
-        //         }
-        //     }
-        // }
-        // else return;
-
         for (let i = 0; i < listData.length; i++) {
             if (!listData[i].isCheck) {
                 updateListWordsChecked(listData[i].word, true)
             }
         }
-        // onPagination(currentPage)
-        // console.log(listWordsChecked)
     }
 
     function unCheckAllWords() {
@@ -365,7 +334,6 @@ let aha = {};
             updateListWordsChecked(word, e.target.checked)
         });
 
-
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
             openModalEditWord(word)
@@ -425,23 +393,16 @@ let aha = {};
      */
     function getUpdateDefinitionWord(definitionToggle) {
         const definition = $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val()
-        console.log("definition: ", )
-    
         // repalce enter with string '\n'
         const rawDefinition = formatDefinitionIntoRawString(definition)
-
-        console.log("definiton2223333 : ", rawDefinition)
 
         let result = {}
 
         if (rawDefinition.includes(`\\n${definitionToggle}`)) {
-            console.log("1")
             result.definition = rawDefinition.replace(`\\n${definitionToggle}`, "").trim() // delete
             result.isAdded = false
 
         } else if (rawDefinition.includes(definitionToggle)) {
-            console.log("2")
-
             result.definition = rawDefinition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
 
