@@ -350,20 +350,6 @@ let aha = {};
             updateListWordsChecked(word, e.target.checked)
         });
 
-<<<<<<< HEAD
-        // const listData = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage);
-
-        $(".list-words__check-all__content").click(function (e) {
-            checkAllWords();
-            onPagination(currentPage);
-        });
-
-        $(".list-words__un-check-all__content").click(function (e) {
-            unCheckAllWords();
-            onPagination(currentPage);
-        })
-=======
->>>>>>> 9e3a655c8fb305a1a245091c61b30a7e7227e92a
 
         $(".word-item-edit").click(async function (e) {
             const word = e.target.id
@@ -431,13 +417,8 @@ let aha = {};
             result.isAdded = false
 
         } else {
-<<<<<<< HEAD
-            result.definition = (`${definition} \n ${definitionToggle}`).trim()
-            result.isAdded = true
-=======
             result.definition = (`${definition}\n${definitionToggle}`).trim()
-            result.isAdded = true   
->>>>>>> 9e3a655c8fb305a1a245091c61b30a7e7227e92a
+            result.isAdded = true
         }
 
         return result
