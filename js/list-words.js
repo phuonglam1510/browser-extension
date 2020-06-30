@@ -12,7 +12,7 @@ let currentEditedWord = null // Object: {word, id, ...}
 
 $(document).ready(function () {
     aha.showListSavedWords()
-    $("#keyword-search").keydown(function (e) {
+    $("#keyword-search").keyup(function (e) {
         let keyword = $("#keyword-search").val();
         keyword = keyword.trim()
         if (keyword) {
@@ -24,7 +24,7 @@ $(document).ready(function () {
             aha.onPaginationListWord(1)
         }
     });
-    
+
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()
     });
