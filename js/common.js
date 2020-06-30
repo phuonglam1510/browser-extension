@@ -370,6 +370,13 @@ let aha = {};
             });
     }
 
+    function formatDefinition (definition) {
+        if (definition.endsWith('.')) {
+            return definition.substr(0, definition.length -2)
+        }
+        return definition
+    }
+
     /**
      * 
      * @param {string} title in [transitive verb, noun, adj]
@@ -382,7 +389,7 @@ let aha = {};
         data.map(item => {
             const example = (item.examples && item.examples[0]) || null
             html += `<li class="list-group-item">
-                                        <div class="definition">${item.definition}</div>
+                                        <div class="definition">${formatDefinition(item.definition)}</div>
                                         ${
                 example ?
                     `<div class="example">${example}</div>` :
@@ -409,15 +416,20 @@ let aha = {};
      * Output: result:Object  {definition, isAdded}
      */
     function getUpdateDefinitionWord(definitionToggle) {
-        const { definition } = currentEditedWord
+        const definition = $("#modal-edit-word-definition").val()
+
         let result = {}
 
-        if (definition.includes(definitionToggle)) {
+        if (definition.includes(`. ${definitionToggle}`)) {
+            result.definition = definition.replace(`. ${definitionToggle}`, "").trim() // delete
+            result.isAdded = false
+
+        } else if (definition.includes(definitionToggle)) {
             result.definition = definition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
 
         } else {
-            result.definition = (`${definition}\n${definitionToggle}`).trim()
+            result.definition = (`${definition}. ${definitionToggle}`).trim()
             result.isAdded = true   
         }
 
