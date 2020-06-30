@@ -117,9 +117,12 @@ let aha = {};
 
     function updateWord(word, newWord, definition) {
         // compare before call api
+        console.log("before: ", definition)
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
+                    console.log("after: ", result.definition)
+
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
                     return true
@@ -311,7 +314,16 @@ let aha = {};
         if (wordItem) {
             const { definition } = wordItem
             $("#modal-edit-word-content").val(word)
-            $("#modal-edit-word-definition").val(definition)
+
+            const s = definition.replace(/\\n/g, String.fromCharCode(13, 10))
+
+            $("#modal-edit-word-definition").val(s)
+            
+            // var newline = String.fromCharCode(13, 10);
+            // const temp = definition.replaceAll('\\n', newline);
+            // $("#modal-edit-word-definition").val(temp)
+
+
             currentEditedWord = wordItem
         }
     }
@@ -411,27 +423,44 @@ let aha = {};
         return html
     }
 
+    // Get definition with "\n"
+    function getRawDefiniton (value) {
+        return value.replace(/(?:\r\n|\r|\n)/g, '\\n');
+    }
+
     /**
      * @param {string} definitionToggle
      * Output: result:Object  {definition, isAdded}
      */
     function getUpdateDefinitionWord(definitionToggle) {
         const definition = $("#modal-edit-word-definition").val()
+        console.log("definition: ", )
+    
+        // repalce enter with string '\n'
+        const rawDefinition = getRawDefiniton(definition)
+
+        console.log("definiton2223333 : ", rawDefinition)
 
         let result = {}
 
-        if (definition.includes(`. ${definitionToggle}`)) {
-            result.definition = definition.replace(`. ${definitionToggle}`, "").trim() // delete
+        if (rawDefinition.includes(`\\n${definitionToggle}`)) {
+            console.log("1")
+            result.definition = rawDefinition.replace(`\\n${definitionToggle}`, "").trim() // delete
             result.isAdded = false
 
-        } else if (definition.includes(definitionToggle)) {
-            result.definition = definition.replace(definitionToggle, "").trim() // delete
+        } else if (rawDefinition.includes(definitionToggle)) {
+            console.log("2")
+
+            result.definition = rawDefinition.replace(definitionToggle, "").trim() // delete
             result.isAdded = false
 
         } else {
-            result.definition = (`${definition}. ${definitionToggle}`).trim()
-            result.isAdded = true   
+            result.definition = (`${rawDefinition}\\n${definitionToggle}`).trim()
+            result.isAdded = true  
         }
+
+        console.log("temp : ", result.definition)
+
 
         return result
     }
@@ -445,6 +474,7 @@ let aha = {};
 
         $(".list-definition").html(list)
         $(".list-group-item-add-btn").click(async function (e) {
+            e.stopPropagation()
             const item = e.target.parentElement.parentElement
             const definition = item.getElementsByClassName("definition")[0].textContent
             const btnAdd = item.querySelector(".list-group-item-add-btn .status")
@@ -461,7 +491,10 @@ let aha = {};
                     btnAdd.textContent = "Add to my definition"
                 }
                 // update UI
-                $("#modal-edit-word-definition").val(`${result.definition}`)
+
+                const s = result.definition.replace(/\\n/g, String.fromCharCode(13, 10))
+                console.log("** ", definition)
+                $("#modal-edit-word-definition").val(s)
             } catch (err) {
                 console.debug(err)
             }
