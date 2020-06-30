@@ -46,6 +46,7 @@ let aha = {};
 
     aha.checkAllWords = checkAllWords
     aha.unCheckAllWords = unCheckAllWords
+    aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -188,7 +189,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${definition || 'Definition is empty'}</h1>  
+            <h1 class="definition">${formatDefinitionFromRawString(definition) || 'Definition is empty'}</h1>  
           </div>
         </div>
         <div class="detail-wrap">
@@ -308,22 +309,27 @@ let aha = {};
         }
     }
 
+
+    // change "\n" to new line character
+    function formatDefinitionFromRawString (value) {
+        return  (value||"").replace(/\\n/g, String.fromCharCode(13, 10))
+    }
+
+    // replace "\n" in new line character
+    function formatDefinitionIntoRawString(value) {
+        return (value || "").replace(/(?:\r\n|\r|\n)/g, '\\n');
+    }
+
+
     // onPagination(currentPage)
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            const { definition } = wordItem
             $("#modal-edit-word-content").val(word)
-
-            const s = definition.replace(/\\n/g, String.fromCharCode(13, 10))
-
-            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             
-            // var newline = String.fromCharCode(13, 10);
-            // const temp = definition.replaceAll('\\n', newline);
-            // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(temp)
-
-
+            const { definition } = wordItem
+            const s = formatDefinitionFromRawString(definition)
+            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             currentEditedWord = wordItem
         }
     }
@@ -382,13 +388,6 @@ let aha = {};
             });
     }
 
-    function formatDefinition (definition) {
-        if (definition.endsWith('.')) {
-            return definition.substr(0, definition.length -2)
-        }
-        return definition
-    }
-
     /**
      * 
      * @param {string} title in [transitive verb, noun, adj]
@@ -401,7 +400,7 @@ let aha = {};
         data.map(item => {
             const example = (item.examples && item.examples[0]) || null
             html += `<li class="list-group-item">
-                                        <div class="definition">${formatDefinition(item.definition)}</div>
+                                        <div class="definition">${item.definition}</div>
                                         ${
                 example ?
                     `<div class="example">${example}</div>` :
@@ -423,11 +422,6 @@ let aha = {};
         return html
     }
 
-    // Get definition with "\n"
-    function getRawDefiniton (value) {
-        return (value||"").replace(/(?:\r\n|\r|\n)/g, '\\n');
-    }
-
     /**
      * @param {string} definitionToggle
      * Output: result:Object  {definition, isAdded}
@@ -437,7 +431,7 @@ let aha = {};
         console.log("definition: ", )
     
         // repalce enter with string '\n'
-        const rawDefinition = getRawDefiniton(definition)
+        const rawDefinition = formatDefinitionIntoRawString(definition)
 
         console.log("definiton2223333 : ", rawDefinition)
 
@@ -458,10 +452,6 @@ let aha = {};
             result.definition = (`${rawDefinition}\\n${definitionToggle}`).trim()
             result.isAdded = true  
         }
-
-        console.log("temp : ", result.definition)
-
-
         return result
     }
 
@@ -491,9 +481,7 @@ let aha = {};
                     btnAdd.textContent = "Add to my definition"
                 }
                 // update UI
-
-                const s = result.definition.replace(/\\n/g, String.fromCharCode(13, 10))
-                console.log("** ", definition)
+                const s = formatDefinitionFromRawString(result.definition)
                 $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             } catch (err) {
                 console.debug(err)

@@ -31,18 +31,20 @@ $(document).ready(function () {
 
     $(".handle-save-word").click( async function (e) {
         let newWord = $("#modal-edit-word-content").val().trim()
-        const definition =  $("#modal-edit-word-definition").val().trim()
         let message = validateWord(newWord)
         clearMessageModalEdit()
-
+        
         if (message) {
             $(".modal-edit-word-msg").addClass("alert alert-danger")
             $(".modal-edit-word-msg").text(message)
             $("#modal-edit-word-content").focus()
-
+            
             return
         }
-
+        
+        let definition =  $("#modal-edit-word-definition").val().trim()
+        definition = aha.formatDefinitionIntoRawString(definition)
+        
         await aha.updateWord(currentEditedWord.word, newWord, definition)
         // close modal
         $(".handle-close-modal-edit").click()

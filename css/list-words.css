@@ -337,7 +337,8 @@ body {
     -webkit-box-orient: vertical;
     overflow-y: hidden;
     text-overflow: ellipsis;
-    white-space: normal;
+    white-space: pre-line;
+    
 }
 
 /* .flip-card-back .delete {
