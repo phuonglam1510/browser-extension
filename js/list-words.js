@@ -1,4 +1,4 @@
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 9;
 const PAGE_NUMBER_DISPLAY = 10;
 const PREV_PAGE = -1;
 const NEXT_PAGE = -2;

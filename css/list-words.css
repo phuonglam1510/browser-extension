@@ -65,6 +65,19 @@ body {
     color: #ff0180 !important;
 }
 
+.list-words__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 2rem 0 5rem;
+}
+
+.list-words__total {
+    /* margin-bottom: 2rem; */
+    color: #fff;
+    /* text-align: right; */
+}
+
 .list-words__search-input {
     all: none;
     border: none;
@@ -82,7 +95,6 @@ body {
 }
 
 .list-words__search {
-    padding: 3rem 0 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,7 +138,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 3rem auto 4rem;
 }
 
 .list-words__tools {
@@ -240,10 +251,15 @@ body {
     text-decoration: none;
 }
 
+.list-words-wrap {
+     padding-left: 10rem;
+    padding-right: 10rem;
+}
+
 .list-words {
     width: 100%;
-    padding-left: 100px;
-    padding-right: 100px;
+    /* padding-left: 10rem;
+    padding-right: 10rem; */
     /* margin-top: 20px; */
     margin-right: 0 !important;
     margin-left: 0 !important;

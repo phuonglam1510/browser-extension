@@ -90,6 +90,7 @@ let aha = {};
     }
 
     function apiListSavedWords() {
+        // return $.when($.ajax(buildUrl("/api/word/list?orderBy=updatedAt")));
         return $.when($.ajax(buildUrl("/api/word/list")));
     }
 
@@ -142,8 +143,16 @@ let aha = {};
         })
     }
 
+    function updateTotalWord () {
+        $(".list-words__total").text(`Total: ${listWords.length}`)
+
+    }
+
     function updateListWordAfterDelete(words) {
         listWords = listWords.filter(item => !words.includes(item.word))
+        // update delete count
+        $(".list-words__delete-count").text('Delete selected words')
+        updateTotalWord()
     }
 
     function deleteWord(word) {
@@ -345,7 +354,9 @@ let aha = {};
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
+                // console.log("result: ", result)
                 listWords = result
+                updateTotalWord()
                 onPagination(1)
             }).
             fail(function (jqXHR) {
