@@ -31,7 +31,8 @@ let aha = {};
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
-    aha.apiUpdateWord = apiUpdateWord
+    aha.apiUpdateWord = apiUpdateWord;
+    aha.formatDayMonthYear = formatDayMonthYear;
 
     aha.checkLogin = checkLogin;
     aha.showListSavedWords = showListSavedWords;
@@ -154,7 +155,7 @@ let aha = {};
         })
     }
 
-    function updateTotalWord () {
+    function updateTotalWord() {
         $(".list-words__total").text(`Total: ${listWords.length}`)
 
     }
@@ -189,10 +190,19 @@ let aha = {};
         });
     }
 
+    function formatDayMonthYear(time) {
+        const d = new Date(time);
+        const day = d.getDate();
+        const month = d.getMonth() + 1;
+        const year = d.getFullYear();
+
+        return [day, month, year].join('/');
+    }
+
     function createElementCard(item) {
         const { word, updatedAt, definition, id, isCheck } = item
-        let date = new Date(updatedAt)
-        date = date.toLocaleDateString()
+        // let date = new Date(updatedAt)
+        // date = date.toLocaleDateString()
 
         return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
         <div class="flip-card-inner">
@@ -205,7 +215,7 @@ let aha = {};
         </div>
         <div class="detail-wrap">
             <div class="detail-content">
-                <p class="date">${date}</p>
+                <p class="date">${formatDayMonthYear(updatedAt)}</p>
                 ${
             isCheck ?
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
@@ -297,8 +307,8 @@ let aha = {};
 
 
     // change "\n" to new line character
-    function formatDefinitionFromRawString (value) {
-        return  (value||"").replace(/\\n/g, String.fromCharCode(13, 10))
+    function formatDefinitionFromRawString(value) {
+        return (value || "").replace(/\\n/g, String.fromCharCode(13, 10))
     }
 
     // replace "\n" in new line character
@@ -312,7 +322,7 @@ let aha = {};
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
             $("#modal-edit-word-content").val(word)
-            
+
             const { definition } = wordItem
             const s = formatDefinitionFromRawString(definition)
             $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
@@ -434,7 +444,7 @@ let aha = {};
             } else {
                 result.definition = (`${rawDefinition}\\n${definitionToggle}`).trim()
             }
-            result.isAdded = true  
+            result.isAdded = true
         }
         return result
     }
