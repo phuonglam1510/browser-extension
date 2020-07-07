@@ -43,6 +43,15 @@ body {
     /* font-family: 'Circular Std' !important; */
 }
 
+.dropdown-item.active {
+    color: #007bff;
+    background-color: transparent !important;
+}
+
+.btn-logout {
+    margin: 0;
+}
+
 .list-words__pagination {
     transition: all 0.2s;
     display: flex;
