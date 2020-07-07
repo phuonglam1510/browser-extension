@@ -208,8 +208,8 @@ body {
     border: 1px solid #03bfcb;
     border-radius: 50%;
     padding: 7px;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
 }
 
 .profile__card .form-group {
@@ -226,9 +226,20 @@ body {
     margin-bottom: 0;
 }
 
+.logout-account {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+
+.btn-logout {
+    margin: 0;
+}
+
 .profile__delete {
     border-top: 1px solid rgba(128, 208, 199, 1);
-    margin-top: 42px;
+    margin-top: 30px;
 }
 
 .profile__button {
@@ -258,4 +269,22 @@ body {
     font-size: 12px;
     width: 80%;
     margin: auto
+}
+
+@media (max-width: 756px) {
+    .profile__header {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
+
+@media (max-width: 626px) {
+    .profile__header {
+        display: block;
+        text-align: center;
+    }
+    .profile__social {
+        justify-content: center;
+        padding-bottom: 10px;
+    }
 }

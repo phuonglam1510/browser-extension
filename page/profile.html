@@ -19,17 +19,17 @@
         <div class="profile__social">
             <ul class="profile__social__list">
                 <li class="profile__social__item social__item--facebook">
-                    <a href="/">
+                    <a href="">
                         <i class="fab fa-facebook"></i>
                     </a>
                 </li>
                 <li class="profile__social__item social__item--instagram">
-                    <a href="/">
+                    <a href="">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </li>
                 <li class="profile__social__item social__item--youtube">
-                    <a href="/">
+                    <a href="">
                         <i class="fab fa-youtube"></i>
                     </a>
                 </li>
@@ -46,6 +46,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/page/profile.html">Profile</a>
                         <a class="dropdown-item" href="/page/list-words.html">Setting</a>
+                        <p class="dropdown-item btn-logout">Logout</p>
                     </div>
                 </li>
             </ul>
@@ -58,14 +59,14 @@
             <img class="profile__avatar"
                 src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1"
                 alt="user" />
-            <h3 class="profile__name">Goware Tech JSC</h3>
+            <h3 class="profile__name">User</h3>
             <!-- <p class="profile__email">Email</p>
             <p class="profile__count-words">Amount words</p>
             <p class="profile__progress">Progress</p> -->
             <form>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                    <input type="email" class="form-control input-email" id="email" aria-describedby="emailHelp"
                         value="goware@kie.io" readonly>
                 </div>
                 <!-- <div class="form-group">
@@ -74,7 +75,7 @@
                 </div> -->
                 <div class="form-group">
                     <label for="join-date">Joined</label>
-                    <input type="text" class="form-control" id="join-date" value="03/2014" readonly>
+                    <input type="text" class="form-control input-join" id="join-date" value="03/2014" readonly>
                 </div>
             </form>
             <div class="profile__delete pt-3">
@@ -91,6 +92,7 @@
     <script src="/js/lib/popper-1.12.9.min.js"></script>
     <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
     <script src="/js/common.js"></script>
+    <script src="/js/profile.js"></script>
 </body>
 
 </html>

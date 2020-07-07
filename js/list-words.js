@@ -24,14 +24,14 @@ $(document).ready(function () {
             aha.onPaginationListWord(1)
         }
     });
-    
+
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()
     });
 
-    $(".handle-save-word").click( async function (e) {
+    $(".handle-save-word").click(async function (e) {
         let newWord = $("#modal-edit-word-content").val().trim()
-        const definition =  $("#modal-edit-word-definition").val().trim()
+        const definition = $("#modal-edit-word-definition").val().trim()
         let message = validateWord(newWord)
         clearMessageModalEdit()
 
@@ -57,9 +57,11 @@ $(document).ready(function () {
         aha.unCheckAllWords();
         aha.onPaginationListWord(currentPage); // re-render
     })
+
+    $(".btn-logout").click(aha.onClickLogout)
 });
 
-function validateWord (word) {
+function validateWord(word) {
     if (!word) {
         return "Word cannot be empty"
     }
@@ -73,7 +75,7 @@ function isOnlyString(word) {
     return regExp.test(word)
 }
 
-function clearMessageModalEdit()  {
+function clearMessageModalEdit() {
     $(".modal-edit-word-msg").removeClass("alert alert-danger")
     $(".modal-edit-word-msg").text("")
 }
