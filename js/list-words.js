@@ -33,32 +33,38 @@ $(document).ready(function () {
         let newWord = $("#modal-edit-word-content").val().trim()
         let message = validateWord(newWord)
         clearMessageModalEdit()
-        
+
         if (message) {
             $(".modal-edit-word-msg").addClass("alert alert-danger")
             $(".modal-edit-word-msg").text(message)
             $("#modal-edit-word-content").focus()
-            
+
             return
         }
-        
-        let definition =  $("#modal-edit-word-definition").val().trim()
+
+        let definition = $("#modal-edit-word-definition").val().trim()
         definition = aha.formatDefinitionIntoRawString(definition)
-        
+
         await aha.updateWord(currentEditedWord.word, newWord, definition)
         // close modal
         $(".handle-close-modal-edit").click()
     });
 
-    $(".list-words__check-all__content").click(function (e) {
-        aha.checkAllWords();
-        aha.onPaginationListWord(currentPage); // re-render
+    $(".checkbox-check-all").click(function (e) {
+        if (e.currentTarget.checked) {
+            aha.checkAllWords();
+            aha.onPaginationListWord(currentPage); // re-render
+        }
+        else {
+            aha.unCheckAllWords();
+            aha.onPaginationListWord(currentPage); // re-render
+        }
     });
 
-    $(".list-words__un-check-all__content").click(function (e) {
-        aha.unCheckAllWords();
-        aha.onPaginationListWord(currentPage); // re-render
-    })
+    // $(".list-words__un-check-all__content").click(function (e) {
+    //     aha.unCheckAllWords();
+    //     aha.onPaginationListWord(currentPage); // re-render
+    // })
 
     $(".btn-logout").click(aha.onClickLogout)
 });
