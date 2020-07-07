@@ -26,6 +26,7 @@ let aha = {};
     aha.apiRegister = apiRegister;
     aha.apiLogin = apiLogin;
     aha.apiLogout = apiLogout;
+    aha.onClickLogout = onClickLogout;
     aha.apiSaveWord = apiSaveWord;
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
@@ -79,6 +80,16 @@ let aha = {};
             url: buildUrl("/api/logout"),
             type: "POST"
         }))
+    }
+
+    function onClickLogout() {
+        aha.apiLogout().
+            done(function () {
+                window.location.href = "/page/home.html";
+            }).
+            fail(function (err) {
+                console.log(err)
+            })
     }
 
     function apiSaveWord(params) {
@@ -477,7 +488,7 @@ let aha = {};
             done(function (profile) {
                 $(".login-nav").toggleClass("d-none", true);
                 $(".user-profile-nav").toggleClass("d-none", false);
-                $(".user-profile").text("Hi, " + profile.lastName);
+                $(".user-profile").text("Hi " + (profile.authName).toUpperCase());
             }).
             fail(function (jqXHR) {
                 $(".user-profile-nav").toggleClass("d-none", true);

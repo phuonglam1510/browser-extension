@@ -9,6 +9,11 @@ main {
     min-height: 450px;
 }
 
+.navbar {
+    /* border-bottom: 1px solid black; */
+    box-shadow: 0px 1px 3px #95a5a6;
+}
+
 .title-popup {
     margin-bottom: 1rem;
 }
