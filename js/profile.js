@@ -17,5 +17,5 @@ $(document).ready(function () {
         });
 
 
-
+    $(".btn-logout").click(aha.onClickLogout)
 })

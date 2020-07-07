@@ -498,7 +498,7 @@ let aha = {};
             done(function (profile) {
                 $(".login-nav").toggleClass("d-none", true);
                 $(".user-profile-nav").toggleClass("d-none", false);
-                $(".user-profile").text("Hi " + (profile.authName).toUpperCase());
+                $(".user-profile").text("Hi Wordminer!");
             }).
             fail(function (jqXHR) {
                 $(".user-profile-nav").toggleClass("d-none", true);
