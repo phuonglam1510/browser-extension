@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/list-words.css">
     <link rel="stylesheet" href="/css/modal-edit-word.css">
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/list-words.css">
+    <link rel="stylesheet" href="/css/common.css">
 
     <title>Words, mine!</title>
 </head>
@@ -84,7 +84,9 @@
                 </div>
             </div>
         </div>
-        <section class="list-words row"></section>
+        <section class="list-words row">
+            <div class="loader"></div>
+        </section>
 
         <div class="list-words__pagination"></div>
 
@@ -109,7 +111,7 @@
                            
                             <div class="form-group">
                                 <label class="title" for="exampleFormControlTextarea1">Definition</label>
-                                <textarea class="form-control"id="modal-edit-word-definition" rows="3" placeholder="Enter definition"></textarea>
+                                <textarea class="form-control"id="modal-edit-word-definition" rows="6" placeholder="Enter definition"></textarea>
                             </div>
                         </form>
 
