@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Words, mine!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="google-signin-client_id" content="AIzaSyCHRyiOF9hb0eK7Qa_ltkGaqBr-vIa8HjU.apps.googleusercontent.com">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css" >
     <link rel="stylesheet" href="/css/common.css">
@@ -59,6 +59,8 @@
             <p class="signup__content" href="/page/signup.html">You do not have account? Click here to <a class="signup__link" href="/page/signup.html">Signup</a></p>
         </div>
         <p class="mt-3 mb-3 text-muted">&copy; 2020-2030</p>
+
+        <div class="g-signin2" data-onsuccess="onSignIn">Google</div>
     </form>
 
 </main><!-- /.container -->
@@ -72,5 +74,6 @@
 <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/login.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>
