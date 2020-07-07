@@ -271,6 +271,11 @@ body {
     margin: auto
 }
 
+.dropdown-item.active {
+    color: #007bff;
+    background-color: transparent !important;
+}
+
 @media (max-width: 756px) {
     .profile__header {
         padding-left: 50px;
