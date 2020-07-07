@@ -6,7 +6,11 @@ $(document).ready(function () {
 
     aha.apiGetUserProfile().
         done(function (profile) {
-            $(".profile__name").text(profile.authName.toUpperCase());
+            if (!profile.authName) {
+                $(".profile__name").text('Wordminer')
+            } else {
+                $(".profile__name").text(profile.authName.toUpperCase())
+            }
             $(".input-email").val(profile.authEmail);
             $(".input-join").val(aha.formatDayMonthYear(profile.createdAt));
         }).
@@ -17,5 +21,5 @@ $(document).ready(function () {
         });
 
 
-
+    $(".btn-logout").click(aha.onClickLogout)
 })

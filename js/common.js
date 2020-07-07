@@ -498,7 +498,11 @@ let aha = {};
             done(function (profile) {
                 $(".login-nav").toggleClass("d-none", true);
                 $(".user-profile-nav").toggleClass("d-none", false);
-                $(".user-profile").text("Hi " + (profile.authName).toUpperCase());
+                if (!profile.authName) {
+                    $(".user-profile").text('Hello Wordminer!')
+                } else {
+                    $(".user-profile").text('Hello ' + profile.authName.toUpperCase() + '!')
+                }
             }).
             fail(function (jqXHR) {
                 $(".user-profile-nav").toggleClass("d-none", true);
