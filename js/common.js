@@ -429,7 +429,7 @@ let aha = {};
 
         } else {
             result.definition = (`${definition}\n${definitionToggle}`).trim()
-            result.isAdded = true
+            result.isAdded = true   
         }
 
         return result
