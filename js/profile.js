@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    let current_url = window.location;
+    $('.dropdown-menu a').filter(function () {
+        return this.href == current_url;
+    }).last().addClass('active');
+
     function getDayMonthYear(time) {
         const d = new Date(time);
         const day = d.getDate();
@@ -20,6 +25,6 @@ $(document).ready(function () {
             window.location.href = "/page/login.html";
         });
 
-    
+
 
 })

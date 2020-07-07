@@ -11,6 +11,11 @@ let currentEditedWord = null // Object: {word, id, ...}
 
 
 $(document).ready(function () {
+    let current_url = window.location;
+    $('.dropdown-menu a').filter(function () {
+        return this.href == current_url;
+    }).last().addClass('active');
+
     aha.showListSavedWords()
     $("#keyword-search").keyup(function (e) {
         let keyword = $("#keyword-search").val();
