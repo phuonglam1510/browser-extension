@@ -78,6 +78,7 @@
 
 .list-group-item {
     border-radius: 15px !important;
+    margin-bottom: .5rem !important;
 }
 .list-group-item .add-btn {
     text-align: right;
