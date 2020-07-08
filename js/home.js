@@ -136,7 +136,7 @@ $(document).ready(function () {
             if (_.isFunction(mod)) {
                 mod(tags);
             }
-            return function() {
+            return function () {
                 return tags.first().clone(true, true);
             }
         }

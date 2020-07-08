@@ -18,9 +18,11 @@
     "clipboardRead",
     "contextMenus",
     "tabs",
+    "cookies",
     "http://*/*",
     "https://*/*"
    ],
+   "content_security_policy": "script-src 'self' 'sha256-GigIzxYZzJk6gu+D73bf31UciVUF2K0vlYBc7GYPDQg=' https://www.gstatic.com https://www.googletagmanager.com https://apis.google.com; object-src 'self'",
   "minimum_chrome_version" : "6.0.0.0",
   "icons" : {
     "16" : "static/icon/imageinfo-16.png",

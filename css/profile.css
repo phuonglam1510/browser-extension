@@ -242,7 +242,7 @@ body {
     margin-top: 30px;
 }
 
-.profile__button {
+.profile__delete-button {
     color: #3c6382;
     font-size: 15px !important;
     background-color: transparent;
