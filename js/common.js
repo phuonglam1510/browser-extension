@@ -321,7 +321,8 @@ let aha = {};
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            $("#modal-edit-word-content").val(word)
+            $("#modal-edit-word__input-word").val(word)
+            $(".modal-edit-word__word").text(word)
 
             const { definition } = wordItem
             const s = formatDefinitionFromRawString(definition)
@@ -375,7 +376,7 @@ let aha = {};
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                // console.log("result: ", result)
+                console.log("result: ", result)
                 listWords = result
                 updateTotalWord()
                 onPagination(1)
