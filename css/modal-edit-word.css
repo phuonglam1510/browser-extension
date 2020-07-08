@@ -1,9 +1,37 @@
-.modal-edit-word {
+.modal-edit-word .modal-dialog {
+    width: 90vw;
+    max-width: 90vw;
 }
+
+.modal-edit-word__body {
+    display: flex;
+    height: 80vh;
+    justify-content: space-between;
+
+}   
+
+.modal-edit-word__column {
+    flex: 1;
+}
+
+.modal-edit-word__left {
+    margin-right: 1rem;
+}
+.modal-edit-word__right {
+    overflow-y: auto;
+    margin-left: 1rem;
+}
+
 .modal-edit-word .title {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     margin-bottom: 1rem;
     font-weight: bold;
+    color: #0093E9;
+}
+
+.modal-edit-word-pronunciation {
+    color: #8F9BB3;
+    padding: .375rem .75rem;
 }
 
 .list-group-item .add-btn {

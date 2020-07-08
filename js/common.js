@@ -89,7 +89,7 @@ let aha = {};
                 window.location.href = "/page/home.html";
             }).
             fail(function (err) {
-                console.log(err)
+                // console.log(err)
             })
     }
 
@@ -486,7 +486,9 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
+                // console.log("def: ", result)
                 showListSuggestDefintionHTML(result)
+                $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
             }).
             fail(function (jqXHR) {
                 $(".list-definition").html('<div class="empty">(Empty)</div>')
