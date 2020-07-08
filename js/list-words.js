@@ -55,7 +55,7 @@ $(document).ready(function () {
         $(".handle-close-modal-edit").click()
     });
 
-    $(".list-words__check-all").click(function (e) {
+    $(".checkbox-check-all").click(function (e) {
         if (e.currentTarget.checked) {
             aha.checkAllWords();
             aha.onPaginationListWord(currentPage); // re-render
