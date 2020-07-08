@@ -89,7 +89,7 @@ let aha = {};
                 window.location.href = "/page/home.html";
             }).
             fail(function (err) {
-                console.log(err)
+                // console.log(err)
             })
     }
 
@@ -321,7 +321,8 @@ let aha = {};
     function openModalEditWord(word) {
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            $("#modal-edit-word-content").val(word)
+            $("#modal-edit-word__input-word").val(word)
+            $(".modal-edit-word__word").text(word)
 
             const { definition } = wordItem
             const s = formatDefinitionFromRawString(definition)
@@ -375,7 +376,7 @@ let aha = {};
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                // console.log("result: ", result)
+                console.log("result: ", result)
                 listWords = result
                 updateTotalWord()
                 onPagination(1)
@@ -486,7 +487,9 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
+                // console.log("def: ", result)
                 showListSuggestDefintionHTML(result)
+                $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
             }).
             fail(function (jqXHR) {
                 $(".list-definition").html('<div class="empty">(Empty)</div>')

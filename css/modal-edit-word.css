@@ -1,11 +1,84 @@
-.modal-edit-word {
-}
-.modal-edit-word .title {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
+.modal-edit-word .modal-dialog {
+    width: 90vw;
+    max-width: 90vw;
 }
 
+.modal-edit-word__body {
+    display: flex;
+    height: 80vh;
+    justify-content: space-between;
+
+}   
+
+.modal-edit-word__column {
+    flex: 1;
+}
+
+.modal-edit-word__left {
+    margin-right: 1rem;
+}
+.modal-edit-word__right {
+    overflow-y: auto;
+    margin-left: 1rem;
+}
+
+.modal-edit-word .title {
+    /* margin-top: 1rem; */
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #222B54;
+}
+
+.modal-edit-word .word-wrap {
+    position: relative;
+    margin-bottom: 1rem;
+}
+.modal-edit-word .word-wrap::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 4px;
+    background-image: linear-gradient( to right, #0093E9 -50%, #80D0C7);;
+    margin-top: .8rem;
+}  
+
+#modal-edit-word__input-word {
+    display: none;
+}
+
+.modal-edit-word .instruction {
+    color: #8F9BB3;
+    font-style: italic;
+}
+
+.modal-edit-word .btn-footer {
+    width: 7rem;
+}
+
+.modal-edit-word__word {
+    font-size: 2.5rem;
+    background: rgb(0, 147, 233);
+    background: linear-gradient( to right, #0093E9 -50%, #80D0C7);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.modal-edit-word-pronunciation {
+    color: #8F9BB3;
+    padding: .375rem .75rem;
+}
+.modal-edit-word__input {
+    border-radius: 15px !important;
+}
+
+.list-group-item {
+    border-radius: 15px !important;
+}
 .list-group-item .add-btn {
     text-align: right;
     color: #0093E9;

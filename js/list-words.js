@@ -35,14 +35,14 @@ $(document).ready(function () {
     });
 
     $(".handle-save-word").click(async function (e) {
-        let newWord = $("#modal-edit-word-content").val().trim()
+        let newWord = $("#modal-edit-word__input-word").val().trim()
         let message = validateWord(newWord)
         clearMessageModalEdit()
 
         if (message) {
             $(".modal-edit-word-msg").addClass("alert alert-danger")
             $(".modal-edit-word-msg").text(message)
-            $("#modal-edit-word-content").focus()
+            $("#modal-edit-word__input-word").focus()
 
             return
         }
@@ -72,6 +72,18 @@ $(document).ready(function () {
     // })
 
     $(".btn-logout").click(aha.onClickLogout)
+    $(".modal-edit-word__word").click(function (e) {
+        $(".word-wrap").hide()
+        $("#modal-edit-word__input-word").show()
+        $("#modal-edit-word__input-word").focus()
+
+    })
+    
+    // reset UI modal edit word: word in input word
+    $(".handle-close-modal-edit").click(function (e) {
+        $(".word-wrap").show()
+        $("#modal-edit-word__input-word").hide()
+    })
 });
 
 function validateWord(word) {
