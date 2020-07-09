@@ -3,7 +3,7 @@ $(document).ready(function () {
         ev.preventDefault();
         let jForm = $(this);
         const params = `${jForm.serialize()}&firstName= &lastName=Wordsminer&dateOfBirth=2019-10-12T00:00:00.52Z&phone=1234567890`
-        // console.log("data: ", params)
+
         aha.apiRegister(params).
             done(function (info) {
                 $(".signup-alert").
@@ -26,4 +26,20 @@ $(document).ready(function () {
                 $(".signup-alert .message").text("Không thể đăng ký!");
             });
     })
+
+
 })
+
+let password = document.getElementById("password")
+    , confirm_password = document.getElementById("repeatPassword");
+
+function validatePassword() {
+    if (password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+        confirm_password.setCustomValidity('');
+    }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;

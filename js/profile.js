@@ -24,7 +24,7 @@ $(document).ready(function () {
     $(".btn-logout").click(aha.onClickLogout)
 
     function getCookie() {
-        chrome.cookies.get({ url: 'https://app.grammarly.com/', name: 'browser_info' },
+        chrome.cookies.get({ url: 'http://localhost:3002/', name: 'tokenUser' },
             function (cookie) {
                 if (cookie) {
                     console.log(cookie.value);

@@ -32,6 +32,7 @@ $(document).ready(function () {
 
     $(".list-words__delete-all").click(function (e) {
         aha.deleteMultipleWord()
+        $('.checkbox-check-all').prop('checked', false)
     });
 
     $(".handle-save-word").click(async function (e) {
