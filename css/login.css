@@ -19,3 +19,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.form-login-custom .login-message {
+    margin: .5rem auto;
+}
