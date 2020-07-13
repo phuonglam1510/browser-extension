@@ -1,7 +1,8 @@
 $(document).ready(function () {
+
+
     let tmplTags = {
     };
-
     initTemplateTags();
     handleButtons();
     aha.checkLogin();
