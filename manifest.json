@@ -1,14 +1,15 @@
 {
-  "name" : "Word, mine!",
+  "name" : "Words Mine!",
   "version" : "1.0.1",
   "manifest_version": 2,
-  "description" : "Word, mine! tools for quick gathering of words",
+  "description" : "Words Mine! tools for quick gathering of words",
   "background" : {
     "scripts": [
       "js/lib/lodash-4.17.15.min.js",
       "js/lib/jquery-3.5.1.min.js",
       "js/common.js",
-      "js/background/main.js"
+      "js/background/main.js",
+      "js/background/uninstall.js"
     ],
     "persistent": true
   },
@@ -24,16 +25,16 @@
    ],
   "minimum_chrome_version" : "6.0.0.0",
   "icons" : {
-    "16" : "static/icon/imageinfo-16.png",
-    "48" : "static/icon/imageinfo-48.png",
-    "128" : "static/icon/imageinfo-128.png"
+    "16" : "static/icon/logo.png",
+    "48" : "static/icon/logo.png",
+    "128" : "static/icon/logo.png"
   },
   "browser_action": {
     "default_popup": "page/home.html",
     "default_icon": {
-      "16" : "static/icon/imageinfo-16.png",
-      "48" : "static/icon/imageinfo-48.png",
-      "128" : "static/icon/imageinfo-128.png"
+      "16" : "static/icon/logo.png",
+      "48" : "static/icon/logo.png",
+      "128" : "static/icon/logo.png"
     }
   }
 }

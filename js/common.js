@@ -338,7 +338,13 @@ let aha = {};
         $(".list-words").html(list)
 
         // update pagination UI
-        $(".list-words__pagination").html(createElementPagination((listWordsDisplay || listWords).length))
+        const length = (listWordsDisplay || listWords).length
+        if (length > PAGE_SIZE) {
+            $(".list-words__pagination").html(createElementPagination(length))
+        } else {
+            $(".list-words__pagination").html("")
+        }
+
         $(".list-words__current-page").text(currentPage)
 
         $(".page-item").click(function (e) {

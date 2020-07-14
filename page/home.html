@@ -3,8 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Words, mine!</title>
+    <title>Words Mine!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Words Mine! tools for quick gathering of words">
+    <meta name="author" content="Goware JSC">
+
+    <title>Home</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
@@ -15,7 +19,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md  navbar-light bg-light fixed-top">
-        <a class="navbar-brand font_WM" href="https://wordsmine.netlify.app/" target="_blank">Words, mine!</a>
+        <a class="navbar-brand font_WM" href="https://www.wordsmine.com" target="_blank">Words Mine!</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -82,8 +86,7 @@
 
     <main role="main">
         <div class="container">
-            <h2 class="text-white text-right title-popup"><small>Words found</small></h2>
-            <!-- <p class="text-white text-right"><small>abcd xyz</small></p> -->
+            <div class="test"></div>
             <div class="list-word accordion" id="accordionExample">
                 <div class="card">
                     <div class="card-header" id="headingOne">
@@ -174,24 +177,6 @@
     <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/home.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyAe-2BssQBoWGO-iLjJqLkIadgLIcIr2gI",
-            authDomain: "words-mine.firebaseapp.com",
-            databaseURL: "https://words-mine.firebaseio.com",
-            projectId: "words-mine",
-            storageBucket: "words-mine.appspot.com",
-            messagingSenderId: "765978393804",
-            appId: "1:765978393804:web:aa4de99c3d48b4781a5669",
-            measurementId: "G-799YKK48YN"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
 </body>
 
 </html>

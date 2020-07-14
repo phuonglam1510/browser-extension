@@ -1,8 +1,9 @@
 body {
     min-width: 400px;
-    max-height: 50px !important;
-    /* height: 250px !important; */
-    /* padding-top: 5rem; */
+}
+
+.container-login {
+    padding-top: 4rem;
 }
 
 .form-login-custom .form-item {
@@ -17,4 +18,8 @@ body {
 .form-login-custom .btn-submit {
     display: flex;
     justify-content: center;
+}
+
+.form-login-custom .login-message {
+    margin: .5rem auto;
 }

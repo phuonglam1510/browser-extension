@@ -19,7 +19,7 @@ $(document).ready(function () {
                     toggleClass("alert-success", true).
                     toggleClass("show", true).
                     toggleClass("hide", false);
-                $(".login-alert .message").text("Chào mừng " + profile.lastName);
+                $(".login-alert .message").text("Welcome " + profile.lastName);
                 setTimeout(function () {
                     window.location.href = "/page/home.html";
                 }, 1500)
@@ -34,7 +34,7 @@ $(document).ready(function () {
                     toggleClass("alert-success", false).
                     toggleClass("show", true).
                     toggleClass("hide", false);
-                $(".login-alert .message").text("Không thể login: " + aha.util.firstLine(message));
+                $(".login-alert .message").text("Cannot login: " + aha.util.firstLine(message));
             });
     });
 
