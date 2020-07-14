@@ -104,7 +104,7 @@ $(document).ready(function () {
         $(".logout").off("click", logoutClickHandler);
         aha.apiLogout().
             done(function (nop) {
-                // window.location.reload();
+                window.location.reload();
             }).
             fail(function (jqXHR) {
                 $(".logout").click(logoutClickHandler);
