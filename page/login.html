@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Words, mine!</title>
+    <title>Words Mine!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Words Mine! tools for quick gathering of words">
+    <meta name="author" content="Goware JSC">
+    
+    <title>Login</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css" >
@@ -12,24 +16,9 @@
     <link rel="stylesheet" href="/css/header-popup.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-md  navbar-light bg-light fixed-top">
-        <a class="navbar-brand font_WM" href="https://wordsmine.netlify.app" target="_blank">Words, mine!</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="header-menu collapse navbar-collapse" id="navbarsExampleDefault">
-            <form class="form-search form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary-outline-custom" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-<main role="main" class="container">
-
+<main role="main" class="container-login">
     <form class="form-login-custom form-login text-center container-fluid">
-        <!-- <a class="navbar-brand font_WM" href="./home.html" target="_blank">Words, mine!</a> -->
+        <!-- <a class="navbar-brand font_WM" href="./home.html" target="_blank">Words Mine!</a> -->
 
         <img class="mb-4" src="../static/img/logo.png" alt="" width="100">
 
@@ -44,12 +33,12 @@
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" value="" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
         </div>        
-        <div class="checkbox check-box">
+        <!-- <div class="checkbox check-box">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
-        </div>
-        <div class="login-alert alert alert-danger fade hide" role="alert">
+        </div> -->
+        <div class="login-alert alert alert-danger fade hide login-message" role="alert">
             <div class="message"></div>
         </div>
         <div class="btn-submit">
