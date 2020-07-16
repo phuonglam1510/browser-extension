@@ -42,7 +42,7 @@ body {
     -webkit-background-clip: text;
     color: transparent;
     font-weight: bold;
-    cursor: default;
+    cursor: pointer;
 }
 .profile__header .profile__social {
     display: flex;
