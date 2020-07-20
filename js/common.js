@@ -507,7 +507,7 @@ let aha = {};
             done(function (profile) {
                 $(".login-nav").toggleClass("d-none", true);
                 $(".user-profile-nav").toggleClass("d-none", false);
-                if (!profile.authName) {
+                if (!profile.lastName) {
                     $(".user-profile").text('Hello Wordminer!')
                 } else {
                     $(".user-profile").text('Hello ' + profile.authName.toUpperCase() + '!')
