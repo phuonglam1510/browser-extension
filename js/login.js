@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     checkLogin(function (loggedIn) {
         if (loggedIn) {
             window.location.href = "/page/home.html";

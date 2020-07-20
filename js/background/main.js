@@ -6,7 +6,7 @@
  * Returns a handler which will open a new window when activated.
  */
 function saveFirstSelectedWord() {
-  return function(info, tab) {
+  return function (info, tab) {
 
     aha.util.listSelectedTexts(function (selections) {
       // console.log("Selected texts: ", selections);
@@ -61,7 +61,7 @@ function saveFirstSelectedWord() {
 };
 
 function saveFirstWordFromClipboard() {
-  return function(info, tab) {
+  return function (info, tab) {
     let clTxt = "" + aha.util.getClipboardText();
     clTxt.trim();
     // console.log("Clipboard text: ", clTxt);
@@ -92,7 +92,7 @@ function saveFirstWordFromClipboard() {
   }
 }
 
-(function() {
+(function () {
   // var parentSaveWord = chrome.contextMenus.create({
   //   "title" : "Save word...",
   //   "type" : "normal",
@@ -103,10 +103,10 @@ function saveFirstWordFromClipboard() {
    * Create a context menu which will only show up for selection.
    */
   chrome.contextMenus.create({
-    "title" : "Save Word From Selection",
-    "type" : "normal",
-    "contexts" : ["selection"],
-    "onclick" : saveFirstSelectedWord(),
+    "title": "Save Word From Selection",
+    "type": "normal",
+    "contexts": ["selection"],
+    "onclick": saveFirstSelectedWord(),
     // "parentId": parentSaveWord
   });
 
@@ -125,10 +125,10 @@ function saveFirstWordFromClipboard() {
    * Create a context menu which will show up anywhere except selection.
    */
   chrome.contextMenus.create({
-    "title" : "Save Word From Clipboard",
-    "type" : "normal",
-    "contexts" : ["page", "frame", "link", "editable", "image", "video", "audio", "browser_action", "page_action"],
-    "onclick" : saveFirstWordFromClipboard()
+    "title": "Save Word From Clipboard",
+    "type": "normal",
+    "contexts": ["page", "frame", "link", "editable", "image", "video", "audio", "browser_action", "page_action"],
+    "onclick": saveFirstWordFromClipboard()
   });
 })()
 

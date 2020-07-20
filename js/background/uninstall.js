@@ -7,4 +7,4 @@ function redirectToLogoutWhenUninstall () {
 
 (function () {
     redirectToLogoutWhenUninstall();
-}) ()
+})()

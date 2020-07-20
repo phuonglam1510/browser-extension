@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     aha.apiGetUserProfile().
         done(function (profile) {
-            if (!profile.authName) {
+            if (!profile.lastName) {
                 $(".profile__name").text('Wordminer')
             } else {
                 $(".profile__name").text(profile.authName.toUpperCase())
