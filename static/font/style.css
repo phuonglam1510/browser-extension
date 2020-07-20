@@ -1,9 +1,12 @@
 @font-face {
-    font-family: 'Circular Std' !important;
-    src: local('Circular Std Medium'), local('Circular-Std-Medium'),
-        url('CircularStd-Medium.woff2') format('woff2'),
-        url('CircularStd-Medium.woff') format('woff'),
-        url('CircularStd-Medium.ttf') format('truetype');
-    font-weight: 500;
+    font-family: 'Circular Std Book';
+    src: url('CircularStd-Book.eot');
+    src: local('Circular Std Book'), local('CircularStd-Book'),
+        url('CircularStd-Book.eot?#iefix') format('embedded-opentype'),
+        url('CircularStd-Book.woff2') format('woff2'),
+        url('CircularStd-Book.woff') format('woff'),
+        url('CircularStd-Book.ttf') format('truetype');
+    font-weight: normal;
     font-style: normal;
-  }
+}
+
