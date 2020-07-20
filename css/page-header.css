@@ -1,0 +1,112 @@
+.header {
+    background-color: rgb(248, 248, 248);
+    padding-left: 115px;
+    padding-right: 115px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.016);
+}
+.header .logo {
+    font-size: 45px;
+    background: rgb(0, 147, 233);
+    background: linear-gradient(
+        124deg,
+        rgba(0, 147, 233, 1) 0%,
+        rgba(128, 208, 199, 1) 100%
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+.header .social {
+    display: flex;
+    align-items: center;
+}
+.header .social .social__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+.header
+    .social
+    .social__list
+    .social__item {
+    border-radius: 50%;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 6px 20px rgba(black, 0.5);
+    transition: all 0.2s;
+    margin: 0 10px;
+}
+.header
+    .social
+    .social__list
+    .social__item
+    a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.header
+    .social
+    .social__list
+    .social__item
+    a
+    i.fab::before {
+    font-size: 30px;
+}
+.header
+    .social
+    .social__list
+    .social__item
+    a:hover {
+    transform: scale(1.1);
+}
+.header
+    .social
+    .social__list
+    .social__item--instagram
+    a {
+    color: #7c4a3a;
+}
+.header
+    .social
+    .social__list
+    .social__item--youtube
+    a {
+    color: #ff0000;
+}
+
+.dropdown__menu {
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.dropdown__menu a {
+    text-decoration: none;
+}
+
+.dropdown__menu a img {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.dropdown__menu .dropdown-menu {
+    margin-top: 20px;
+    margin-right: 100px;
+    border-radius: 5px;
+}
+
+.dropdown__menu .dropdown-menu .dropdown-item {
+    text-decoration: none;
+}
