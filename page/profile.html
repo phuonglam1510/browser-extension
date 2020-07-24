@@ -1,91 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Words Mine! tools for quick gathering of words"
+    />
+    <meta name="author" content="Goware JSC" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Words Mine! tools for quick gathering of words">
-    <meta name="author" content="Goware JSC">
-    
     <title>Profile</title>
 
-    <link rel="stylesheet" href="/static/font/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css">
-    <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/page-header.css">
-    <link rel="stylesheet" href="/css/common.css">
-</head>
+    <link rel="stylesheet" href="/static/font/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="/css/page-header.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+  </head>
 
-<body>
+  <body>
     <header class="header">
-        <div class="logo">
-            Words Mine!
-        </div>
-        <div class="social">
-            <ul class="social__list">
-                <li class="social__item social__item--facebook">
-                    <a href="">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                </li>
-                <li class="social__item social__item--instagram">
-                    <a href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </li>
-                <li class="social__item social__item--youtube">
-                    <a href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </li>
-                <li class="dropdown__menu">
-                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img
-                            src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1" />
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/page/profile.html">Profile</a>
-                        <a class="dropdown-item" href="/page/list-words.html">Settings</a>
-                        <p class="dropdown-item btn-logout">Logout</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
+      <div class="logo">
+        Words Mine!
+      </div>
+      <div class="social">
+        <ul class="social__list">
+          <li class="social__item social__item--facebook">
+            <a href="">
+              <i class="fab fa-facebook"></i>
+            </a>
+          </li>
+          <li class="social__item social__item--instagram">
+            <a href="">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </li>
+          <li class="social__item social__item--youtube">
+            <a href="">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </li>
+          <li class="dropdown__menu">
+            <a
+              class="dropdown-toggle"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <img
+                src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1"
+              />
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/page/profile.html">Profile</a>
+              <a class="dropdown-item" href="/page/list-words.html"
+                >Words Dashboard</a
+              >
+              <p class="dropdown-item btn-logout">Logout</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </header>
 
     <section class="profile__wrap">
-        <div class="profile__card card-container">
-            <span class="profile__type profile__pro">PRO</span>
-            <img class="profile__avatar"
-                src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1"
-                alt="user" />
-            <h3 class="profile__name">User</h3>
-            <!-- <p class="profile__email">Email</p>
+      <div class="profile__card card-container">
+        <span class="profile__type profile__pro">PRO</span>
+        <img
+          class="profile__avatar"
+          src="https://i2.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1"
+          alt="user"
+        />
+        <h3 class="profile__name">User</h3>
+        <!-- <p class="profile__email">Email</p>
             <p class="profile__count-words">Amount words</p>
             <p class="profile__progress">Progress</p> -->
-            <form>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control input-email" id="email" aria-describedby="emailHelp"
-                        value="goware@kie.io" readonly>
-                </div>
-                <!-- <div class="form-group">
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control input-email"
+              id="email"
+              aria-describedby="emailHelp"
+              value="goware@kie.io"
+              readonly
+            />
+          </div>
+          <!-- <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" value="goware">
                 </div> -->
-                <div class="form-group">
-                    <label for="join-date">Joined</label>
-                    <input type="text" class="form-control input-join" id="join-date" value="03/2014" readonly>
-                </div>
-            </form>
-            <div class="profile__delete pt-3">
-                <button class="btn profile__delete-button">DELETE ACCOUNT</button>
-                <p class="profile__warning">This account will no longer be available, and all your saved data will be
-                    permanently deleted.</p>
-            </div>
+          <div class="form-group">
+            <label for="join-date">Joined</label>
+            <input
+              type="text"
+              class="form-control input-join"
+              id="join-date"
+              value="03/2014"
+              readonly
+            />
+          </div>
+        </form>
+        <div class="profile__delete pt-3">
+          <button class="btn profile__delete-button">DELETE ACCOUNT</button>
+          <p class="profile__warning">
+            This account will no longer be available, and all your saved data
+            will be permanently deleted.
+          </p>
         </div>
-
+      </div>
     </section>
 
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
@@ -94,6 +123,5 @@
     <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/profile.js"></script>
-</body>
-
+  </body>
 </html>
