@@ -114,7 +114,7 @@ function saveFirstWordFromClipboard() {
    * Create a context menu which will show up anywhere.
    */
   chrome.contextMenus.create({
-    "title" : "Save Word From clipboard",
+    "title" : "Save Word From Clipboard",
     "type" : "normal",
     "contexts" : ["all"],
     "onclick" : saveFirstWordFromClipboard(),
