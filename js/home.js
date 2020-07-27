@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     let tmplTags = {
     };
     initTemplateTags();
@@ -9,6 +8,7 @@ $(document).ready(function () {
     showSelectedWords();
     showClipboardWords();
     showAllWords();
+    chrome.browserAction.setBadgeText({ text: '' });
 
     function showSelectedWords() {
         aha.util.listSelectedTexts(function (selections) {
