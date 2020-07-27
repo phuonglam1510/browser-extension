@@ -1,3 +1,4 @@
+
 // Copyright (c) 2011 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -5,6 +6,12 @@
 /**
  * Returns a handler which will open a new window when activated.
  */
+
+function setUnread() {
+  chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 128] });
+  chrome.browserAction.setBadgeText({ text: '.' });
+}
+
 function saveFirstSelectedWord() {
   return function (info, tab) {
 
@@ -33,6 +40,7 @@ function saveFirstSelectedWord() {
         }).
         done(function () {
           // alert("SUCCESSFULLY added word: '" + content + "'")
+          setUnread()
         });
     });
     // // The srcUrl property is only available for image elements.
@@ -94,9 +102,9 @@ function saveFirstWordFromClipboard() {
 
 (function () {
   var parentSaveWord = chrome.contextMenus.create({
-    "title" : "Save Word...",
-    "type" : "normal",
-    "contexts" : ["selection"],
+    "title": "Save Word...",
+    "type": "normal",
+    "contexts": ["selection"],
   });
 
   /**
@@ -114,10 +122,10 @@ function saveFirstWordFromClipboard() {
    * Create a context menu which will show up anywhere.
    */
   chrome.contextMenus.create({
-    "title" : "Save Word From Clipboard",
-    "type" : "normal",
-    "contexts" : ["all"],
-    "onclick" : saveFirstWordFromClipboard(),
+    "title": "Save Word From Clipboard",
+    "type": "normal",
+    "contexts": ["all"],
+    "onclick": saveFirstWordFromClipboard(),
     "parentId": parentSaveWord
   });
 
@@ -131,5 +139,3 @@ function saveFirstWordFromClipboard() {
     "onclick": saveFirstWordFromClipboard()
   });
 })()
-
-
