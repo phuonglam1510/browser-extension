@@ -94,7 +94,7 @@ function saveFirstWordFromClipboard() {
 
 (function () {
   var parentSaveWord = chrome.contextMenus.create({
-    "title" : "Save word...",
+    "title" : "Save Word...",
     "type" : "normal",
     "contexts" : ["selection"],
   });
