@@ -93,11 +93,11 @@ function saveFirstWordFromClipboard() {
 }
 
 (function () {
-  // var parentSaveWord = chrome.contextMenus.create({
-  //   "title" : "Save word...",
-  //   "type" : "normal",
-  //   "contexts" : ["selection"],
-  // });
+  var parentSaveWord = chrome.contextMenus.create({
+    "title" : "Save Word...",
+    "type" : "normal",
+    "contexts" : ["selection"],
+  });
 
   /**
    * Create a context menu which will only show up for selection.
@@ -107,19 +107,19 @@ function saveFirstWordFromClipboard() {
     "type": "normal",
     "contexts": ["selection"],
     "onclick": saveFirstSelectedWord(),
-    // "parentId": parentSaveWord
+    "parentId": parentSaveWord
   });
 
   /**
    * Create a context menu which will show up anywhere.
    */
-  // chrome.contextMenus.create({
-  //   "title" : "From clipboard",
-  //   "type" : "normal",
-  //   "contexts" : ["all"],
-  //   "onclick" : saveFirstWordFromClipboard(),
-  //   "parentId": parentSaveWord
-  // });
+  chrome.contextMenus.create({
+    "title" : "Save Word From Clipboard",
+    "type" : "normal",
+    "contexts" : ["all"],
+    "onclick" : saveFirstWordFromClipboard(),
+    "parentId": parentSaveWord
+  });
 
   /**
    * Create a context menu which will show up anywhere except selection.
