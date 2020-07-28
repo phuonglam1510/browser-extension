@@ -1,63 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Words Mine!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Words Mine! tools for quick gathering of words">
-    <meta name="author" content="Goware JSC">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <title>WordsMine!</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="WordsMine! tools for quick gathering of words"
+    />
+    <meta name="author" content="Goware JSC" />
+
     <title>Login</title>
 
-    <link rel="stylesheet" href="/static/font/style.css">
-    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css" >
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/header-popup.css">
-</head>
-<body>
-<main role="main" class="container-login">
-    <form class="form-login-custom form-login text-center container-fluid">
+    <link rel="stylesheet" href="/static/font/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap-4.0.0.min.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/header-popup.css" />
+  </head>
+  <body>
+    <main role="main" class="container-login">
+      <form class="form-login-custom form-login text-center container-fluid">
         <!-- <a class="navbar-brand font_WM" href="./home.html" target="_blank">Words Mine!</a> -->
 
-        <img class="mb-4" src="../static/img/logo.png" alt="" width="100">
+        <img class="mb-4" src="../static/img/logo.png" alt="" width="100" />
 
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        
+
         <div class="form-item">
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" value="" name="authEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input
+            type="email"
+            value=""
+            name="authEmail"
+            id="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+            required
+            autofocus
+          />
         </div>
 
         <div class="form-item">
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" value="" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        </div>        
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input
+            type="password"
+            value=""
+            name="password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
+        </div>
         <!-- <div class="checkbox check-box">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div> -->
-        <div class="login-alert alert alert-danger fade hide login-message" role="alert">
-            <div class="message"></div>
+        <div
+          class="login-alert alert alert-danger fade hide login-message"
+          role="alert"
+        >
+          <div class="message"></div>
         </div>
         <div class="btn-submit">
-            <button class="btn btn-lg btn-primary-custom btn-block" type="submit" disabled="disabled">Sign in</button>
+          <button
+            class="btn btn-lg btn-primary-custom btn-block"
+            type="submit"
+            disabled="disabled"
+          >
+            Sign in
+          </button>
         </div>
         <div class="signup mt-3">
-            <p class="signup__content" href="/page/signup.html">You do not have account? Click here to <a class="signup__link" href="/page/signup.html">Signup</a></p>
+          <p class="signup__content" href="/page/signup.html">
+            You do not have account? Click here to
+            <a class="signup__link" href="/page/signup.html">Signup</a>
+          </p>
         </div>
         <p class="mt-3 mb-3 text-muted">&copy; 2020-2030</p>
-    </form>
+      </form>
+    </main>
+    <!-- /.container -->
 
-</main><!-- /.container -->
-
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/js/lib/lodash-4.17.15.min.js"></script>
-<script src="/js/lib/jquery-3.5.1.min.js"></script>
-<script src="/js/lib/popper-1.12.9.min.js"></script>
-<script src="/js/lib/bootstrap-4.0.0.min.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/login.js"></script>
-</body>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/lib/lodash-4.17.15.min.js"></script>
+    <script src="/js/lib/jquery-3.5.1.min.js"></script>
+    <script src="/js/lib/popper-1.12.9.min.js"></script>
+    <script src="/js/lib/bootstrap-4.0.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/login.js"></script>
+  </body>
 </html>
