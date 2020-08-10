@@ -36,6 +36,7 @@ main {
     justify-content: space-between;
     align-items: center;
     padding: .2rem 1rem;
+    box-shadow: 0 6px 20px rgba(34,43,84,.05);
 }
 
 .home__icon-header a {

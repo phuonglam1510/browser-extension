@@ -87,8 +87,8 @@ $(document).ready(function () {
                 jUL.append(tmplTags.getEmptyWordsAlert());
 
                 // show total new words in welcome
-                const totalWordsContent = `You don't have any words. Let's collect some then add to WordMine now!`
-                $(".total-word-in-welcome").html(totalWordsContent)
+                // const totalWordsContent = `You don't have any new words.<br/>Let's collect some then add to WordMine now!`
+                // $(".total-word-in-welcome").html(totalWordsContent)
                 return;
             }
 
