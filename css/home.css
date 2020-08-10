@@ -9,7 +9,7 @@ main {
     min-height: 450px;
 }
 
-.home__container  {
+.home__container {
     padding-top: 1rem;
 }
 
@@ -24,32 +24,52 @@ main {
 
 .navbar-toggler:focus {
     outline-color: #00a0fc3a !important;
-
 }
 
 .list-word {
     padding-bottom: 2rem;
 }
-        
+
 .home__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .2rem 1rem;
-    box-shadow: 0 6px 20px rgba(34,43,84,.05);
+    padding: 0.2rem 1rem;
+    box-shadow: 0 6px 20px rgba(34, 43, 84, 0.05);
+}
+
+.home__icon-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .home__icon-header a {
     font-size: 1.45rem;
     color: #2c3457;
-    padding: 0 .2rem;
-    transition: all .2s;
+    padding: 0 0.2rem;
+    transition: all 0.2s;
 }
 
 .home__icon-header a:hover {
     font-size: 1.4rem;
-    color: #0093E9;
+    color: #0093e9;
     text-decoration: none;
+}
+
+.home__icon-header .dashboard {
+    margin-top: 5px;
+}
+
+.home__icon-header a svg {
+    width: 24px;
+    height: 24px;
+}
+
+.home__icon-header a:hover svg {
+    fill: #0093e9;
+    width: 23px;
+    height: 23px;
 }
 
 .welcome {
@@ -58,6 +78,6 @@ main {
 }
 
 .total-word-in-welcome .total-number {
-    background-color: #FEBB0B;
-    padding: 0 .5rem;
+    background-color: #febb0b;
+    padding: 0 0.5rem;
 }
