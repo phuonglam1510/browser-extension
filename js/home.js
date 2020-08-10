@@ -76,14 +76,26 @@ $(document).ready(function () {
             let selectedWords = aha.util.splitWords(selections);
             let clipboardWords = aha.util.splitWords(clTxt);
             let words = aha.util.sortWords(aha.util.distinctWords(selectedWords.concat(clipboardWords)));
+
+            
+            
             if (!words || !words.length) {
                 jCounter.
-                    addClass("badge-secondary").
-                    removeClass("badge-primary").
-                    text("0");
+                addClass("badge-secondary").
+                removeClass("badge-primary").
+                text("0");
                 jUL.append(tmplTags.getEmptyWordsAlert());
+
+                // show total new words in welcome
+                const totalWordsContent = `You don't have any words. Let's collect some then add to WordMine now!`
+                $(".total-word-in-welcome").html(totalWordsContent)
                 return;
             }
+
+            // show total new words in welcome
+            const totalWords = words.length
+            const totalWordsContent = `You have <span class="total-number">${totalWords}</span> new word${totalWords > 1 ? 's':''}.`
+            $(".total-word-in-welcome").html(totalWordsContent)
 
             jCounter.
                 addClass("badge-primary").
