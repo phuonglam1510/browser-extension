@@ -382,7 +382,7 @@ let aha = {};
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                console.log("result: ", result)
+                // console.log("result: ", result)
                 listWords = result
                 updateTotalWord()
                 onPagination(1)
