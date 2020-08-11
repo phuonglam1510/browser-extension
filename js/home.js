@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    // enable tooltip css
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
     let tmplTags = {
     };

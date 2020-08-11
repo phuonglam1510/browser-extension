@@ -23,17 +23,17 @@ $(document).ready(function () {
 
     $(".btn-logout").click(aha.onClickLogout)
 
-    function getCookie() {
-        chrome.cookies.get({ url: 'http://localhost:3002/', name: 'tokenUser' },
-            function (cookie) {
-                if (cookie) {
-                    console.log(cookie.value);
-                }
-                else {
-                    console.log('Can\'t get cookie! Check the name!');
-                }
-            });
-    }
+    // function getCookie() {
+    //     chrome.cookies.get({ url: 'http://localhost:3002/', name: 'tokenUser' },
+    //         function (cookie) {
+    //             if (cookie) {
+    //                 console.log(cookie.value);
+    //             }
+    //             else {
+    //                 console.log('Can\'t get cookie! Check the name!');
+    //             }
+    //         });
+    // }
 
-    $(".profile__delete-button").click(getCookie)
+    // $(".profile__delete-button").click(getCookie)
 })
