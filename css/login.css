@@ -3,7 +3,7 @@ body {
 }
 
 .container-login {
-    padding-top: 4rem;
+    padding-top: 1rem;
 }
 
 .form-login-custom .form-item {
@@ -12,7 +12,7 @@ body {
 
 .form-login-custom .check-box {
     margin-top: 1rem;
-    color: #8F9BB3;
+    color: #8f9bb3;
 }
 
 .form-login-custom .btn-submit {
@@ -21,5 +21,37 @@ body {
 }
 
 .form-login-custom .login-message {
-    margin: .5rem auto;
+    margin: 0.5rem auto;
 }
+
+.btn-google-wrap {
+    text-align: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-google-wrap .or-line {
+    margin-top: 1rem;
+    color: #999;
+    background-color: #fff;
+    position: relative;
+    width: 100%;
+}
+
+.btn-google-wrap .or-line div {
+    display: inline;
+    background-color: #fff;
+    z-index: 10;
+}
+/* .btn-google-wrap .or-line::after {
+    position: absolute;
+    content: "";
+    background-color: red;
+    width: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+} */

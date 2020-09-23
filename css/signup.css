@@ -33,29 +33,6 @@ body {
     color: #fff;
 }
 
-.btn-google {
-    background-color: #de5246;
-    color: #fff;
-    border-radius: 30px;
-    width: fit-content;
-    padding: .5rem 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btn-google:hover {
-    color: #fff;
-}
-
-.btn-google .icon {
-    margin-right: 1.5rem;
-}
-
-.btn-google .title {
-    font-size: 16px;
-}
-
 .btn-create-wrap {
     display: flex;
     justify-content: center;
