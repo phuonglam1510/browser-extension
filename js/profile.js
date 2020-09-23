@@ -7,7 +7,7 @@ $(document).ready(function () {
     aha.apiGetUserProfile().
         done(function (profile) {
             if (!profile.lastName) {
-                $(".profile__name").text('Wordminer')
+                $(".profile__name").text('Wordsminer')
             } else {
                 $(".profile__name").text(profile.authName.toUpperCase())
             }
