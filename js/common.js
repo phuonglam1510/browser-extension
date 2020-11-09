@@ -331,14 +331,15 @@ let aha = {};
         }
     }
 
-    function openModalDeleteAskAgain() {
-
+    function openModalDeleteAskAgain(word) {
+        $('#askDeleteModal').modal('show');
+        $(".delete-msg").text(`Delete "${word}"?`)
     }
 
     function onPagination(page) {
         currentPage = page
         const list = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
-
+        let word;
         $(".list-words").html(list)
 
         // update pagination UI
@@ -363,26 +364,25 @@ let aha = {};
             }
         });
 
+        $(".m-delete").click(function(e){
+            deleteWord(word);
+            $(".m-cancel").click()
+        });
+
         $(".btn-delete").click(function (e) {
             e.stopPropagation()
-            $('#askDeleteModal').modal('show');
-            const word = e.target.id
-            $(".delete-msg").text(`Delete "${word}"?`)
-            if($(".m-delete").data('clicked')) {
-                console.log("delete");
-                deleteWord(word);
-            }
-            
+            word = e.target.id
+            openModalDeleteAskAgain(word)
         });
 
         $(".word-item-checkbox").click(function (e) {
             e.stopPropagation()
-            const word = e.target.id
+            word = e.target.id
             updateListWordsChecked(word, e.target.checked)
         });
 
         $(".word-item-edit").click(async function (e) {
-            const word = e.target.id
+            word = e.target.id
             openModalEditWord(word)
             $(".list-definition").html('<div class="loader"></div>')
             await showListSuggestDefinition(word)

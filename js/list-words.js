@@ -85,6 +85,11 @@ $(document).ready(function () {
         $(".word-wrap").show()
         $("#modal-edit-word__input-word").hide()
     })
+
+    $(".close").click(function (e) {
+        $(".word-wrap").show()
+        $("#modal-edit-word__input-word").hide()
+    })
 });
 
 function validateWord(word) {
