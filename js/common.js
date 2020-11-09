@@ -221,7 +221,7 @@ let aha = {};
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
                 `<input class="word-item-checkbox" type="checkbox" id="${word}">`
             }
-                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
+                <div class="delete"><p class="lnr lnr-trash btn-delete" data-toggle="modal" data-target="#askDeleteModal" id="${word}"></p></div>
                 <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
             </div>
         </div>
@@ -331,6 +331,10 @@ let aha = {};
         }
     }
 
+    function openModalDeleteAskAgain() {
+
+    }
+
     function onPagination(page) {
         currentPage = page
         const list = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
@@ -361,8 +365,14 @@ let aha = {};
 
         $(".btn-delete").click(function (e) {
             e.stopPropagation()
+            $('#askDeleteModal').modal('show');
             const word = e.target.id
-            deleteWord(word)
+            $(".delete-msg").text(`Delete "${word}"?`)
+            if($(".m-delete").data('clicked')) {
+                console.log("delete");
+                deleteWord(word);
+            }
+            
         });
 
         $(".word-item-checkbox").click(function (e) {
@@ -411,10 +421,13 @@ let aha = {};
                     ''
                 }
                                         <div class="add-btn list-group-item-add-btn">
-                                            <span class="icon">&#43;</span>
-                                            <span class="status">
-                                            ${currentEditedWord.definition.includes(item.definition) ? BTN_ADD_DEFINITION.ADDED : BTN_ADD_DEFINITION.NOT_ADDED}
-                                            </span>
+                                        ${
+                                            currentEditedWord.definition.includes(item.definition) ? 
+                                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                        }
+                                            
+                                    
                                         </div>
                     </li>`
         })
@@ -469,6 +482,8 @@ let aha = {};
             const item = e.target.parentElement.parentElement
             const definition = item.getElementsByClassName("definition")[0].textContent
             const btnAdd = item.querySelector(".list-group-item-add-btn .status")
+            const btnIcon = item.querySelector(".list-group-item-add-btn .icon")
+
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
@@ -478,8 +493,14 @@ let aha = {};
                 currentEditedWord.definition = result.definition
                 if (result.isAdded) {
                     btnAdd.textContent = "Added"
+                    btnIcon.innerHTML = '&#8211;'
+                    btnAdd.classList.add("btn-remove")
+                    btnIcon.classList.add("btn-remove")
                 } else {
                     btnAdd.textContent = "Add to my definition"
+                    btnIcon.innerHTML = '&#43;'
+                    btnAdd.classList.remove("btn-remove")
+                    btnIcon.classList.remove("btn-remove")
                 }
                 // update UI
                 const s = formatDefinitionFromRawString(result.definition)
