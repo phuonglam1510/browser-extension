@@ -420,11 +420,11 @@ let aha = {};
                     `<div class="example">${example}</div>` :
                     ''
                 }
-                                        <div class="add-btn list-group-item-add-btn">
+                                        <div class="add-btn">
                                         ${
                                             currentEditedWord.definition.includes(item.definition) ? 
-                                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
-                                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                                `<span class="icon btn-remove list-group-item-add-btn">&#8211;</span> <span class="status btn-remove list-group-item-add-btn">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                                `<span class="icon list-group-item-add-btn">&#43;</span> <span class="status list-group-item-add-btn">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
                                         }
                                             
                                     
@@ -481,8 +481,8 @@ let aha = {};
             e.stopPropagation()
             const item = e.target.parentElement.parentElement
             const definition = item.getElementsByClassName("definition")[0].textContent
-            const btnAdd = item.querySelector(".list-group-item-add-btn .status")
-            const btnIcon = item.querySelector(".list-group-item-add-btn .icon")
+            const btnAdd = item.querySelector(".status")
+            const btnIcon = item.querySelector(".icon")
 
             // update in db 
             try {
