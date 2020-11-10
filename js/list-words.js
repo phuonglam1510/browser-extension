@@ -30,24 +30,19 @@ $(document).ready(function () {
         }
     });
 
-    $(".list-words__delete-all").click(function (e) {
+    $(".m-delete").click(function(e){
         aha.deleteMultipleWord()
         $('.checkbox-check-all').prop('checked', false)
     });
 
+    $(".list-words__delete-all").click(function () {
+        aha.openModalDeleteAskAgain()
+        
+    });
+
     $(".handle-save-word").click(async function (e) {
+        checkWordInModal()
         let newWord = $("#modal-edit-word__input-word").val().trim()
-        let message = validateWord(newWord)
-        clearMessageModalEdit()
-
-        if (message) {
-            $(".modal-edit-word-msg").addClass("alert alert-danger")
-            $(".modal-edit-word-msg").text(message)
-            $("#modal-edit-word__input-word").focus()
-
-            return
-        }
-
         let definition = $("#modal-edit-word-definition").val().trim()
         definition = aha.formatDefinitionIntoRawString(definition)
 
@@ -74,19 +69,35 @@ $(document).ready(function () {
 
     $(".btn-logout").click(aha.onClickLogout)
     $(".modal-edit-word__word").click(function (e) {
+        e.stopPropagation()
         $(".word-wrap").hide()
         $("#modal-edit-word__input-word").show()
         $("#modal-edit-word__input-word").focus()
-
     })
     
     // reset UI modal edit word: word in input word
-    $(".handle-close-modal-edit").click(function (e) {
+    $(".handle-close-modal-edit").click(function () {
         $(".word-wrap").show()
         $("#modal-edit-word__input-word").hide()
     })
 
     $(".close").click(function (e) {
+        $(".word-wrap").show()
+        $("#modal-edit-word__input-word").hide()
+    })
+
+    $(".modal-content").click(async function (e) {
+        const originalWord = $(".modal-edit-word__word").text();
+        checkWordInModal()
+        const newWord = $("#modal-edit-word__input-word").val()
+        $(".modal-edit-word__word").text(newWord)
+        
+
+        //update definitions
+        if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
+            $(".list-definition").html('<div class="loader"></div>')
+            await aha.showListSuggestDefinition(newWord)
+        }
         $(".word-wrap").show()
         $("#modal-edit-word__input-word").hide()
     })
@@ -109,4 +120,19 @@ function isOnlyString(word) {
 function clearMessageModalEdit() {
     $(".modal-edit-word-msg").removeClass("alert alert-danger")
     $(".modal-edit-word-msg").text("")
+}
+
+function checkWordInModal() {
+    let newWord = $("#modal-edit-word__input-word").val().trim()
+    let message = validateWord(newWord)
+    clearMessageModalEdit()
+
+    if (message) {
+        $(".modal-edit-word-msg").addClass("alert alert-danger")
+        $(".modal-edit-word-msg").text(message)
+        $("#modal-edit-word__input-word").focus()
+
+        return
+    }
+
 }

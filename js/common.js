@@ -44,6 +44,7 @@ let aha = {};
     aha.unCheckAllWords = unCheckAllWords
     aha.onPaginationListWord = onPagination
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
+    aha.openModalDeleteAskAgain = openModalDeleteAskAgain
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -333,7 +334,12 @@ let aha = {};
 
     function openModalDeleteAskAgain(word) {
         $('#askDeleteModal').modal('show');
-        $(".delete-msg").text(`Delete "${word}"?`)
+        if (word !== undefined) {
+            $(".delete-msg").text(`Delete "${word}"?`)
+        }
+        else {
+            $(".delete-msg").text('Delete selected word(s)?')
+        }
     }
 
     function onPagination(page) {
@@ -420,11 +426,11 @@ let aha = {};
                     `<div class="example">${example}</div>` :
                     ''
                 }
-                                        <div class="add-btn">
+                                        <div class="add-btn list-group-item-add-btn">
                                         ${
                                             currentEditedWord.definition.includes(item.definition) ? 
-                                                `<span class="icon btn-remove list-group-item-add-btn">&#8211;</span> <span class="status btn-remove list-group-item-add-btn">${BTN_ADD_DEFINITION.ADDED}</span>` : 
-                                                `<span class="icon list-group-item-add-btn">&#43;</span> <span class="status list-group-item-add-btn">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
                                         }
                                             
                                     
@@ -644,4 +650,6 @@ let aha = {};
     function sortWords(arr) {
         return arr.sort();
     }
+
+    
 })($ || jQuery);

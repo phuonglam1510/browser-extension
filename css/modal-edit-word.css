@@ -83,7 +83,7 @@
 .list-group-item .add-btn {
     text-align: right;
     color: #0093E9;
-    /* cursor: pointer; */
+    cursor: pointer;
     margin-top: 1rem;
 }
 

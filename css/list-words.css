@@ -347,7 +347,7 @@ body {
     background-color: transparent;
 }
 
-.btn-checkbox {
+.btn-primary {
     font-size: 20px;
     background-color: transparent;
     border: none;
@@ -357,7 +357,7 @@ body {
     cursor: pointer;
 }
 
-.btn-checkbox input {
+.btn-primary input {
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -368,12 +368,12 @@ body {
     cursor: pointer;
 }
 
-.btn-checkbox:hover {
+.btn-primary:hover {
     background-color: transparent;
     border: none;
 }
 
-.btn-checkbox:active {
+.btn-primary:active {
     background-color: transparent !important;
     border: none;
 }
