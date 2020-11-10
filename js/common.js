@@ -479,10 +479,10 @@ let aha = {};
         $(".list-definition").html(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
-            const item = e.target.parentElement.parentElement
-            const definition = item.getElementsByClassName("definition")[0].textContent
-            const btnAdd = item.querySelector(".status")
-            const btnIcon = item.querySelector(".icon")
+            // const item = e.target
+            const definition = this.parentElement.getElementsByClassName("definition")[0].textContent
+            const btnAdd = this.querySelector(".status")
+            const btnIcon = this.querySelector(".icon")
 
             // update in db 
             try {
