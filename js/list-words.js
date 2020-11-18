@@ -35,20 +35,27 @@ $(document).ready(function () {
         $('.checkbox-check-all').prop('checked', false)
     });
 
+    $(".m-cancel").click(function(){
+        aha.unCheckAllWords()
+        aha.onPaginationListWord(currentPage);
+    });
+
     $(".list-words__delete-all").click(function () {
         aha.openModalDeleteAskAgain()
-        
     });
 
     $(".handle-save-word").click(async function (e) {
         checkWordInModal()
         let newWord = $("#modal-edit-word__input-word").val().trim()
         let definition = $("#modal-edit-word-definition").val().trim()
+        
         definition = aha.formatDefinitionIntoRawString(definition)
 
         await aha.updateWord(currentEditedWord.word, newWord, definition)
+        
         // close modal
         $(".handle-close-modal-edit").click()
+        
     });
 
     $(".checkbox-check-all").click(function (e) {
@@ -96,12 +103,48 @@ $(document).ready(function () {
         //update definitions
         if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
             $(".list-definition").html('<div class="loader"></div>')
+            console.log("assssss")
             await aha.showListSuggestDefinition(newWord)
+            await aha.showPronunciation(newWord)
         }
         $(".word-wrap").show()
         $("#modal-edit-word__input-word").hide()
     })
+
+    $(".sort-alpha").click(function () {  
+        listWords = listWords.sort(compareAlpha)
+        aha.updateTotalWord()
+        aha.onPaginationListWord(1)
+    })
+
+    $(".sort-time").click(function () {   
+        listWords = listWords.sort(compareDate)
+        aha.updateTotalWord()
+        aha.onPaginationListWord(1)
+    })
+
+    
 });
+
+function compareAlpha( a, b ) {
+    if ( a.word.toLowerCase() < b.word.toLowerCase() ){
+      return -1;
+    }
+    if ( a.word.toLowerCase() > b.word.toLowerCase() ){
+      return 1;
+    }
+    return 0;
+}
+
+function compareDate( a, b ) {
+    if ( a.createdAt < b.createdAt ){
+      return -1;
+    }
+    if ( a.createdAt > b.createdAt ){
+      return 1;
+    }
+    return 0;
+}
 
 function validateWord(word) {
     if (!word) {

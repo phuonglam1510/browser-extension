@@ -14,11 +14,11 @@ function setUnread() {
 
 function saveFirstSelectedWord() {
   return function (info, tab) {
-
     aha.util.listSelectedTexts(function (selections) {
       // console.log("Selected texts: ", selections);
 
       let words = aha.util.splitWords(selections);
+      localStorage.setItem("words", words);
       if (!words || !words.length) {
         alert("No word found!");
         return;
@@ -36,10 +36,13 @@ function saveFirstSelectedWord() {
         always(function () {
         }).
         fail(function (err) {
-          alert("failed to add word with error " + err.responseText);
+          alert("failed to add word with this bbbbbb error " + err.responseText);
+
         }).
         done(function () {
-          // alert("SUCCESSFULLY added word: '" + content + "'")
+          //alert("SUCCESSFULLY added word: '" + content + "'")
+
+          // alert(document.all[0].innerText)
           setUnread()
         });
     });

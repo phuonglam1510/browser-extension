@@ -10,6 +10,15 @@ let aha = {};
         return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
+    const baseUrlSecond = "http://127.0.0.1:5000"
+    function createURL(path, paramsObj) {
+        let recursiveEncodedParams = "";
+        if (paramsObj) {
+            recursiveEncodedParams += $.param(paramsObj);
+        }
+        return baseUrlSecond + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
+    }
+
     aha.util = {
         firstLine: firstLine,
         getClipboardText: getClipboardText,
@@ -17,11 +26,12 @@ let aha = {};
         listActiveTabs: listActiveTabs,
         splitWords: splitWords,
         distinctWords: distinctWords,
-        sortWords: sortWords,
+        // sortWords: sortWords,
         formatWord: formatWord
     };
     aha.baseUrl = baseUrl;
     aha.buildUrl = buildUrl;
+    aha.createURL = createURL;
     aha.apiGetUserProfile = apiGetUserProfile;
     aha.apiRegister = apiRegister;
     aha.apiLogin = apiLogin;
@@ -31,6 +41,7 @@ let aha = {};
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
+    aha.apiShowPronunciation = apiShowPronunciation
     aha.apiUpdateWord = apiUpdateWord;
     aha.formatDayMonthYear = formatDayMonthYear;
 
@@ -45,7 +56,8 @@ let aha = {};
     aha.onPaginationListWord = onPagination
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
     aha.openModalDeleteAskAgain = openModalDeleteAskAgain
-
+    aha.updateTotalWord = updateTotalWord
+    
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
 
@@ -111,6 +123,10 @@ let aha = {};
         return $.when($.ajax(buildUrl(`/api/word/lookup?word=${word}`)));
     }
 
+    function apiShowPronunciation(word) {
+        return $.when($.ajax(createURL(`/api/word/lookup?word=${word}`)));
+    }
+
     function apiDeleteWord(word) {
         return $.when($.ajax({
             url: buildUrl(`/api/word?word=${word}`),
@@ -135,10 +151,12 @@ let aha = {};
     function updateWord(word, newWord, definition) {
         // compare before call api
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
+            
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
+                    // console.log(result)
                     return true
                 }).
                 fail(function (jqXHR) {
@@ -211,7 +229,7 @@ let aha = {};
             <h1 class="word">${word}</h1>
           </div>
           <div class="flip-card-back">
-            <h1 class="definition">${formatDefinitionFromRawString(definition) || 'Definition is empty'}</h1>  
+            <div class="definition">${formatDefinitionFromRawString(definition) || ''}</div>  
           </div>
         </div>
         <div class="detail-wrap">
@@ -388,17 +406,20 @@ let aha = {};
         });
 
         $(".word-item-edit").click(async function (e) {
+            // e.stopPropagation()
             word = e.target.id
             openModalEditWord(word)
             $(".list-definition").html('<div class="loader"></div>')
             await showListSuggestDefinition(word)
+            await showPronunciation(word)
         });
+        
     }
 
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                // console.log("result: ", result)
+                //console.log("result: ", result)
                 listWords = result
                 updateTotalWord()
                 onPagination(1)
@@ -520,13 +541,36 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
-                // console.log("def: ", result)
+                //  console.log("def: ", result)
                 showListSuggestDefintionHTML(result)
-                $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+                // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
             }).
             fail(function (jqXHR) {
                 $(".list-definition").html('<div class="empty">(Empty)</div>')
             });
+    }
+
+    function showPronunciation(word) {
+        $(".modal-edit-word-pronunciation").html('')
+        $(".lnr-volume-high").hide()
+        aha.apiShowPronunciation(word).
+            done(function(result) {
+                if (result != "Error") {
+                    // $(".modal-edit-word-pronunciation").html(result)
+                    $(".lnr-volume-high-wrap").html('<span class="lnr lnr-volume-high"></span>')
+                    $(".lnr-volume-high").click(function() {
+                        var audio = new Audio(result);
+                        audio.play();
+                    })
+                }
+                else {
+                    $(".lnr-volume-high-wrap").html(`<div class="modal-edit-word-pronunciation">(Pronunciation is empty)</div>`)
+                }
+            })
+            // fail(function () {
+            //     // console.log("error:", JSON.stringify(jqXHR))
+            //     // $(".modal-edit-word-pronunciation").html(`<i>(Pronunciation is empty)</i>`)
+            // });
     }
 
     function checkLogin() {
@@ -647,9 +691,9 @@ let aha = {};
         return _.uniq(arr);
     }
 
-    function sortWords(arr) {
-        return arr.sort();
-    }
+    // function sortWords(arr) {
+    //     return arr.sort();
+    // }
 
     
 })($ || jQuery);

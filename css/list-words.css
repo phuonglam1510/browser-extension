@@ -208,7 +208,7 @@ body {
 .flip-card {
     background-color: transparent;
     width: 350px;
-    height: 150px;
+    height: 190px;
     perspective: 1000px;
     margin-bottom: 100px;
 }
@@ -270,7 +270,7 @@ body {
 }
 
 .flip-card-back .definition {
-    font-size: 22px;
+    font-size: 16px;
     margin: 0;
     display: -webkit-box;
     word-wrap: break-word;
@@ -279,6 +279,9 @@ body {
     overflow-y: hidden;
     text-overflow: ellipsis;
     white-space: pre-line;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 /* .flip-card-back .delete {
@@ -426,3 +429,57 @@ body {
         padding: 20px;
     }
 }
+
+.lnr-sort-amount-asc {
+    color: white;
+    cursor: pointer;
+    font-size: 1.9rem;
+}
+
+.lnr-volume-high {
+    color: #8F9BB3;
+    cursor: pointer;
+    font-size: 1.9rem;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    cursor: pointer;
+    border-radius: 5px;
+    
+  }
+  
+  .dropdown-content p {
+    color: #6c757d;
+    margin-bottom: 0;
+    padding: 3px 12px;
+    text-decoration: none;
+    display: block;
+    display: flex;
+    justify-content: left;
+  }
+  
+  .dropdown-content p:hover {
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+
+  }
+  
+  .dropdown:hover .lnr-sort-amount-asc {
+    color: #fcfcfcc4;
+    
+  }

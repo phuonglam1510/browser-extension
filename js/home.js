@@ -12,6 +12,9 @@ $(document).ready(function () {
     showSelectedWords();
     showClipboardWords();
     showAllWords();
+    // let arr = document.querySelectorAll(".words-detected.list-group li");
+    let content = localStorage.getItem("words");
+
     chrome.browserAction.setBadgeText({ text: '' });
 
     function showSelectedWords() {
@@ -20,7 +23,7 @@ $(document).ready(function () {
             let jUL = $(".words-selected").empty();
             let jCounter = $(".words-selected-count");
 
-            let words = aha.util.sortWords(aha.util.distinctWords(aha.util.splitWords(selections)));
+            let words = aha.util.distinctWords(aha.util.splitWords(selections));
             if (!words || !words.length) {
                 jCounter.
                     addClass("badge-secondary").
@@ -38,6 +41,9 @@ $(document).ready(function () {
                 let tag = tmplTags.getSingleWord();
                 tag.children(".content").text(word);
                 jUL.append(tag);
+                if (content.includes(word)) {
+                    tag.children(".added-btn").addClass("btn-success").removeClass("btn-outline-success").prop('disabled', true).text("Added!")
+                }
             });
         })
     }
@@ -50,7 +56,7 @@ $(document).ready(function () {
         let jUL = $(".words-in-clipboard").empty();
         let jCounter = $(".words-in-clipboard-count");
 
-        let words = aha.util.sortWords(aha.util.distinctWords(aha.util.splitWords(clTxt)));
+        let words = aha.util.distinctWords(aha.util.splitWords(clTxt));
         if (!words || !words.length) {
             jCounter.
                 addClass("badge-secondary").
@@ -79,7 +85,7 @@ $(document).ready(function () {
 
             let selectedWords = aha.util.splitWords(selections);
             let clipboardWords = aha.util.splitWords(clTxt);
-            let words = aha.util.sortWords(aha.util.distinctWords(selectedWords.concat(clipboardWords)));
+            let words = aha.util.distinctWords(selectedWords.concat(clipboardWords));
 
             
             
@@ -109,6 +115,9 @@ $(document).ready(function () {
                 let tag = tmplTags.getSingleWord();
                 tag.children(".content").text(word);
                 jUL.append(tag);
+                if (content.includes(word)) {
+                    tag.children(".added-btn").addClass("btn-success").removeClass("btn-outline-success").prop('disabled', true).text("Added!")
+                }
             });
         });
     }
