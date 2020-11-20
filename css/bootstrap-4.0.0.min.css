@@ -5910,7 +5910,7 @@ button.close {
     min-height: calc(100% - (.5rem * 2))
 }
 
-.modal-content {
+.modal-content, .modal-content-add-new-word {
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;

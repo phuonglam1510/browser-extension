@@ -430,10 +430,10 @@ body {
     }
 }
 
-.lnr-sort-amount-asc {
+.lnr-sort-amount-asc, .lnr-plus-circle {
     color: white;
     cursor: pointer;
-    font-size: 1.9rem;
+    font-size: 1.7rem;
 }
 
 .lnr-volume-high {
@@ -441,6 +441,7 @@ body {
     cursor: pointer;
     font-size: 1.9rem;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;

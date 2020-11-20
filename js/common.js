@@ -48,6 +48,7 @@ let aha = {};
     aha.checkLogin = checkLogin;
     aha.showListSavedWords = showListSavedWords;
     aha.showListSuggestDefinition = showListSuggestDefinition;
+    aha.showPronunciation = showPronunciation
     aha.deleteWord = deleteWord;
     aha.deleteMultipleWord = deleteMultipleWord;
     aha.updateWord = updateWord
@@ -57,7 +58,8 @@ let aha = {};
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
     aha.openModalDeleteAskAgain = openModalDeleteAskAgain
     aha.updateTotalWord = updateTotalWord
-    
+    aha.openModalNewWord = openModalNewWord
+
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
 
@@ -151,18 +153,22 @@ let aha = {};
     function updateWord(word, newWord, definition) {
         // compare before call api
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
-            
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
                     // console.log(result)
                     return true
+                    
                 }).
                 fail(function (jqXHR) {
                     return false
                 });
         }
+    }
+
+    function addNewWord(newWord, definition) {
+
     }
 
     function updateListWordAfterUpdate(word, newItem) {
@@ -350,6 +356,21 @@ let aha = {};
         }
     }
 
+    function openModalNewWord () {
+        // $("#modal-edit-word__input-word").val('testttt')
+        // $(".modal-edit-word__word").text('')
+        // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+        // alert("before focus")
+        $("#addNewWordModal").on('shown.bs.modal', function(){
+            $("#modal-add-new-word__input-word").show();
+            $("#modal-add-new-word__input-word").focus();
+        });
+        $("#addNewWordModal").modal('show');
+        $(".word-wrap").hide()
+        $(".lnr-volume-high-wrap").hide()
+        $(".list-definition").html('<div class="empty">(Empty)</div>')
+    }
+
     function openModalDeleteAskAgain(word) {
         $('#askDeleteModal').modal('show');
         if (word !== undefined) {
@@ -449,9 +470,13 @@ let aha = {};
                 }
                                         <div class="add-btn list-group-item-add-btn">
                                         ${
-                                            currentEditedWord.definition.includes(item.definition) ? 
-                                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                            currentEditedWord != null ?
+                                                currentEditedWord.definition.includes(item.definition) ? 
+                                                    `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                                    `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                                :
                                                 `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+
                                         }
                                             
                                     
@@ -497,6 +522,7 @@ let aha = {};
     }
 
     function showListSuggestDefintionHTML(data) {
+        // console.log("in the definition list show")
         const { meanings } = data
         let list = ""
         for (const [key, value] of Object.entries(meanings)) {
@@ -541,8 +567,8 @@ let aha = {};
     function showListSuggestDefinition(word) {
         aha.apiListSuggestDefintion(word).
             done(function (result) {
-                //  console.log("def: ", result)
-                showListSuggestDefintionHTML(result)
+                 console.log("def: ", result)
+                showListSuggestDefintionHTML(result);
                 // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
             }).
             fail(function (jqXHR) {
@@ -551,10 +577,10 @@ let aha = {};
     }
 
     function showPronunciation(word) {
-        $(".modal-edit-word-pronunciation").html('')
-        $(".lnr-volume-high").hide()
+        $(".lnr-volume-high-wrap").html('')
         aha.apiShowPronunciation(word).
             done(function(result) {
+                console.log("pronun: ", result)
                 if (result != "Error") {
                     // $(".modal-edit-word-pronunciation").html(result)
                     $(".lnr-volume-high-wrap").html('<span class="lnr lnr-volume-high"></span>')

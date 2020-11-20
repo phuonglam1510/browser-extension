@@ -1,28 +1,28 @@
-.modal-edit-word .modal-dialog {
+.modal-edit-word .modal-dialog, .modal-add-new-word .modal-dialog  {
     width: 90vw;
     max-width: 70vw;
 }
 
-.modal-edit-word__body {
+.modal-edit-word__body, .modal-add-new-word__body {
     display: flex;
     height: 80vh;
     justify-content: space-between;
 
 }   
 
-.modal-edit-word__column {
+.modal-edit-word__column, .modal-add-new-word__column {
     flex: 1;
 }
 
-.modal-edit-word__left {
+.modal-edit-word__left, .modal-add-new-word__left {
     margin-right: 1rem;
 }
-.modal-edit-word__right {
+.modal-edit-word__right, .modal-add-new-word__right {
     overflow-y: auto;
     margin-left: 1rem;
 }
 
-.modal-edit-word .title {
+.modal-edit-word .title, .modal-add-new-word .title {
     /* margin-top: 1rem; */
     font-size: 1.5rem;
     margin-bottom: 1rem;
@@ -30,11 +30,11 @@
     color: #222B54;
 }
 
-.modal-edit-word .word-wrap {
+.modal-edit-word .word-wrap, .modal-add-new-word .word-wrap {
     position: relative;
     margin-bottom: 1rem;
 }
-.modal-edit-word .word-wrap::after {
+.modal-edit-word .word-wrap::after, .modal-add-new-word .word-wrap::after {
     position: absolute;
     content: '';
     width: 100%;
@@ -43,20 +43,20 @@
     margin-top: .8rem;
 }  
 
-#modal-edit-word__input-word {
+#modal-edit-word__input-word, #modal-add-new-word__input-word {
     display: none;
 }
 
-.modal-edit-word .instruction {
+.modal-edit-word .instruction, .modal-add-new-word .instruction {
     color: #8F9BB3;
     font-style: italic;
 }
 
-.modal-edit-word .btn-footer {
+.modal-edit-word .btn-footer, .modal-add-new-word .btn-footer {
     width: 7rem;
 }
 
-.modal-edit-word__word {
+.modal-edit-word__word, .modal-add-new-word__word {
     font-size: 2.5rem;
     background: rgb(0, 147, 233);
     background: linear-gradient( to right, #0093E9 -50%, #80D0C7);
@@ -68,11 +68,11 @@
     cursor: pointer;
 }
 
-.modal-edit-word-pronunciation {
+.modal-edit-word-pronunciation, .modal-add-new-word-pronunciation {
     color: #8F9BB3;
     padding: .375rem .75rem;
 }
-.modal-edit-word__input {
+.modal-edit-word__input, .modal-add-new-word__input {
     border-radius: 15px !important;
 }
 
