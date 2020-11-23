@@ -46,6 +46,11 @@ $(document).ready(function () {
 
     $(".handle-save-word").click(async function (e) {
         e.stopPropagation()
+
+
+
+  
+
         if (checkWordInModal() != "error") {
             let newWord = $("#modal-edit-word__input-word").val().trim()
             let definition = $("#modal-edit-word-definition").val().trim()
@@ -57,22 +62,26 @@ $(document).ready(function () {
             // close modal
             $(".handle-close-modal-edit").click()
         }
+
+        isAddOrEditWord = false;
     });
 
-    $("handle-save-add-new-word").click(async function (e) {
-        e.stopPropagation()
-        if (checkWordInModal() != "error") {
-            let newWord = $("#modal-edit-word__input-word").val().trim()
-            let definition = $("#modal-edit-word-definition").val().trim()
+    // $(".handle-save-add-new-word").click(function (e) {
+    //     e.stopPropagation()
+    //     alert("tui met roi")
+    //     if (checkWordInModal() != "error") {
             
-            definition = aha.formatDefinitionIntoRawString(definition)
+    //         let newWord = $("#modal-edit-word__input-word").val().trim()
+    //         let definition = $("#modal-edit-word-definition").val().trim()
+            
+    //         definition = aha.formatDefinitionIntoRawString(definition)
 
-            await aha.addNewWord(newWord, definition)
+    //         // await aha.addNewWord(newWord, definition)
             
-            // close modal
-            $(".handle-close-modal-edit").click()
-        }
-    });
+    //         // close modal
+    //         $(".handle-close-modal-edit").click()
+    //     }
+    // });
 
     $(".checkbox-check-all").click(function (e) {
         if (e.currentTarget.checked) {
@@ -146,7 +155,7 @@ $(document).ready(function () {
     })
 
     $(".add-new-word").click(function() {
-        aha.openModalNewWord()
+        aha.openModal()
     })
 
     $("#modal-edit-word__input-word").click(function(e) {

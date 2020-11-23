@@ -1,4 +1,5 @@
 let aha = {};
+let isAddOrEditWord = false;
 
 (function ($) {
     const baseUrl = "https://appword.kie.io";
@@ -37,7 +38,7 @@ let aha = {};
     aha.apiLogin = apiLogin;
     aha.apiLogout = apiLogout;
     aha.onClickLogout = onClickLogout;
-    aha.apiSaveWord = apiSaveWord;
+    aha.apiAddNewWord = apiAddNewWord;
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
@@ -58,7 +59,13 @@ let aha = {};
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
     aha.openModalDeleteAskAgain = openModalDeleteAskAgain
     aha.updateTotalWord = updateTotalWord
-    aha.openModalNewWord = openModalNewWord
+    aha.openModal = openModal
+
+    $("#editWordModal").on('shown.bs.modal', function(){
+        debugger;
+        var inputCnt = $("#modal-edit-word__input-word").val().trim();
+        return inputCnt === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
+    });
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -108,13 +115,13 @@ let aha = {};
             })
     }
 
-    function apiSaveWord(params) {
-        return $.when($.ajax({
-            url: buildUrl("/api/word"),
-            type: "POST",
-            data: params,
-        }))
-    }
+    // function apiAddNewWord(params) {
+    //     return $.when($.ajax({
+    //         url: buildUrl("/api/word"),
+    //         type: "POST",
+    //         data: params,
+    //     }))
+    // }
 
     function apiListSavedWords() {
         // return $.when($.ajax(buildUrl("/api/word/list?orderBy=updatedAt")));
@@ -140,6 +147,13 @@ let aha = {};
         return $.when($.ajax({
             url: buildUrl(`/api/word?word=${word}&newWord=${newWord || word}&definition=${definition}`),
             type: "PUT"
+        }))
+    }
+
+    function apiAddNewWord(newWord, definition) {
+        return $.when($.ajax({
+            url: buildUrl(`/api/word?word=${newWord}&definition=${definition}`),
+            type: "POST"
         }))
     }
 
@@ -169,6 +183,21 @@ let aha = {};
 
     function addNewWord(newWord, definition) {
         //TO DO
+        let duplicate = listWords.filter(item => !!item.word.match(newWord))
+        if (!duplicate) {
+            aha.apiAddNewWord(newWord, definition).
+                done(function (result) {
+                    debugger;
+                    updateListWordAfterAddNewWord(newWord)
+                    onPagination(1)
+                    // console.log(result)
+                    return true
+                    
+                }).
+                fail(function (jqXHR) {
+                    return false
+                });
+        }
     }
 
     function updateListWordAfterUpdate(word, newItem) {
@@ -178,6 +207,10 @@ let aha = {};
             }
             return item
         })
+    }
+
+    function updateListWordAfterAddNewWord(word) {
+        listWords = listWords.push();
     }
 
     function updateTotalWord() {
@@ -343,46 +376,71 @@ let aha = {};
 
 
     // onPagination(currentPage)
-    function openModalEditWord(word) {
-        
-        const wordItem = listWords.find(item => item.word === word)
-        if (wordItem) {
-            $("#editWordModal").on('shown.bs.modal', function(){
+    function openModal(word) {
+        $("#editWordModal").on('shown.bs.modal', function(){
+            if (isAddOrEditWord) {
                 $(".modal-edit-word-msg").removeClass("alert alert-danger")
                 $(".modal-edit-word-msg").text("")
                 $("#modal-edit-word__input-word").hide();
                 $("#modal-edit-word__input-word").val(word)
                 $(".modal-edit-word__word").text(word)
-            });
-            const { definition } = wordItem
-            const s = formatDefinitionFromRawString(definition)
-            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
-            currentEditedWord = wordItem
+            } else {
+                $(".modal-edit-word__word").text('');
+                $("#modal-edit-word__input-word").show();
+                $("#modal-edit-word__input-word").focus();
+                $("#modal-edit-word__input-word").val('');
+            }
+        });
+
+        if (!isAddOrEditWord) {
+
+            // $(".handle-save-action").removeClass("handle-save-add-new-word").addClass("handle-save-word")
+            const wordItem = listWords.find(item => item.word === word)
+            if (wordItem) {
+                const { definition } = wordItem
+                const s = formatDefinitionFromRawString(definition)
+                $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
+                currentEditedWord = wordItem
+            }
+            
+        } else {
+            currentEditedWord = listWords[0];
+            // $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
+            $(".modal-edit-word-msg").removeClass("alert alert-danger")
+            $(".modal-edit-word-msg").text("")
+            $("#editWordModal").modal('show')
+            $(".word-wrap").hide()
+            $(".lnr-volume-high-wrap").hide()
+            $(".list-definition").html('<div class="empty">(Empty)</div>')
+            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
         }
         
-    }
-
-    function openModalNewWord () {
-        // $(".modal-edit-word__word").text('')
-        // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
-        // alert("before focus")
-        
-        $(".modal-edit-word-msg").removeClass("alert alert-danger")
-        $(".modal-edit-word-msg").text("")
-        $("#editWordModal").on('shown.bs.modal', function(){
-            $(".modal-edit-word__word").text('');
-            $("#modal-edit-word__input-word").show();
-            $("#modal-edit-word__input-word").focus();
-            $("#modal-edit-word__input-word").val('');
-        });
-        $("#editWordModal").modal('show');
-        $(".word-wrap").hide()
-        $(".lnr-volume-high-wrap").hide()
-        $(".list-definition").html('<div class="empty">(Empty)</div>')
-        $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
-
         
     }
+
+    // function openModalNewWord () {
+    //     // $(".modal-edit-word__word").text('')
+    //     // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+    //     // alert("before focus")
+    //     // console.log(listWords)
+    //     currentEditedWord = listWords[0];
+    //     $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
+    //     $(".modal-edit-word-msg").removeClass("alert alert-danger")
+    //     $(".modal-edit-word-msg").text("")
+    //     $("#editWordModal").on('shown.bs.modal', function(){
+    //         $(".modal-edit-word__word").text('');
+    //         $("#modal-edit-word__input-word").show();
+    //         $("#modal-edit-word__input-word").focus();
+    //         $("#modal-edit-word__input-word").val('');
+    //     });
+    //     $("#editWordModal").modal('show');
+    //     $(".word-wrap").hide()
+    //     $(".lnr-volume-high-wrap").hide()
+    //     $(".list-definition").html('<div class="empty">(Empty)</div>')
+    //     $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+
+        
+    // }
 
     function openModalDeleteAskAgain(word) {
         $('#askDeleteModal').modal('show');
@@ -442,7 +500,7 @@ let aha = {};
         $(".word-item-edit").click(async function (e) {
             // e.stopPropagation()
             word = e.target.id
-            openModalEditWord(word)
+            openModal(word)
             $(".list-definition").html('<div class="loader"></div>')
             await showListSuggestDefinition(word)
             await showPronunciation(word)
