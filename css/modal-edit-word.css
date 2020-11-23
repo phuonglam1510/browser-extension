@@ -56,7 +56,7 @@
     width: 7rem;
 }
 
-.modal-edit-word__word, .modal-add-new-word__word {
+.modal-edit-word__word {
     font-size: 2.5rem;
     background: rgb(0, 147, 233);
     background: linear-gradient( to right, #0093E9 -50%, #80D0C7);

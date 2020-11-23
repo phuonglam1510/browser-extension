@@ -104,7 +104,9 @@ $(document).ready(function () {
         $(".word-wrap").show()
         $(".lnr-volume-high-wrap").show()
         $("#modal-edit-word__input-word").hide()
+        
     })
+
 
     $(".close").click(function (e) {
         // e.stopPropagation()
@@ -114,15 +116,12 @@ $(document).ready(function () {
     $(".modal-content").click(async function (e) {
         const originalWord = $(".modal-edit-word__word").text();
         if (checkWordInModal() != "error") {
-            console.log('is not error')
             const newWord = $("#modal-edit-word__input-word").val()
-            $(".modal-edit-word__word").text(newWord)
-            
 
             //update definitions only when the new word is different than the original word
             if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
+                $(".modal-edit-word__word").text(newWord)
                 $(".list-definition").html('<div class="loader"></div>')
-                // console.log("assssss")
                 await aha.showListSuggestDefinition(newWord)
                 await aha.showPronunciation(newWord)
             }
@@ -133,23 +132,6 @@ $(document).ready(function () {
         }
            
     })
-
-    $(".modal-content-add-new-word").click(async function (e) {
-        if (checkWordInModalAddNewWord() != "error") {
-            const newWord = $("#modal-add-new-word__input-word").val()
-            $(".modal-add-new-word__word").text(newWord)
-            $(".list-definition").html('<div class="loader"></div>')
-            $(".word-wrap").show()
-            $(".lnr-volume-high-wrap").show()
-            $("#modal-add-new-word__input-word").hide()
-                console.log(newWord)
-                await aha.showListSuggestDefinition(newWord)
-                await aha.showPronunciation(newWord);
-            
-            
-        }
-           
-    });
 
     $(".sort-alpha").click(function () {  
         listWords = listWords.sort(compareAlpha)
@@ -231,17 +213,17 @@ function checkWordInModal() {
 
 }
 
-function checkWordInModalAddNewWord() {
-    let newWord = $("#modal-add-new-word__input-word").val().trim()
-    // console.log("this is the word", newWord)
-    let message = validateWord(newWord)
-    clearMessageModalEdit()
+// function checkWordInModalAddNewWord() {
+//     let newWord = $("#modal-add-new-word__input-word").val().trim()
+//     // console.log("this is the word", newWord)
+//     let message = validateWord(newWord)
+//     clearMessageModalEdit()
 
-    if (message) {
-        $(".modal-add-new-word-msg").addClass("alert alert-danger")
-        $(".modal-add-new-word-msg").text(message)
-        $("#modal-add-new-word__input-word").focus()
+//     if (message) {
+//         $(".modal-add-new-word-msg").addClass("alert alert-danger")
+//         $(".modal-add-new-word-msg").text(message)
+//         $("#modal-add-new-word__input-word").focus()
 
-        return "error"
-    }
-}
+//         return "error"
+//     }
+// }

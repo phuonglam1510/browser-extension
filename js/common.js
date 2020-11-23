@@ -168,7 +168,7 @@ let aha = {};
     }
 
     function addNewWord(newWord, definition) {
-
+        //TO DO
     }
 
     function updateListWordAfterUpdate(word, newItem) {
@@ -344,31 +344,44 @@ let aha = {};
 
     // onPagination(currentPage)
     function openModalEditWord(word) {
+        
         const wordItem = listWords.find(item => item.word === word)
         if (wordItem) {
-            $("#modal-edit-word__input-word").val(word)
-            $(".modal-edit-word__word").text(word)
-
+            $("#editWordModal").on('shown.bs.modal', function(){
+                $(".modal-edit-word-msg").removeClass("alert alert-danger")
+                $(".modal-edit-word-msg").text("")
+                $("#modal-edit-word__input-word").hide();
+                $("#modal-edit-word__input-word").val(word)
+                $(".modal-edit-word__word").text(word)
+            });
             const { definition } = wordItem
             const s = formatDefinitionFromRawString(definition)
             $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
             currentEditedWord = wordItem
         }
+        
     }
 
     function openModalNewWord () {
-        // $("#modal-edit-word__input-word").val('testttt')
         // $(".modal-edit-word__word").text('')
         // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
         // alert("before focus")
-        $("#addNewWordModal").on('shown.bs.modal', function(){
-            $("#modal-add-new-word__input-word").show();
-            $("#modal-add-new-word__input-word").focus();
+        
+        $(".modal-edit-word-msg").removeClass("alert alert-danger")
+        $(".modal-edit-word-msg").text("")
+        $("#editWordModal").on('shown.bs.modal', function(){
+            $(".modal-edit-word__word").text('');
+            $("#modal-edit-word__input-word").show();
+            $("#modal-edit-word__input-word").focus();
+            $("#modal-edit-word__input-word").val('');
         });
-        $("#addNewWordModal").modal('show');
+        $("#editWordModal").modal('show');
         $(".word-wrap").hide()
         $(".lnr-volume-high-wrap").hide()
         $(".list-definition").html('<div class="empty">(Empty)</div>')
+        $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+
+        
     }
 
     function openModalDeleteAskAgain(word) {
@@ -584,7 +597,8 @@ let aha = {};
                 if (result != "Error") {
                     // $(".modal-edit-word-pronunciation").html(result)
                     $(".lnr-volume-high-wrap").html('<span class="lnr lnr-volume-high"></span>')
-                    $(".lnr-volume-high").click(function() {
+                    $(".lnr-volume-high").click(function(e) {
+                        e.stopPropagation()
                         var audio = new Audio(result);
                         audio.play();
                     })

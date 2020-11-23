@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="add-new-word">
+        <div class="add-new-word" data-toggle="modal" data-target="#editWordModal">
           <span class="lnr lnr-plus-circle "></span>
         </div>
 
@@ -158,7 +158,7 @@
         aria-hidden="true"
       >
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
+          <div class="modal-content modal-content-add-new-word">
             <div class="modal-header">
               <!-- <h5 class="modal-title">Edit word</h5> -->
               <button
@@ -211,7 +211,7 @@
                   </button>
                   <button
                     type="button"
-                    class="btn-footer btn btn-lg btn-primary-custom handle-save-word"
+                    class="btn-footer btn btn-lg btn-primary-custom handle-save-word handle-save-add-new-word"
                   >
                     Save
                   </button>
@@ -250,7 +250,7 @@
       </div>
     </div>
 
-    <!-- Modal Add New Word-->
+    <!-- Modal Add New Word
     <div
         class="modal-add-new-word modal fade"
         id="addNewWordModal"
@@ -277,7 +277,7 @@
                 <form>
                   <div class="form-group">
                     <div class="word-wrap">
-                      <div class="modal-add-new-word__word"></div>
+                      <div class="modal-edit-word__word"></div>
                       <div class="instruction">* tap to edit word name</div>
                     </div>
                     <input
@@ -331,7 +331,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </main>
 
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
