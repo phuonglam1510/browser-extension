@@ -378,7 +378,7 @@ let isAddOrEditWord = false;
     // onPagination(currentPage)
     function openModal(word) {
         $("#editWordModal").on('shown.bs.modal', function(){
-            if (isAddOrEditWord) {
+            if (word != undefined) {
                 $(".modal-edit-word-msg").removeClass("alert alert-danger")
                 $(".modal-edit-word-msg").text("")
                 $("#modal-edit-word__input-word").hide();
@@ -392,7 +392,7 @@ let isAddOrEditWord = false;
             }
         });
 
-        if (!isAddOrEditWord) {
+        if (word != undefined) {
 
             // $(".handle-save-action").removeClass("handle-save-add-new-word").addClass("handle-save-word")
             const wordItem = listWords.find(item => item.word === word)
