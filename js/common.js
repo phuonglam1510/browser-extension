@@ -184,7 +184,8 @@ let isAddOrEditWord;
 
     function addNewWord(newWord, definition) {
         //TO DO
-        let duplicate = listWords.includes(newWord)
+        console.log("list words are :",listWords)
+        let duplicate = listWords.includes(newWord);
         if (!duplicate) {
             aha.apiSaveWord({
                 word: newWord,
@@ -193,9 +194,13 @@ let isAddOrEditWord;
                 always(function () {
                 }).
                 done(function (result) {
-                    console.log(result)
+                    // console.log("",result)
                     updateListWordAfterAddNewWord(result)
+                    // updateTotalWord()
+                    console.log("there are words: ",listWords)
+                    updateUIAfterAddNewWord(result)
                     onPagination(1)
+                    
                     // console.log(result)
                     return true
                     
@@ -204,8 +209,8 @@ let isAddOrEditWord;
                     return false
                 });
         }
-        console.log(listWords)
-        console.log(listWordsDisplay)
+        console.log("this is the list wordsssss: ",listWords)
+        // console.log(listWordsDisplay)
     }
 
     function updateListWordAfterUpdate(word, newItem) {
@@ -219,6 +224,11 @@ let isAddOrEditWord;
 
     function updateListWordAfterAddNewWord(wordObject) {
         listWords = listWords.push(wordObject);
+    }
+
+    function updateUIAfterAddNewWord(wordObject) {
+        let newCard = createElementCard(wordObject)
+        $(".list-words").append(newCard)
     }
 
     function updateTotalWord() {
