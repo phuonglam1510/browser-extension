@@ -1,5 +1,5 @@
 let aha = {};
-let isAddOrEditWord = false;
+let isAddOrEditWord;
 
 (function ($) {
     const baseUrl = "https://appword.kie.io";
@@ -38,13 +38,14 @@ let isAddOrEditWord = false;
     aha.apiLogin = apiLogin;
     aha.apiLogout = apiLogout;
     aha.onClickLogout = onClickLogout;
-    aha.apiAddNewWord = apiAddNewWord;
+    aha.apiSaveWord = apiSaveWord;
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
     aha.apiShowPronunciation = apiShowPronunciation
     aha.apiUpdateWord = apiUpdateWord;
     aha.formatDayMonthYear = formatDayMonthYear;
+    aha.addNewWord = addNewWord
 
     aha.checkLogin = checkLogin;
     aha.showListSavedWords = showListSavedWords;
@@ -61,11 +62,11 @@ let isAddOrEditWord = false;
     aha.updateTotalWord = updateTotalWord
     aha.openModal = openModal
 
-    $("#editWordModal").on('shown.bs.modal', function(){
-        debugger;
-        var inputCnt = $("#modal-edit-word__input-word").val().trim();
-        return inputCnt === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
-    });
+    // $("#editWordModal").on('shown.bs.modal', function(){
+    //     debugger;
+    //     var inputCnt = $("#modal-edit-word__input-word").val().trim();
+    //     return inputCnt === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
+    // });
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -115,13 +116,13 @@ let isAddOrEditWord = false;
             })
     }
 
-    // function apiAddNewWord(params) {
-    //     return $.when($.ajax({
-    //         url: buildUrl("/api/word"),
-    //         type: "POST",
-    //         data: params,
-    //     }))
-    // }
+    function apiSaveWord(params) {
+        return $.when($.ajax({
+            url: buildUrl("/api/word"),
+            type: "POST",
+            data: params,
+        }))
+    }
 
     function apiListSavedWords() {
         // return $.when($.ajax(buildUrl("/api/word/list?orderBy=updatedAt")));
@@ -150,12 +151,12 @@ let isAddOrEditWord = false;
         }))
     }
 
-    function apiAddNewWord(newWord, definition) {
-        return $.when($.ajax({
-            url: buildUrl(`/api/word?word=${newWord}&definition=${definition}`),
-            type: "POST"
-        }))
-    }
+    // function apiAddNewWord(newWord, definition) {
+    //     return $.when($.ajax({
+    //         url: buildUrl(`/api/word?word=${newWord}&definition=${definition}&groupKey=transportation&subGroupKey=non-motor`),
+    //         type: "POST"
+    //     }))
+    // }
 
     function ajaxDelete(word) {
         return $.ajax({
@@ -183,12 +184,17 @@ let isAddOrEditWord = false;
 
     function addNewWord(newWord, definition) {
         //TO DO
-        let duplicate = listWords.filter(item => !!item.word.match(newWord))
+        let duplicate = listWords.includes(newWord)
         if (!duplicate) {
-            aha.apiAddNewWord(newWord, definition).
+            aha.apiSaveWord({
+                word: newWord,
+                definition: definition
+            }).
+                always(function () {
+                }).
                 done(function (result) {
-                    debugger;
-                    updateListWordAfterAddNewWord(newWord)
+                    console.log(result)
+                    updateListWordAfterAddNewWord(result)
                     onPagination(1)
                     // console.log(result)
                     return true
@@ -198,6 +204,8 @@ let isAddOrEditWord = false;
                     return false
                 });
         }
+        console.log(listWords)
+        console.log(listWordsDisplay)
     }
 
     function updateListWordAfterUpdate(word, newItem) {
@@ -209,8 +217,8 @@ let isAddOrEditWord = false;
         })
     }
 
-    function updateListWordAfterAddNewWord(word) {
-        listWords = listWords.push();
+    function updateListWordAfterAddNewWord(wordObject) {
+        listWords = listWords.push(wordObject);
     }
 
     function updateTotalWord() {
@@ -245,6 +253,7 @@ let isAddOrEditWord = false;
             listWordsChecked = []
         }).fail(function (err) {
             // TODO
+            console.log("cannot delete multiple words")
         });
     }
 
@@ -377,8 +386,16 @@ let isAddOrEditWord = false;
 
     // onPagination(currentPage)
     function openModal(word) {
+        // word === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
+        if (word === undefined) {
+            isAddOrEditWord = true;
+        }
+        else {
+            isAddOrEditWord = false;
+        }
+
         $("#editWordModal").on('shown.bs.modal', function(){
-            if (isAddOrEditWord) {
+            if (word != undefined) {
                 $(".modal-edit-word-msg").removeClass("alert alert-danger")
                 $(".modal-edit-word-msg").text("")
                 $("#modal-edit-word__input-word").hide();
@@ -392,7 +409,7 @@ let isAddOrEditWord = false;
             }
         });
 
-        if (!isAddOrEditWord) {
+        if (word != undefined) {
 
             // $(".handle-save-action").removeClass("handle-save-add-new-word").addClass("handle-save-word")
             const wordItem = listWords.find(item => item.word === word)
@@ -402,7 +419,7 @@ let isAddOrEditWord = false;
                 $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
                 currentEditedWord = wordItem
             }
-            
+
         } else {
             currentEditedWord = listWords[0];
             // $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
@@ -414,7 +431,6 @@ let isAddOrEditWord = false;
             $(".list-definition").html('<div class="empty">(Empty)</div>')
             $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
         }
-        
         
     }
 

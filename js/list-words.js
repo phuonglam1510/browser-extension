@@ -46,29 +46,30 @@ $(document).ready(function () {
 
     $(".handle-save-word").click(async function (e) {
         e.stopPropagation()
-
-
-
-  
-
         if (checkWordInModal() != "error") {
             let newWord = $("#modal-edit-word__input-word").val().trim()
             let definition = $("#modal-edit-word-definition").val().trim()
             
             definition = aha.formatDefinitionIntoRawString(definition)
 
-            await aha.updateWord(currentEditedWord.word, newWord, definition)
+            if (!isAddOrEditWord) {
+                await aha.updateWord(currentEditedWord.word, newWord, definition)
+            }
+            else {
+                await aha.addNewWord(newWord, definition)
+            }
             
             // close modal
             $(".handle-close-modal-edit").click()
         }
-
-        isAddOrEditWord = false;
+        
+        // isAddOrEditWord = false;
     });
 
     // $(".handle-save-add-new-word").click(function (e) {
+        
+        
     //     e.stopPropagation()
-    //     alert("tui met roi")
     //     if (checkWordInModal() != "error") {
             
     //         let newWord = $("#modal-edit-word__input-word").val().trim()
