@@ -167,12 +167,13 @@ let isAddOrEditWord;
 
     function updateWord(word, newWord, definition) {
         // compare before call api
+        console.log("in the first updateWord",definition)
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
-                    // console.log(result)
+                    console.log("in updateWord",result)
                     return true
                     
                 }).
@@ -428,7 +429,7 @@ let isAddOrEditWord;
             }
 
         } else {
-            currentEditedWord = listWords[0];
+            // currentEditedWord = listWords[0];
             // $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
             $(".modal-edit-word-msg").removeClass("alert alert-danger")
             $(".modal-edit-word-msg").text("")
@@ -634,10 +635,11 @@ let isAddOrEditWord;
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
-
-                await aha.updateWord(currentEditedWord.word, null, result.definition)
+                // console.log("current", currentEditedWord.word)
+                console.log("definition", result.definition)
+                // await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
-                currentEditedWord.definition = result.definition
+                // currentEditedWord.definition = result.definition
                 if (result.isAdded) {
                     btnAdd.textContent = "Added"
                     btnIcon.innerHTML = '&#8211;'

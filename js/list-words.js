@@ -58,7 +58,7 @@ $(document).ready(function () {
             else {
                 await aha.addNewWord(newWord, definition)
             }
-            
+            // console.log("in handle save word", definition)
             // close modal
             $(".handle-close-modal-edit").click()
         }
