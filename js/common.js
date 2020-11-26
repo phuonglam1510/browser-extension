@@ -42,6 +42,7 @@ let isAddOrEditWord;
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
+    aha.apiListSuggestDefintionVietnamese = apiListSuggestDefintionVietnamese;
     aha.apiShowPronunciation = apiShowPronunciation
     aha.apiUpdateWord = apiUpdateWord;
     aha.formatDayMonthYear = formatDayMonthYear;
@@ -133,8 +134,12 @@ let isAddOrEditWord;
         return $.when($.ajax(buildUrl(`/api/word/lookup?word=${word}`)));
     }
 
+    function apiListSuggestDefintionVietnamese(word) {
+        return $.when($.ajax(createURL(`/api/word/lookup_vn?word=${word}`)));
+    }
+
     function apiShowPronunciation(word) {
-        return $.when($.ajax(createURL(`/api/word/lookup?word=${word}`)));
+        return $.when($.ajax(createURL(`/api/word?field=pronunciation?word=${word}`)));
     }
 
     function apiDeleteWord(word) {
@@ -586,6 +591,36 @@ let isAddOrEditWord;
         return html
     }
 
+    function createSectionSuggestDefintionHTMLVietnamese (definition) {
+        let html = `<div class="suggest-group">
+                                <div class="subtitle">Vietnamese</div>
+                                <ul class="list-group">`
+
+            html += `<li class="list-group-item">
+                        <div class="definition">${definition}</div>
+
+                        <div class="add-btn list-group-item-add-btn">
+                        ${
+                            currentEditedWord != null ?
+                                currentEditedWord.definition.includes(definition) ? 
+                                    `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                    `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                :
+                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+
+                        }
+                            
+                    
+                        </div>
+                    </li>`
+
+
+        html += `</ul>
+            </div>`
+
+        return html
+    }
+
     /**
      * @param {string} definitionToggle
      * Output: result:Object  {definition, isAdded}
@@ -624,7 +659,8 @@ let isAddOrEditWord;
             list += createSectionSuggestDefintionHTML(key, value)
         }
 
-        $(".list-definition").html(list)
+
+        $(".list-definition").append(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
             // const item = e.target
@@ -660,8 +696,19 @@ let isAddOrEditWord;
         })
     }
 
-    function showListSuggestDefinition(word) {
-        aha.apiListSuggestDefintion(word).
+    async function showListSuggestDefinition(word) {
+        await aha.apiListSuggestDefintionVietnamese(word).
+            done(function (result) {
+                console.log("def: ", result)
+                let definition_vn = createSectionSuggestDefintionHTMLVietnamese(result);
+                console.log(definition_vn)
+                $(".list-definition").html(definition_vn)
+                // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+            }).
+            fail(function (jqXHR) {
+                $(".list-definition").html('<div class="empty">(Empty)</div>')
+        });
+        await aha.apiListSuggestDefintion(word).
             done(function (result) {
                  console.log("def: ", result)
                 showListSuggestDefintionHTML(result);
@@ -670,6 +717,7 @@ let isAddOrEditWord;
             fail(function (jqXHR) {
                 $(".list-definition").html('<div class="empty">(Empty)</div>')
             });
+        
     }
 
     function showPronunciation(word) {

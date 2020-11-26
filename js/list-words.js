@@ -123,7 +123,7 @@ $(document).ready(function () {
         $(".handle-close-modal-edit").click()
     })
 
-    $(".modal-content").click(async function (e) {
+    $(".modal-content").click( function (e) {
         const originalWord = $(".modal-edit-word__word").text();
         if (checkWordInModal() != "error") {
             const newWord = $("#modal-edit-word__input-word").val()
@@ -132,8 +132,8 @@ $(document).ready(function () {
             if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
                 $(".modal-edit-word__word").text(newWord)
                 $(".list-definition").html('<div class="loader"></div>')
-                await aha.showListSuggestDefinition(newWord)
-                await aha.showPronunciation(newWord)
+                aha.showListSuggestDefinition(newWord)
+                aha.showPronunciation(newWord)
             }
             $(".word-wrap").show()
             $(".lnr-volume-high-wrap").show()
