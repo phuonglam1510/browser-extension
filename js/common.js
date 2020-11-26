@@ -11,7 +11,7 @@ let isAddOrEditWord;
         return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
-    const baseUrlSecond = "http://127.0.0.1:5000"
+    const baseUrlSecond = "https://wordsmine-py-svc.kie.io"
     function createURL(path, paramsObj) {
         let recursiveEncodedParams = "";
         if (paramsObj) {
@@ -139,7 +139,8 @@ let isAddOrEditWord;
     }
 
     function apiShowPronunciation(word) {
-        return $.when($.ajax(createURL(`/api/word?field=pronunciation?word=${word}`)));
+        // return $.when($.ajax(createURL(`/api/word?field=pronunciation?word=${word}`)));
+        return $.when($.ajax(createURL(`/api/word/lookup?word=${word}`)));
     }
 
     function apiDeleteWord(word) {
@@ -659,8 +660,7 @@ let isAddOrEditWord;
             list += createSectionSuggestDefintionHTML(key, value)
         }
 
-
-        $(".list-definition").append(list)
+        $(".list-definition").html(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
             // const item = e.target
@@ -697,17 +697,17 @@ let isAddOrEditWord;
     }
 
     async function showListSuggestDefinition(word) {
-        await aha.apiListSuggestDefintionVietnamese(word).
-            done(function (result) {
-                console.log("def: ", result)
-                let definition_vn = createSectionSuggestDefintionHTMLVietnamese(result);
-                console.log(definition_vn)
-                $(".list-definition").html(definition_vn)
-                // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
-            }).
-            fail(function (jqXHR) {
-                $(".list-definition").html('<div class="empty">(Empty)</div>')
-        });
+        // await aha.apiListSuggestDefintionVietnamese(word).
+        //     done(function (result) {
+        //         console.log("def: ", result)
+        //         let definition_vn = createSectionSuggestDefintionHTMLVietnamese(result);
+        //         console.log(definition_vn)
+        //         $(".list-definition").html(definition_vn)
+        //         // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+        //     }).
+        //     fail(function (jqXHR) {
+        //         $(".list-definition").html('<div class="empty">(Empty)</div>')
+        // });
         await aha.apiListSuggestDefintion(word).
             done(function (result) {
                  console.log("def: ", result)
@@ -730,6 +730,7 @@ let isAddOrEditWord;
                     $(".lnr-volume-high-wrap").html('<span class="lnr lnr-volume-high"></span>')
                     $(".lnr-volume-high").click(function(e) {
                         e.stopPropagation()
+                        // var audioLink = result.results[0].lexicalEntries[0].entries[0].pronunciations[0].audioFile;
                         var audio = new Audio(result);
                         audio.play();
                     })
