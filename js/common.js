@@ -44,6 +44,7 @@ let isAddOrEditWord;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
     aha.apiListSuggestDefintionVietnamese = apiListSuggestDefintionVietnamese;
     aha.apiShowPronunciation = apiShowPronunciation
+    aha.apiShowPronunciationSpelling = apiShowPronunciationSpelling
     aha.apiUpdateWord = apiUpdateWord;
     aha.formatDayMonthYear = formatDayMonthYear;
     aha.addNewWord = addNewWord
@@ -139,7 +140,11 @@ let isAddOrEditWord;
     }
 
     function apiShowPronunciation(word) {
-        return $.when($.ajax(createURL(`/api/word?field=pronunciation?word=${word}`)));
+        return $.when($.ajax(createURL(`/api/word?field=pronunciation&word=${word}`)));
+    }
+
+    function apiShowPronunciationSpelling(word) {
+        return $.when($.ajax(createURL(`/api/word/spelling?field=pronunciation&word=${word}`)));
     }
 
     function apiDeleteWord(word) {
@@ -531,6 +536,7 @@ let isAddOrEditWord;
             word = e.target.id
             openModal(word)
             $(".list-definition").html('<div class="loader"></div>')
+            $(".lnr-volume-high-wrap").html('')
             await showListSuggestDefinition(word)
             await showPronunciation(word)
         });
@@ -698,50 +704,56 @@ let isAddOrEditWord;
 
     async function showListSuggestDefinition(word) {
         await aha.apiListSuggestDefintionVietnamese(word).
-            done(function (result) {
-                console.log("def: ", result)
-                let definition_vn = createSectionSuggestDefintionHTMLVietnamese(result);
-                console.log(definition_vn)
-                $(".list-definition").html(definition_vn)
-                // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
-            }).
-            fail(function (jqXHR) {
-                $(".list-definition").html('<div class="empty">(Empty)</div>')
-        });
-        await aha.apiListSuggestDefintion(word).
-            done(function (result) {
-                 console.log("def: ", result)
-                showListSuggestDefintionHTML(result);
-                // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
-            }).
-            fail(function (jqXHR) {
-                $(".list-definition").html('<div class="empty">(Empty)</div>')
-            });
-        
+            done(function (resultVi) {
+                aha.apiListSuggestDefintion(word).
+                    done(function (resultEn) {
+                        // console.log("def: ", result)
+                        let definition_vn = createSectionSuggestDefintionHTMLVietnamese(resultVi);
+                        // console.log(definition_vn)
+                        $(".list-definition").html(definition_vn)
+                        showListSuggestDefintionHTML(resultEn);
+                        // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+                    }).
+                    fail(function (jqXHR) {
+                        $(".list-definition").html('<div class="empty">(Empty)</div>')
+                    })
+                })
+        // aha.apiListSuggestDefintion(word).
+        //     done(function (result) {
+        //          console.log("def: ", result)
+                
+        //         // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+        //     }).
+        //     fail(function (jqXHR) {
+        //         $(".list-definition").html('<div class="empty">(Empty)</div>')
+        //     });
     }
 
-    function showPronunciation(word) {
-        $(".lnr-volume-high-wrap").html('')
-        aha.apiShowPronunciation(word).
-            done(function(result) {
-                console.log("pronun: ", result)
-                if (result != "Error") {
-                    // $(".modal-edit-word-pronunciation").html(result)
-                    $(".lnr-volume-high-wrap").html('<span class="lnr lnr-volume-high"></span>')
-                    $(".lnr-volume-high").click(function(e) {
-                        e.stopPropagation()
-                        var audio = new Audio(result);
-                        audio.play();
+    async function showPronunciation(word) {
+        await aha.apiShowPronunciationSpelling(word).
+            done(function(resultSpell) {
+                aha.apiShowPronunciation(word).
+                    done(function(resultSpeak) {
+                        if (resultSpeak != "Error" && resultSpell != "Error") {
+                            // $(".modal-edit-word-pronunciation").html(result)
+                            $(".lnr-volume-high-wrap").html(`<span class="pronun-spelling">/${resultSpell}/</span> <span class="lnr lnr-volume-high"></span>`)
+                            $(".lnr-volume-high").click(function(e) {
+                                e.stopPropagation()
+                                var audio = new Audio(resultSpeak);
+                                audio.play();
+                            })
+                        }
+                        else {
+                            $(".lnr-volume-high-wrap").html(`<div class="modal-edit-word-pronunciation">(Pronunciation is empty)</div>`)
+                        }
                     })
-                }
-                else {
-                    $(".lnr-volume-high-wrap").html(`<div class="modal-edit-word-pronunciation">(Pronunciation is empty)</div>`)
-                }
             })
             // fail(function () {
             //     // console.log("error:", JSON.stringify(jqXHR))
             //     // $(".modal-edit-word-pronunciation").html(`<i>(Pronunciation is empty)</i>`)
             // });
+
+        
     }
 
     function checkLogin() {

@@ -124,23 +124,11 @@ $(document).ready(function () {
     })
 
     $(".modal-content").click( function (e) {
-        const originalWord = $(".modal-edit-word__word").text();
-        if (checkWordInModal() != "error") {
-            const newWord = $("#modal-edit-word__input-word").val()
+        unfocusInputWord()     
+    })
 
-            //update definitions only when the new word is different than the original word
-            if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
-                $(".modal-edit-word__word").text(newWord)
-                $(".list-definition").html('<div class="loader"></div>')
-                aha.showListSuggestDefinition(newWord)
-                aha.showPronunciation(newWord)
-            }
-            $(".word-wrap").show()
-            $(".lnr-volume-high-wrap").show()
-            $("#modal-edit-word__input-word").hide()
-            
-        }
-           
+    $("#modal-edit-word__input-word").blur( function (e) {
+        unfocusInputWord()     
     })
 
     $(".sort-alpha").click(function () {  
@@ -167,6 +155,25 @@ $(document).ready(function () {
         e.stopPropagation()
     })
 });
+
+function unfocusInputWord() {
+    const originalWord = $(".modal-edit-word__word").text();
+    if (checkWordInModal() != "error") {
+        const newWord = $("#modal-edit-word__input-word").val()
+
+        //update definitions only when the new word is different than the original word
+        if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
+            $(".modal-edit-word__word").text(newWord)
+            $(".list-definition").html('<div class="loader"></div>')
+            aha.showListSuggestDefinition(newWord)
+            aha.showPronunciation(newWord)
+        }
+        $(".word-wrap").show()
+        $(".lnr-volume-high-wrap").show()
+        $("#modal-edit-word__input-word").hide()
+        
+    }
+}
 
 function compareAlpha( a, b ) {
     if ( a.word.toLowerCase() < b.word.toLowerCase() ){
