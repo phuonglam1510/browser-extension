@@ -665,7 +665,7 @@ let isAddOrEditWord;
             list += createSectionSuggestDefintionHTML(key, value)
         }
 
-        $(".list-definition").html(list)
+        $(".list-definition").append(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
             // const item = e.target
