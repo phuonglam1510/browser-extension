@@ -245,8 +245,10 @@ let isAddOrEditWord;
     }
 
     function updateListWordAfterDelete(words) {
+        console.log("friday", words)
         listWords = listWords.filter(item => !words.includes(item.word))
         // update delete count
+        console.log("aaaa",listWords)
         $(".list-words__delete-count").text('Delete selected words')
         updateTotalWord()
     }
@@ -267,8 +269,10 @@ let isAddOrEditWord;
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
         $.when(...ajaxArr).done(function () {
             updateListWordAfterDelete(listWordsChecked)
+            console.log("list word checked", listWordsChecked)
             onPagination(1)
             listWordsChecked = []
+            console.log(listWords)
         }).fail(function (err) {
             // TODO
             console.log("cannot delete multiple words")
@@ -308,6 +312,7 @@ let isAddOrEditWord;
             }
                 <div class="delete"><p class="lnr lnr-trash btn-delete" data-toggle="modal" data-target="#askDeleteModal" id="${word}"></p></div>
                 <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
+                <span class="lnr lnr-volume-high lnr-volume-high-front-card" id="${word}"></span>
             </div>
         </div>
       </div>`
@@ -541,6 +546,14 @@ let isAddOrEditWord;
             await showPronunciation(word)
         });
         
+        $(".lnr-volume-high-front-card").click(function(e) {
+            let word = $(this).attr("id");
+            aha.apiShowPronunciation(word).
+                done(function(resultSpeak) {
+                    var audio = new Audio(resultSpeak);
+                    audio.play();
+                })
+        });
     }
 
     function showListSavedWords() {
@@ -735,8 +748,8 @@ let isAddOrEditWord;
                     done(function(resultSpeak) {
                         if (resultSpeak != "Error" && resultSpell != "Error") {
                             // $(".modal-edit-word-pronunciation").html(result)
-                            $(".lnr-volume-high-wrap").html(`<span class="pronun-spelling">/${resultSpell}/</span> <span class="lnr lnr-volume-high"></span>`)
-                            $(".lnr-volume-high").click(function(e) {
+                            $(".lnr-volume-high-wrap").html(`<span class="pronun-spelling">/${resultSpell}/</span> <span class="lnr lnr-volume-high lnr-volume-high-back-card"></span>`)
+                            $(".lnr-volume-high-back-card").click(function(e) {
                                 e.stopPropagation()
                                 var audio = new Audio(resultSpeak);
                                 audio.play();

@@ -154,6 +154,10 @@ $(document).ready(function () {
     $("#modal-edit-word-definition").click(function(e) {
         e.stopPropagation()
     })
+
+    $(".list-words__check-all").click(function() {
+        checkAllWords()
+    })
 });
 
 function unfocusInputWord() {
