@@ -11,13 +11,22 @@ let isAddOrEditWord;
         return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
-    const baseUrlSecond = "http://127.0.0.1:5000"
+    const baseUrlSecond = "https://wordsmine-py-svc.kie.io"
     function createURL(path, paramsObj) {
         let recursiveEncodedParams = "";
         if (paramsObj) {
             recursiveEncodedParams += $.param(paramsObj);
         }
         return baseUrlSecond + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
+    }
+
+    const baseUrlThird = "http://tratu.soha.vn/dict/en_vn/"
+    function createTraTuURL(path, paramsObj) {
+        let recursiveEncodedParams = "";
+        if (paramsObj) {
+            recursiveEncodedParams += $.param(paramsObj);
+        }
+        return baseUrlThird + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     }
 
     aha.util = {
@@ -136,7 +145,9 @@ let isAddOrEditWord;
     }
 
     function apiListSuggestDefintionVietnamese(word) {
-        return $.when($.ajax(createURL(`/api/word/lookup_vn?word=${word}`)));
+        // return $.when($.ajax(createURL(`/api/word/lookup_vn?word=${word}`)));
+        // http://tratu.soha.vn/dict/en_vn/Laugh
+        return $.when($.ajax(createTraTuURL(word)));
     }
 
     function apiShowPronunciation(word) {
@@ -727,16 +738,80 @@ let isAddOrEditWord;
                         // $(".list-definition").html(definition_vn)
 
                         //create Vietnames definition
-                        var stringHTML = resultVi;
-                        console.log(stringHTML)
+                        // var stringHTML = resultVi;
+                        // console.log(stringHTML)
                         var dom = new DOMParser()
                         var elm = dom.parseFromString(stringHTML, "text/html")
-                        console.log(elm)
-                        var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
-                        // console.log(title)
-                        var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
-                        var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
-                        console.log(definition[0].innerText)
+                        // console.log(elm)
+                        // var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
+                        // // console.log(title)
+                        // var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
+                        // var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
+                        // console.log(definition[0].innerText)
+
+                        var termObj = {
+                          term: "",
+                          wordType: []
+                        };
+
+                        var wordTypeArr = elm.querySelectorAll("#show-alter > div");
+
+                        for (var i = 0; i < wordTypeArr.length; i++) {
+
+                          var definitionObj = {
+                            def: "",
+                            phrasalVerb : []
+                          }
+                          
+                          var wordTypeObj = {
+                            typeName: "",
+                            definition: {}
+                          }
+
+                          var phrasalVerbObj = {
+                            phrVerb: [],
+                            phrVernInVn: ""
+                          };
+
+                          var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
+                          console.log(wordTypeStr);
+                          wordTypeObj.typeName = wordTypeStr;
+
+                          var definitionArr = wordTypeArr[i].querySelectorAll("div");
+                          for (var j = 0; j < definitionArr.length; j++) {
+
+                            var def = definitionArr[j].querySelector("h5").innerText;
+                            console.log(def);
+                            definitionObj.def = def;
+
+                            var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
+                            if (phrVerbArr !== null) {
+                              for (var z = 0; z < phrVerbArr.length; z++) {
+                                console.log(phrVerbArr[z].innerText);
+                                phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
+
+                              }
+                            }
+                          }
+                          
+                          definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
+                          wordTypeObj.definition = definitionObj;
+                          termObj.wordType.push(wordTypeObj);
+                        }
+
+                        termObj.term = word;
+
+                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
+                        // " Danh từ"
+
+                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > h5")[0].innerText
+                        // " Tiếng cười"
+                        
+                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[0].innerText
+                        // to burst into a laugh
+                        
+                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[1].innerText
+                        // cười phá lên
 
                         //create English definition
                         showListSuggestDefintionHTML(resultEn);
