@@ -11,7 +11,7 @@ let isAddOrEditWord;
         return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
-    const baseUrlSecond = "https://wordsmine-py-svc.kie.io"
+    const baseUrlSecond = "http://127.0.0.1:5000"
     function createURL(path, paramsObj) {
         let recursiveEncodedParams = "";
         if (paramsObj) {
@@ -294,13 +294,15 @@ let isAddOrEditWord;
         // date = date.toLocaleDateString()
 
         return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <h1 class="word">${word}</h1>
-          </div>
-          <div class="flip-card-back">
-            <div class="definition">${formatDefinitionFromRawString(definition) || ''}</div>  
-          </div>
+        <div class="flip-card-div ">
+            <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h1 class="word">${word}</h1>
+            </div>
+            <div class="flip-card-back">
+                <div class="definition">${formatDefinitionFromRawString(definition) || ''}</div>  
+            </div>
+            </div>
         </div>
         <div class="detail-wrap">
             <div class="detail-content">
@@ -720,11 +722,24 @@ let isAddOrEditWord;
                 aha.apiListSuggestDefintion(word).
                     done(function (resultEn) {
                         // console.log("def: ", result)
-                        let definition_vn = createSectionSuggestDefintionHTMLVietnamese(resultVi);
                         // console.log(definition_vn)
-                        $(".list-definition").html(definition_vn)
+                        // let definition_vn = createSectionSuggestDefintionHTMLVietnamese(resultVi);
+                        // $(".list-definition").html(definition_vn)
+
+                        //create Vietnames definition
+                        var stringHTML = resultVi;
+                        console.log(stringHTML)
+                        var dom = new DOMParser()
+                        var elm = dom.parseFromString(stringHTML, "text/html")
+                        console.log(elm)
+                        var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
+                        // console.log(title)
+                        var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
+                        var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
+                        console.log(definition[0].innerText)
+
+                        //create English definition
                         showListSuggestDefintionHTML(resultEn);
-                        // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
                     }).
                     fail(function (jqXHR) {
                         $(".list-definition").html('<div class="empty">(Empty)</div>')
