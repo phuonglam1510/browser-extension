@@ -1,6 +1,6 @@
 {
-  "name": "WordsMine!",
-  "version": "1.0.3",
+  "name": "WordsMine! - Capture and Learn vocabulary anytime",
+  "version": "1.0.6",
   "manifest_version": 2,
   "description": "WordsMine! tools for quick gathering of words",
   "background": {

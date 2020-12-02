@@ -30,31 +30,59 @@ $(document).ready(function () {
         }
     });
 
-    $(".list-words__delete-all").click(function (e) {
+    $(".m-delete").click(function(e){
         aha.deleteMultipleWord()
         $('.checkbox-check-all').prop('checked', false)
     });
 
-    $(".handle-save-word").click(async function (e) {
-        let newWord = $("#modal-edit-word__input-word").val().trim()
-        let message = validateWord(newWord)
-        clearMessageModalEdit()
-
-        if (message) {
-            $(".modal-edit-word-msg").addClass("alert alert-danger")
-            $(".modal-edit-word-msg").text(message)
-            $("#modal-edit-word__input-word").focus()
-
-            return
-        }
-
-        let definition = $("#modal-edit-word-definition").val().trim()
-        definition = aha.formatDefinitionIntoRawString(definition)
-
-        await aha.updateWord(currentEditedWord.word, newWord, definition)
-        // close modal
-        $(".handle-close-modal-edit").click()
+    $(".m-cancel").click(function(){
+        aha.unCheckAllWords()
+        aha.onPaginationListWord(currentPage);
     });
+
+    $(".list-words__delete-all").click(function () {
+        aha.openModalDeleteAskAgain()
+    });
+
+    $(".handle-save-word").click(async function (e) {
+        e.stopPropagation()
+        if (checkWordInModal() != "error") {
+            let newWord = $("#modal-edit-word__input-word").val().trim()
+            let definition = $("#modal-edit-word-definition").val().trim()
+            
+            definition = aha.formatDefinitionIntoRawString(definition)
+
+            if (!isAddOrEditWord) {
+                await aha.updateWord(currentEditedWord.word, newWord, definition)
+            }
+            else {
+                await aha.addNewWord(newWord, definition)
+            }
+            // console.log("in handle save word", definition)
+            // close modal
+            $(".handle-close-modal-edit").click()
+        }
+        
+        // isAddOrEditWord = false;
+    });
+
+    // $(".handle-save-add-new-word").click(function (e) {
+        
+        
+    //     e.stopPropagation()
+    //     if (checkWordInModal() != "error") {
+            
+    //         let newWord = $("#modal-edit-word__input-word").val().trim()
+    //         let definition = $("#modal-edit-word-definition").val().trim()
+            
+    //         definition = aha.formatDefinitionIntoRawString(definition)
+
+    //         // await aha.addNewWord(newWord, definition)
+            
+    //         // close modal
+    //         $(".handle-close-modal-edit").click()
+    //     }
+    // });
 
     $(".checkbox-check-all").click(function (e) {
         if (e.currentTarget.checked) {
@@ -74,18 +102,102 @@ $(document).ready(function () {
 
     $(".btn-logout").click(aha.onClickLogout)
     $(".modal-edit-word__word").click(function (e) {
+        e.stopPropagation()
         $(".word-wrap").hide()
+        $(".lnr-volume-high-wrap").hide()
         $("#modal-edit-word__input-word").show()
         $("#modal-edit-word__input-word").focus()
-
     })
     
     // reset UI modal edit word: word in input word
-    $(".handle-close-modal-edit").click(function (e) {
+    $(".handle-close-modal-edit").click(function () {
         $(".word-wrap").show()
+        $(".lnr-volume-high-wrap").show()
         $("#modal-edit-word__input-word").hide()
+        
+    })
+
+
+    $(".close").click(function (e) {
+        // e.stopPropagation()
+        $(".handle-close-modal-edit").click()
+    })
+
+    $(".modal-content").click( function (e) {
+        unfocusInputWord()     
+    })
+
+    $("#modal-edit-word__input-word").blur( function (e) {
+        unfocusInputWord()     
+    })
+
+    $(".sort-alpha").click(function () {  
+        listWords = listWords.sort(compareAlpha)
+        aha.updateTotalWord()
+        aha.onPaginationListWord(1)
+    })
+
+    $(".sort-time").click(function () {   
+        listWords = listWords.sort(compareDate)
+        aha.updateTotalWord()
+        aha.onPaginationListWord(1)
+    })
+
+    $(".add-new-word").click(function() {
+        aha.openModal()
+    })
+
+    $("#modal-edit-word__input-word").click(function(e) {
+        e.stopPropagation()
+    })
+    
+    $("#modal-edit-word-definition").click(function(e) {
+        e.stopPropagation()
+    })
+
+    $(".list-words__check-all").click(function() {
+        checkAllWords()
     })
 });
+
+function unfocusInputWord() {
+    const originalWord = $(".modal-edit-word__word").text();
+    if (checkWordInModal() != "error") {
+        const newWord = $("#modal-edit-word__input-word").val()
+
+        //update definitions only when the new word is different than the original word
+        if ($("#modal-edit-word__input-word").is(":visible") && originalWord != newWord) {
+            $(".modal-edit-word__word").text(newWord)
+            $(".list-definition").html('<div class="loader"></div>')
+            aha.showListSuggestDefinition(newWord)
+            aha.showPronunciation(newWord)
+        }
+        $(".word-wrap").show()
+        $(".lnr-volume-high-wrap").show()
+        $("#modal-edit-word__input-word").hide()
+        
+    }
+}
+
+function compareAlpha( a, b ) {
+    if ( a.word.toLowerCase() < b.word.toLowerCase() ){
+      return -1;
+    }
+    if ( a.word.toLowerCase() > b.word.toLowerCase() ){
+      return 1;
+    }
+    return 0;
+}
+
+function compareDate( a, b ) {
+    if ( a.createdAt < b.createdAt ){
+      return -1;
+    }
+    if ( a.createdAt > b.createdAt ){
+      return 1;
+    }
+    return 0;
+}
 
 function validateWord(word) {
     if (!word) {
@@ -105,3 +217,34 @@ function clearMessageModalEdit() {
     $(".modal-edit-word-msg").removeClass("alert alert-danger")
     $(".modal-edit-word-msg").text("")
 }
+
+function checkWordInModal() {
+    let newWord = $("#modal-edit-word__input-word").val().trim()
+    // console.log("this is the word", newWord)
+    let message = validateWord(newWord)
+    clearMessageModalEdit()
+
+    if (message) {
+        $(".modal-edit-word-msg").addClass("alert alert-danger")
+        $(".modal-edit-word-msg").text(message)
+        $("#modal-edit-word__input-word").focus()
+
+        return "error"
+    }
+
+}
+
+// function checkWordInModalAddNewWord() {
+//     let newWord = $("#modal-add-new-word__input-word").val().trim()
+//     // console.log("this is the word", newWord)
+//     let message = validateWord(newWord)
+//     clearMessageModalEdit()
+
+//     if (message) {
+//         $(".modal-add-new-word-msg").addClass("alert alert-danger")
+//         $(".modal-add-new-word-msg").text(message)
+//         $("#modal-add-new-word__input-word").focus()
+
+//         return "error"
+//     }
+// }

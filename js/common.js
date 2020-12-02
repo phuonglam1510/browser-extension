@@ -1,4 +1,6 @@
 let aha = {};
+let isAddOrEditWord;
+var termObj;
 
 (function ($) {
     const baseUrl = "https://appword.kie.io";
@@ -10,6 +12,24 @@ let aha = {};
         return baseUrl + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
     };
 
+    const baseUrlSecond = "https://wordsmine-py-svc.kie.io"
+    function createURL(path, paramsObj) {
+        let recursiveEncodedParams = "";
+        if (paramsObj) {
+            recursiveEncodedParams += $.param(paramsObj);
+        }
+        return baseUrlSecond + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
+    }
+
+    const baseUrlThird = "http://tratu.soha.vn/dict/en_vn/"
+    function createTraTuURL(path, paramsObj) {
+        let recursiveEncodedParams = "";
+        if (paramsObj) {
+            recursiveEncodedParams += $.param(paramsObj);
+        }
+        return baseUrlThird + path + (recursiveEncodedParams ? "?" + recursiveEncodedParams : "");
+    }
+
     aha.util = {
         firstLine: firstLine,
         getClipboardText: getClipboardText,
@@ -17,11 +37,12 @@ let aha = {};
         listActiveTabs: listActiveTabs,
         splitWords: splitWords,
         distinctWords: distinctWords,
-        sortWords: sortWords,
+        // sortWords: sortWords,
         formatWord: formatWord
     };
     aha.baseUrl = baseUrl;
     aha.buildUrl = buildUrl;
+    aha.createURL = createURL;
     aha.apiGetUserProfile = apiGetUserProfile;
     aha.apiRegister = apiRegister;
     aha.apiLogin = apiLogin;
@@ -31,12 +52,17 @@ let aha = {};
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
+    aha.apiListSuggestDefintionVietnamese = apiListSuggestDefintionVietnamese;
+    aha.apiShowPronunciation = apiShowPronunciation
+    aha.apiShowPronunciationSpelling = apiShowPronunciationSpelling
     aha.apiUpdateWord = apiUpdateWord;
     aha.formatDayMonthYear = formatDayMonthYear;
+    aha.addNewWord = addNewWord
 
     aha.checkLogin = checkLogin;
     aha.showListSavedWords = showListSavedWords;
     aha.showListSuggestDefinition = showListSuggestDefinition;
+    aha.showPronunciation = showPronunciation
     aha.deleteWord = deleteWord;
     aha.deleteMultipleWord = deleteMultipleWord;
     aha.updateWord = updateWord
@@ -44,6 +70,15 @@ let aha = {};
     aha.unCheckAllWords = unCheckAllWords
     aha.onPaginationListWord = onPagination
     aha.formatDefinitionIntoRawString = formatDefinitionIntoRawString
+    aha.openModalDeleteAskAgain = openModalDeleteAskAgain
+    aha.updateTotalWord = updateTotalWord
+    aha.openModal = openModal
+
+    // $("#editWordModal").on('shown.bs.modal', function(){
+    //     debugger;
+    //     var inputCnt = $("#modal-edit-word__input-word").val().trim();
+    //     return inputCnt === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
+    // });
 
     function firstLine(str) {
         var breakIndex = str.indexOf("\n");
@@ -110,6 +145,20 @@ let aha = {};
         return $.when($.ajax(buildUrl(`/api/word/lookup?word=${word}`)));
     }
 
+    function apiListSuggestDefintionVietnamese(word) {
+        // return $.when($.ajax(createURL(`/api/word/lookup_vn?word=${word}`)));
+        // http://tratu.soha.vn/dict/en_vn/Laugh
+        return $.when($.ajax(createTraTuURL(word)));
+    }
+
+    function apiShowPronunciation(word) {
+        return $.when($.ajax(createURL(`/api/word?field=pronunciation&word=${word}`)));
+    }
+
+    function apiShowPronunciationSpelling(word) {
+        return $.when($.ajax(createURL(`/api/word/spelling?field=pronunciation&word=${word}`)));
+    }
+
     function apiDeleteWord(word) {
         return $.when($.ajax({
             url: buildUrl(`/api/word?word=${word}`),
@@ -124,6 +173,13 @@ let aha = {};
         }))
     }
 
+    // function apiAddNewWord(newWord, definition) {
+    //     return $.when($.ajax({
+    //         url: buildUrl(`/api/word?word=${newWord}&definition=${definition}&groupKey=transportation&subGroupKey=non-motor`),
+    //         type: "POST"
+    //     }))
+    // }
+
     function ajaxDelete(word) {
         return $.ajax({
             url: buildUrl(`/api/word?word=${word}`),
@@ -133,12 +189,43 @@ let aha = {};
 
     function updateWord(word, newWord, definition) {
         // compare before call api
+        console.log("in the first updateWord",definition)
         if (newWord !== currentEditedWord.word || definition !== currentEditedWord.definition) {
             aha.apiUpdateWord(word, newWord, definition).
                 done(function (result) {
                     updateListWordAfterUpdate(word, result)
                     onPagination(1)
+                    console.log("in updateWord",result)
                     return true
+                    
+                }).
+                fail(function (jqXHR) {
+                    return false
+                });
+        }
+    }
+
+    function addNewWord(newWord, definition) {
+        //TO DO
+        console.log("list words are :",listWords)
+        let duplicate = listWords.includes(newWord);
+        if (!duplicate) {
+            aha.apiSaveWord({
+                word: newWord,
+                definition: definition
+            }).
+                always(function () {
+                }).
+                done(function (result) {
+                    // console.log("",result)
+                    updateListWordAfterAddNewWord(result)
+                    updateTotalWord()
+                    updateUIAfterAddNewWord(result)
+                    onPagination(1)
+                    
+                    // console.log(result)
+                    return true
+                    
                 }).
                 fail(function (jqXHR) {
                     return false
@@ -155,14 +242,25 @@ let aha = {};
         })
     }
 
+    function updateListWordAfterAddNewWord(wordObject) {
+        listWords.push(wordObject);
+    }
+
+    function updateUIAfterAddNewWord(wordObject) {
+        let newCard = createElementCard(wordObject)
+        $(".list-words").append(newCard)
+    }
+
     function updateTotalWord() {
         $(".list-words__total").text(`Total: ${listWords.length}`)
 
     }
 
     function updateListWordAfterDelete(words) {
+        console.log("friday", words)
         listWords = listWords.filter(item => !words.includes(item.word))
         // update delete count
+        console.log("aaaa",listWords)
         $(".list-words__delete-count").text('Delete selected words')
         updateTotalWord()
     }
@@ -183,10 +281,13 @@ let aha = {};
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
         $.when(...ajaxArr).done(function () {
             updateListWordAfterDelete(listWordsChecked)
+            console.log("list word checked", listWordsChecked)
             onPagination(1)
             listWordsChecked = []
+            console.log(listWords)
         }).fail(function (err) {
             // TODO
+            console.log("cannot delete multiple words")
         });
     }
 
@@ -205,13 +306,15 @@ let aha = {};
         // date = date.toLocaleDateString()
 
         return `<div class="flip-card col-xs-12 col-sm-6 col-md-4">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <h1 class="word">${word}</h1>
-          </div>
-          <div class="flip-card-back">
-            <h1 class="definition">${formatDefinitionFromRawString(definition) || 'Definition is empty'}</h1>  
-          </div>
+        <div class="flip-card-div ">
+            <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h1 class="word">${word}</h1>
+            </div>
+            <div class="flip-card-back">
+                <div class="definition">${formatDefinitionFromRawString(definition) || ''}</div>  
+            </div>
+            </div>
         </div>
         <div class="detail-wrap">
             <div class="detail-content">
@@ -221,8 +324,9 @@ let aha = {};
                 `<input class="word-item-checkbox" type="checkbox" id="${word}" checked>` :
                 `<input class="word-item-checkbox" type="checkbox" id="${word}">`
             }
-                <div class="delete"><p class="lnr lnr-trash btn-delete" id="${word}"></p></div>
+                <div class="delete"><p class="lnr lnr-trash btn-delete" data-toggle="modal" data-target="#askDeleteModal" id="${word}"></p></div>
                 <span class="lnr lnr-pencil word-item-edit" id="${word}" data-toggle="modal" data-target="#editWordModal"></span>
+                <span class="lnr lnr-volume-high lnr-volume-high-front-card" id="${word}"></span>
             </div>
         </div>
       </div>`
@@ -318,23 +422,93 @@ let aha = {};
 
 
     // onPagination(currentPage)
-    function openModalEditWord(word) {
-        const wordItem = listWords.find(item => item.word === word)
-        if (wordItem) {
-            $("#modal-edit-word__input-word").val(word)
-            $(".modal-edit-word__word").text(word)
+    function openModal(word) {
+        // word === "" ? isAddOrEditWord = true : isAddOrEditWord = false;
+        if (word === undefined) {
+            isAddOrEditWord = true;
+        }
+        else {
+            isAddOrEditWord = false;
+        }
 
-            const { definition } = wordItem
-            const s = formatDefinitionFromRawString(definition)
-            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
-            currentEditedWord = wordItem
+        $("#editWordModal").on('shown.bs.modal', function(){
+            if (word != undefined) {
+                $(".modal-edit-word-msg").removeClass("alert alert-danger")
+                $(".modal-edit-word-msg").text("")
+                $("#modal-edit-word__input-word").hide();
+                $("#modal-edit-word__input-word").val(word)
+                $(".modal-edit-word__word").text(word)
+            } else {
+                $(".modal-edit-word__word").text('');
+                $("#modal-edit-word__input-word").show();
+                $("#modal-edit-word__input-word").focus();
+                $("#modal-edit-word__input-word").val('');
+            }
+        });
+
+        if (word != undefined) {
+
+            // $(".handle-save-action").removeClass("handle-save-add-new-word").addClass("handle-save-word")
+            const wordItem = listWords.find(item => item.word === word)
+            if (wordItem) {
+                const { definition } = wordItem
+                const s = formatDefinitionFromRawString(definition)
+                $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val(s)
+                currentEditedWord = wordItem
+            }
+
+        } else {
+            // currentEditedWord = listWords[0];
+            // $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
+            $(".modal-edit-word-msg").removeClass("alert alert-danger")
+            $(".modal-edit-word-msg").text("")
+            $("#editWordModal").modal('show')
+            $(".word-wrap").hide()
+            $(".lnr-volume-high-wrap").hide()
+            $(".list-definition").html('<div class="empty">(Empty)</div>')
+            $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+        }
+        
+    }
+
+    // function openModalNewWord () {
+    //     // $(".modal-edit-word__word").text('')
+    //     // $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+    //     // alert("before focus")
+    //     // console.log(listWords)
+    //     currentEditedWord = listWords[0];
+    //     $(".handle-save-action").removeClass("handle-save-word").addClass("handle-save-add-new-word")
+    //     $(".modal-edit-word-msg").removeClass("alert alert-danger")
+    //     $(".modal-edit-word-msg").text("")
+    //     $("#editWordModal").on('shown.bs.modal', function(){
+    //         $(".modal-edit-word__word").text('');
+    //         $("#modal-edit-word__input-word").show();
+    //         $("#modal-edit-word__input-word").focus();
+    //         $("#modal-edit-word__input-word").val('');
+    //     });
+    //     $("#editWordModal").modal('show');
+    //     $(".word-wrap").hide()
+    //     $(".lnr-volume-high-wrap").hide()
+    //     $(".list-definition").html('<div class="empty">(Empty)</div>')
+    //     $(`#${DEFINITION_ELE_CLASSNAME_IN_MODAL_EDIT_WORD}`).val('')
+
+        
+    // }
+
+    function openModalDeleteAskAgain(word) {
+        $('#askDeleteModal').modal('show');
+        if (word !== undefined) {
+            $(".delete-msg").text(`Delete "${word}"?`)
+        }
+        else {
+            $(".delete-msg").text('Delete selected word(s)?')
         }
     }
 
     function onPagination(page) {
         currentPage = page
         const list = (listWordsDisplay || listWords).slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage).map(item => createElementCard(item))
-
+        let word;
         $(".list-words").html(list)
 
         // update pagination UI
@@ -359,30 +533,47 @@ let aha = {};
             }
         });
 
+        $(".m-delete").click(function(e){
+            deleteWord(word);
+            $(".m-cancel").click()
+        });
+
         $(".btn-delete").click(function (e) {
             e.stopPropagation()
-            const word = e.target.id
-            deleteWord(word)
+            word = e.target.id
+            openModalDeleteAskAgain(word)
         });
 
         $(".word-item-checkbox").click(function (e) {
             e.stopPropagation()
-            const word = e.target.id
+            word = e.target.id
             updateListWordsChecked(word, e.target.checked)
         });
 
         $(".word-item-edit").click(async function (e) {
-            const word = e.target.id
-            openModalEditWord(word)
+            // e.stopPropagation()
+            word = e.target.id
+            openModal(word)
             $(".list-definition").html('<div class="loader"></div>')
+            $(".lnr-volume-high-wrap").html('')
             await showListSuggestDefinition(word)
+            await showPronunciation(word)
+        });
+        
+        $(".lnr-volume-high-front-card").click(function(e) {
+            let word = $(this).attr("id");
+            aha.apiShowPronunciation(word).
+                done(function(resultSpeak) {
+                    var audio = new Audio(resultSpeak);
+                    audio.play();
+                })
         });
     }
 
     function showListSavedWords() {
         aha.apiListSavedWords().
             done(function (result) {
-                // console.log("result: ", result)
+                //console.log("result: ", result)
                 listWords = result
                 updateTotalWord()
                 onPagination(1)
@@ -411,17 +602,64 @@ let aha = {};
                     ''
                 }
                                         <div class="add-btn list-group-item-add-btn">
-                                            <span class="icon">&#43;</span>
-                                            <span class="status">
-                                            ${currentEditedWord.definition.includes(item.definition) ? BTN_ADD_DEFINITION.ADDED : BTN_ADD_DEFINITION.NOT_ADDED}
-                                            </span>
+                                        ${
+                                            currentEditedWord != null ?
+                                                currentEditedWord.definition.includes(item.definition) ? 
+                                                    `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
+                                                    `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                                                :
+                                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+
+                                        }
+                                            
+                                    
                                         </div>
                     </li>`
         })
-
-
         html += `</ul>
             </div>`
+
+        return html
+    }
+
+    function createSectionSuggestDefintionHTMLVietnamese(definition_vn_array) {
+        let html = '';
+
+        definition_vn_array.map(item => {
+            html += `<div class="suggest-group">
+                        <div class="subtitle">${item.typeName}</div>
+                        <ul class="list-group">`
+
+            html += `<li class="list-group-item">
+                    <div class="definition">${item.definition[0].def}</div>
+
+                    
+                    ${
+                        item.definition[0].phrasalVerb.length > 0 ?
+                            `<div class="example">${item.definition[0].phrasalVerb[0]}</div>  <span class="exampleSecond">${item.definition[0].phrasalVerb[1]}</span>` :
+                            ''
+                    }
+                    <div class="add-btn list-group-item-add-btn">
+                    ${
+                        currentEditedWord != null && item.definition[0].def != '' ?
+                            currentEditedWord.definition.includes(item.definition[0].def) ? 
+                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` 
+                                : 
+                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                            :
+                            ''
+
+                    }
+                        
+        
+            </div>
+            </li>`
+        })
+        
+
+
+        html += '</ul></div>'
+            
 
         return html
     }
@@ -457,29 +695,39 @@ let aha = {};
     }
 
     function showListSuggestDefintionHTML(data) {
+        // console.log("in the definition list show")
         const { meanings } = data
         let list = ""
         for (const [key, value] of Object.entries(meanings)) {
             list += createSectionSuggestDefintionHTML(key, value)
         }
-
-        $(".list-definition").html(list)
+        $(".list-definition").append('<p class="english-def-title">English</p>')
+        $(".list-definition").append(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
-            const item = e.target.parentElement.parentElement
-            const definition = item.getElementsByClassName("definition")[0].textContent
-            const btnAdd = item.querySelector(".list-group-item-add-btn .status")
+            // const item = e.target
+            const definition = this.parentElement.getElementsByClassName("definition")[0].textContent
+            const btnAdd = this.querySelector(".status")
+            const btnIcon = this.querySelector(".icon")
+
             // update in db 
             try {
                 const result = getUpdateDefinitionWord(definition)
-
-                await aha.updateWord(currentEditedWord.word, null, result.definition)
+                // console.log("current", currentEditedWord.word)
+                console.log("definition", result.definition)
+                // await aha.updateWord(currentEditedWord.word, null, result.definition)
                 // update currentEditedWord
-                currentEditedWord.definition = result.definition
+                // currentEditedWord.definition = result.definition
                 if (result.isAdded) {
                     btnAdd.textContent = "Added"
+                    btnIcon.innerHTML = '&#8211;'
+                    btnAdd.classList.add("btn-remove")
+                    btnIcon.classList.add("btn-remove")
                 } else {
                     btnAdd.textContent = "Add to my definition"
+                    btnIcon.innerHTML = '&#43;'
+                    btnAdd.classList.remove("btn-remove")
+                    btnIcon.classList.remove("btn-remove")
                 }
                 // update UI
                 const s = formatDefinitionFromRawString(result.definition)
@@ -490,16 +738,164 @@ let aha = {};
         })
     }
 
-    function showListSuggestDefinition(word) {
-        aha.apiListSuggestDefintion(word).
-            done(function (result) {
-                // console.log("def: ", result)
-                showListSuggestDefintionHTML(result)
-                $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
-            }).
-            fail(function (jqXHR) {
-                $(".list-definition").html('<div class="empty">(Empty)</div>')
-            });
+    async function showListSuggestDefinition(word) {
+        await aha.apiListSuggestDefintionVietnamese(word).
+            done(function (resultVi) {
+                aha.apiListSuggestDefintion(word).
+                    done(async function (resultEn) {
+                        // console.log("def: ", result)
+                        // console.log(definition_vn)
+                        // let definition_vn = createSectionSuggestDefintionHTMLVietnamese(resultVi);
+                        // $(".list-definition").html(definition_vn)
+
+                        await createVietnameseDefinitionObject(resultVi, word);
+                        let definition_vn = createSectionSuggestDefintionHTMLVietnamese(termObj.wordType);
+                        $(".list-definition").html('<p class="vietnamese-def-title">Vietnamese</p>')
+                        console.log(definition_vn)
+                        if (definition_vn != '</ul></div>') {
+                            $(".list-definition").append(definition_vn)
+                        }
+                        else {
+                            $(".list-definition").append('<p class="no-result">(No result)</p>')
+                        }
+                        //create English definition
+                        showListSuggestDefintionHTML(resultEn);
+                    }).
+                    fail(function (jqXHR) {
+                        $(".list-definition").html('<div class="empty">(Empty)</div>')
+                    })
+                })
+        // aha.apiListSuggestDefintion(word).
+        //     done(function (result) {
+        //          console.log("def: ", result)
+                
+        //         // $(".modal-edit-word-pronunciation").html(result.pronunciation || `<i>(Pronunciation is empty)</i>`)
+        //     }).
+        //     fail(function (jqXHR) {
+        //         $(".list-definition").html('<div class="empty">(Empty)</div>')
+        //     });
+    }
+
+    function createVietnameseDefinitionObject (resultVi, word) {
+        termObj = {
+            term: "",
+            wordType: []
+        };
+
+        //create Vietnames definition
+        var stringHTML = resultVi;
+        // console.log(stringHTML)
+        var dom = new DOMParser()
+        var elm = dom.parseFromString(stringHTML, "text/html")
+        // console.log(elm)
+        // var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
+        // // console.log(title)
+        // var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
+        // var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
+        // console.log(definition[0].innerText)
+
+
+
+        var wordTypeArr = elm.querySelectorAll("#show-alter > div");
+
+        for (var i = 0; i < wordTypeArr.length; i++) {
+
+            var wordTypeObj = {
+                typeName: "",
+                definition: []
+              }
+
+              
+
+              var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
+              wordTypeObj.typeName = wordTypeStr;
+
+              var definitionArr = wordTypeArr[i].querySelectorAll("div");
+              for (var j = 0; j < definitionArr.length; j++) {
+                var definitionObj = {
+                  def: "",
+                  phrasalVerb : []
+                }
+                var phrasalVerbObj = {
+                  phrVerb: [],
+                  phrVernInVn: ""
+                };
+
+                // isDefAvailable: To handle "Cau Truc Tu" case
+                var isDefAvailable = definitionArr[j].querySelector("h5>span>a");
+                if (isDefAvailable !== null) {
+                    definitionObj.def = "";
+
+                    var phrVerbInEng = definitionArr[j].querySelectorAll("h5");
+                    var phrVerbInVN = definitionArr[j].querySelectorAll("dl>dd>dl>dd");
+
+                    phrVerbInEng = phrVerbInEng[0] !== undefined ? phrVerbInEng[0].innerText : "";
+                    phrVerbInVN = phrVerbInVN[0] !== undefined ? phrVerbInVN[0].innerText : "";
+                    
+                    phrasalVerbObj.phrVerb.push(phrVerbInEng);
+                    phrasalVerbObj.phrVerb.push(phrVerbInVN);
+                } else {
+                    var def = definitionArr[j].querySelector("h5").innerText;
+                    console.log(def);
+                    definitionObj.def = def;
+
+                    var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
+                    if (phrVerbArr !== null) {
+                        for (var z = 0; z < phrVerbArr.length; z++) {
+                            console.log(phrVerbArr[z].innerText);
+                            phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
+                        }
+                    }
+                }
+                definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
+                wordTypeObj.definition.push(definitionObj);
+              }
+              
+              
+              
+              termObj.wordType.push(wordTypeObj);
+            }
+            termObj.term = word;
+            console.log(termObj);
+
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
+        // " Danh từ"
+
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > h5")[0].innerText
+        // " Tiếng cười"
+        
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[0].innerText
+        // to burst into a laugh
+        
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[1].innerText
+        // cười phá lên
+    }
+
+    async function showPronunciation(word) {
+        await aha.apiShowPronunciationSpelling(word).
+            done(function(resultSpell) {
+                aha.apiShowPronunciation(word).
+                    done(function(resultSpeak) {
+                        if (resultSpeak != "Error" && resultSpell != "Error") {
+                            // $(".modal-edit-word-pronunciation").html(result)
+                            $(".lnr-volume-high-wrap").html(`<span class="pronun-spelling">/${resultSpell}/</span> <span class="lnr lnr-volume-high lnr-volume-high-back-card"></span>`)
+                            $(".lnr-volume-high-back-card").click(function(e) {
+                                e.stopPropagation()
+                                var audio = new Audio(resultSpeak);
+                                audio.play();
+                            })
+                        }
+                        else {
+                            $(".lnr-volume-high-wrap").html(`<div class="modal-edit-word-pronunciation">(Pronunciation is empty)</div>`)
+                        }
+                    })
+            })
+            // fail(function () {
+            //     // console.log("error:", JSON.stringify(jqXHR))
+            //     // $(".modal-edit-word-pronunciation").html(`<i>(Pronunciation is empty)</i>`)
+            // });
+
+        
     }
 
     function checkLogin() {
@@ -620,7 +1016,9 @@ let aha = {};
         return _.uniq(arr);
     }
 
-    function sortWords(arr) {
-        return arr.sort();
-    }
+    // function sortWords(arr) {
+    //     return arr.sort();
+    // }
+
+    
 })($ || jQuery);

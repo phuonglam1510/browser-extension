@@ -37,20 +37,20 @@
       <div class="social">
         <ul class="social__list">
           <li class="social__item social__item--facebook">
-            <a href="/">
+            <a href="https://www.facebook.com/wordsmine.official">
               <i class="fab fa-facebook"></i>
             </a>
           </li>
           <li class="social__item social__item--instagram">
-            <a href="/">
+            <a href="https://www.instagram.com/wordsmine.an/">
               <i class="fab fa-instagram"></i>
             </a>
           </li>
-          <li class="social__item social__item--youtube">
+          <!-- <li class="social__item social__item--youtube">
             <a href="/">
               <i class="fab fa-youtube"></i>
             </a>
-          </li>
+          </li> -->
           <!-- <li class="menu__switch">
                     <a href="/page/profile.html">
                         Profile
@@ -110,6 +110,22 @@
           </div>
         </div>
 
+        <div class="add-new-word" data-toggle="modal" data-target="#editWordModal">
+          <span class="lnr lnr-plus-circle "></span>
+          <span>Add new</span>
+        </div>
+
+        <div class ="dropdown sorting">
+          <div class="sortingUI">
+            <span class="lnr lnr-sort-amount-asc"></span>
+            <span>Sort</span>
+          </div>
+          <div class="dropdown-menu dropdown-content dropdown-menu-right">
+            <p class="dropdown-item sort-alpha">Alphabet order</p>
+            <p class="dropdown-item sort-time">Time-based order</p>
+          </div>
+        </div>
+
         <div class="list-words__search">
           <input
             type="text"
@@ -121,8 +137,11 @@
             <span class="lnr lnr-magnifier"></span>
           </button>
         </div>
+        
       </div>
 
+      
+      
       <section class="list-words row">
         <div class="loader"></div>
       </section>
@@ -143,7 +162,7 @@
         aria-hidden="true"
       >
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
+          <div class="modal-content modal-content-add-new-word">
             <div class="modal-header">
               <!-- <h5 class="modal-title">Edit word</h5> -->
               <button
@@ -170,7 +189,7 @@
                       id="modal-edit-word__input-word"
                       placeholder="Enter new word"
                     />
-                    <div class="modal-edit-word-pronunciation"></div>
+                    <span class="lnr-volume-high-wrap"></span>
                   </div>
 
                   <div class="form-group">
@@ -216,6 +235,107 @@
           </div>
         </div>
       </div>
+
+    <!-- Modal Delete Again-->
+    <div id="askDeleteModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p class ="delete-msg"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn m-cancel btn-primary-outline-custom" style ="padding: .5rem 2rem" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn m-delete btn-primary-custom" style ="padding: .5rem 2rem">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Add New Word
+    <div
+        class="modal-add-new-word modal fade"
+        id="addNewWordModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content-add-new-word">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-add-new-word__body">
+              <div class="modal-add-new-word__column modal-edit-word__left">
+                <div class="modal-add-new-word-msg"></div>
+                <form>
+                  <div class="form-group">
+                    <div class="word-wrap">
+                      <div class="modal-edit-word__word"></div>
+                      <div class="instruction">* tap to edit word name</div>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control modal-add-new-word__input"
+                      id="modal-add-new-word__input-word"
+                      placeholder="Enter new word"
+                    />
+                    <span class="lnr-volume-high-wrap"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="title" for="exampleFormControlTextarea1"
+                      >Definition</label
+                    >
+                    <textarea
+                      class="form-control modal-add-new-word__input"
+                      id="modal-add-new-word-definition"
+                      rows="6"
+                      placeholder="Enter definition"
+                    ></textarea>
+                  </div>
+                </form>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn-footer btn btn-lg btn-primary-outline-custom handle-close-modal-add-new"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-footer btn btn-lg btn-primary-custom handle-save-add-newword"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+
+              <div class="modal-add-new-word__column modal-add-new-word__right">
+                <div class="modal-add-new-word__suggest-definition">
+                  <div class="title">From dictionary</div>
+
+                  <div class="list-definition">
+                    <div class="loader"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </main>
 
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
