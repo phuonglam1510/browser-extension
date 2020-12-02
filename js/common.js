@@ -1,5 +1,6 @@
 let aha = {};
 let isAddOrEditWord;
+var termObj;
 
 (function ($) {
     const baseUrl = "https://appword.kie.io";
@@ -615,40 +616,50 @@ let isAddOrEditWord;
                                         </div>
                     </li>`
         })
-
-
         html += `</ul>
             </div>`
 
         return html
     }
 
-    function createSectionSuggestDefintionHTMLVietnamese (definition) {
-        let html = `<div class="suggest-group">
-                                <div class="subtitle">Vietnamese</div>
-                                <ul class="list-group">`
+    function createSectionSuggestDefintionHTMLVietnamese(definition_vn_array) {
+        let html = '';
+
+        definition_vn_array.map(item => {
+            html += `<div class="suggest-group">
+                        <div class="subtitle">${item.typeName}</div>
+                        <ul class="list-group">`
 
             html += `<li class="list-group-item">
-                        <div class="definition">${definition}</div>
+                    <div class="definition">${item.definition[0].def}</div>
 
-                        <div class="add-btn list-group-item-add-btn">
-                        ${
-                            currentEditedWord != null ?
-                                currentEditedWord.definition.includes(definition) ? 
-                                    `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` : 
-                                    `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
-                                :
-                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
-
-                        }
-                            
                     
-                        </div>
-                    </li>`
+                    ${
+                        item.definition[0].phrasalVerb.length > 0 ?
+                            `<div class="example">${item.definition[0].phrasalVerb[0]}</div>  <span class="exampleSecond">${item.definition[0].phrasalVerb[1]}</span>` :
+                            ''
+                    }
+                    <div class="add-btn list-group-item-add-btn">
+                    ${
+                        currentEditedWord != null && item.definition[0].def != '' ?
+                            currentEditedWord.definition.includes(item.definition[0].def) ? 
+                                `<span class="icon btn-remove">&#8211;</span> <span class="status btn-remove">${BTN_ADD_DEFINITION.ADDED}</span>` 
+                                : 
+                                `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
+                            :
+                            ''
+
+                    }
+                        
+        
+            </div>
+            </li>`
+        })
+        
 
 
-        html += `</ul>
-            </div>`
+        html += '</ul></div>'
+            
 
         return html
     }
@@ -690,7 +701,7 @@ let isAddOrEditWord;
         for (const [key, value] of Object.entries(meanings)) {
             list += createSectionSuggestDefintionHTML(key, value)
         }
-
+        $(".list-definition").append('<p class="english-def-title">English</p>')
         $(".list-definition").append(list)
         $(".list-group-item-add-btn").click(async function (e) {
             e.stopPropagation()
@@ -731,104 +742,22 @@ let isAddOrEditWord;
         await aha.apiListSuggestDefintionVietnamese(word).
             done(function (resultVi) {
                 aha.apiListSuggestDefintion(word).
-                    done(function (resultEn) {
+                    done(async function (resultEn) {
                         // console.log("def: ", result)
                         // console.log(definition_vn)
                         // let definition_vn = createSectionSuggestDefintionHTMLVietnamese(resultVi);
                         // $(".list-definition").html(definition_vn)
 
-                        //create Vietnames definition
-                        var stringHTML = resultVi;
-                        // console.log(stringHTML)
-                        var dom = new DOMParser()
-                        var elm = dom.parseFromString(stringHTML, "text/html")
-                        // console.log(elm)
-                        // var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
-                        // // console.log(title)
-                        // var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
-                        // var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
-                        // console.log(definition[0].innerText)
-
-                        var termObj = {
-                          term: "",
-                          wordType: []
-                        };
-
-                        var wordTypeArr = elm.querySelectorAll("#show-alter > div");
-
-                        for (var i = 0; i < wordTypeArr.length; i++) {
-
-                          
-                          
-                          var wordTypeObj = {
-                            typeName: "",
-                            definition: []
-                          }
-
-                          
-
-                          var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
-                          wordTypeObj.typeName = wordTypeStr;
-
-                          var definitionArr = wordTypeArr[i].querySelectorAll("div");
-                          for (var j = 0; j < definitionArr.length; j++) {
-                            var definitionObj = {
-                              def: "",
-                              phrasalVerb : []
-                            }
-                            var phrasalVerbObj = {
-                              phrVerb: [],
-                              phrVernInVn: ""
-                            };
-
-                            // isDefAvailable: To handle "Cau Truc Tu" case
-                            var isDefAvailable = definitionArr[j].querySelector("h5>span>a");
-                            if (isDefAvailable !== null) {
-                                definitionObj.def = "";
-
-                                var phrVerbInEng = definitionArr[j].querySelectorAll("h5");
-                                var phrVerbInVN = definitionArr[j].querySelectorAll("dl>dd>dl>dd");
-
-                                phrVerbInEng = phrVerbInEng[0] !== undefined ? phrVerbInEng[0].innerText : "";
-                                phrVerbInVN = phrVerbInVN[0] !== undefined ? phrVerbInVN[0].innerText : "";
-                                
-                                phrasalVerbObj.phrVerb.push(phrVerbInEng);
-                                phrasalVerbObj.phrVerb.push(phrVerbInVN);
-                            } else {
-                                var def = definitionArr[j].querySelector("h5").innerText;
-                                console.log(def);
-                                definitionObj.def = def;
-
-                                var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
-                                if (phrVerbArr !== null) {
-                                    for (var z = 0; z < phrVerbArr.length; z++) {
-                                        console.log(phrVerbArr[z].innerText);
-                                        phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
-                                    }
-                                }
-                            }
-                            definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
-                            wordTypeObj.definition.push(definitionObj);
-                          }
-                          
-                          
-                          
-                          termObj.wordType.push(wordTypeObj);
+                        await createVietnameseDefinitionObject(resultVi, word);
+                        let definition_vn = createSectionSuggestDefintionHTMLVietnamese(termObj.wordType);
+                        $(".list-definition").html('<p class="vietnamese-def-title">Vietnamese</p>')
+                        console.log(definition_vn)
+                        if (definition_vn != '</ul></div>') {
+                            $(".list-definition").append(definition_vn)
                         }
-                        termObj.term = word;
-                        console.log(termObj);
-                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
-                        // " Danh từ"
-
-                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > h5")[0].innerText
-                        // " Tiếng cười"
-                        
-                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[0].innerText
-                        // to burst into a laugh
-                        
-                        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[1].innerText
-                        // cười phá lên
-
+                        else {
+                            $(".list-definition").append('<p class="no-result">(No result)</p>')
+                        }
                         //create English definition
                         showListSuggestDefintionHTML(resultEn);
                     }).
@@ -845,6 +774,101 @@ let isAddOrEditWord;
         //     fail(function (jqXHR) {
         //         $(".list-definition").html('<div class="empty">(Empty)</div>')
         //     });
+    }
+
+    function createVietnameseDefinitionObject (resultVi, word) {
+        termObj = {
+            term: "",
+            wordType: []
+        };
+
+        //create Vietnames definition
+        var stringHTML = resultVi;
+        // console.log(stringHTML)
+        var dom = new DOMParser()
+        var elm = dom.parseFromString(stringHTML, "text/html")
+        // console.log(elm)
+        // var titles = elm.querySelector("#show-alter > #content-3 > h3 > span")
+        // // console.log(title)
+        // var definitions = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > h5")
+        // var examples = elm.querySelectorAll("div#show-alter > div > div:nth-of-type(1) > dl> dd>dl>dd:nth-of-type(1)")
+        // console.log(definition[0].innerText)
+
+
+
+        var wordTypeArr = elm.querySelectorAll("#show-alter > div");
+
+        for (var i = 0; i < wordTypeArr.length; i++) {
+
+            var wordTypeObj = {
+                typeName: "",
+                definition: []
+              }
+
+              
+
+              var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
+              wordTypeObj.typeName = wordTypeStr;
+
+              var definitionArr = wordTypeArr[i].querySelectorAll("div");
+              for (var j = 0; j < definitionArr.length; j++) {
+                var definitionObj = {
+                  def: "",
+                  phrasalVerb : []
+                }
+                var phrasalVerbObj = {
+                  phrVerb: [],
+                  phrVernInVn: ""
+                };
+
+                // isDefAvailable: To handle "Cau Truc Tu" case
+                var isDefAvailable = definitionArr[j].querySelector("h5>span>a");
+                if (isDefAvailable !== null) {
+                    definitionObj.def = "";
+
+                    var phrVerbInEng = definitionArr[j].querySelectorAll("h5");
+                    var phrVerbInVN = definitionArr[j].querySelectorAll("dl>dd>dl>dd");
+
+                    phrVerbInEng = phrVerbInEng[0] !== undefined ? phrVerbInEng[0].innerText : "";
+                    phrVerbInVN = phrVerbInVN[0] !== undefined ? phrVerbInVN[0].innerText : "";
+                    
+                    phrasalVerbObj.phrVerb.push(phrVerbInEng);
+                    phrasalVerbObj.phrVerb.push(phrVerbInVN);
+                } else {
+                    var def = definitionArr[j].querySelector("h5").innerText;
+                    console.log(def);
+                    definitionObj.def = def;
+
+                    var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
+                    if (phrVerbArr !== null) {
+                        for (var z = 0; z < phrVerbArr.length; z++) {
+                            console.log(phrVerbArr[z].innerText);
+                            phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
+                        }
+                    }
+                }
+                definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
+                wordTypeObj.definition.push(definitionObj);
+              }
+              
+              
+              
+              termObj.wordType.push(wordTypeObj);
+            }
+            termObj.term = word;
+            console.log(termObj);
+
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
+        // " Danh từ"
+
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > h5")[0].innerText
+        // " Tiếng cười"
+        
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[0].innerText
+        // to burst into a laugh
+        
+        // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > div:nth-of-type(1) > dl > dd > dl > dd")[1].innerText
+        // cười phá lên
     }
 
     async function showPronunciation(word) {

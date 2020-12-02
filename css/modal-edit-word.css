@@ -107,8 +107,21 @@
     /* text-align: center; */
 }
 .example::before{
-    content: '\201C';
+    content: 'e.g., \201C';
 }
 .example::after {
     content: '\201D';
+}
+.exampleSecond {
+    color: #8F9BB3;
+}
+.vietnamese-def-title, .english-def-title {
+    color: #80D0C7;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+.no-result {
+   text-align: center;
+
 }
