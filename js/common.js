@@ -738,7 +738,7 @@ let isAddOrEditWord;
                         // $(".list-definition").html(definition_vn)
 
                         //create Vietnames definition
-                        // var stringHTML = resultVi;
+                        var stringHTML = resultVi;
                         // console.log(stringHTML)
                         var dom = new DOMParser()
                         var elm = dom.parseFromString(stringHTML, "text/html")
@@ -774,23 +774,36 @@ let isAddOrEditWord;
                           };
 
                           var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
-                          console.log(wordTypeStr);
                           wordTypeObj.typeName = wordTypeStr;
 
                           var definitionArr = wordTypeArr[i].querySelectorAll("div");
                           for (var j = 0; j < definitionArr.length; j++) {
 
-                            var def = definitionArr[j].querySelector("h5").innerText;
-                            console.log(def);
-                            definitionObj.def = def;
+                            // isDefAvailable: To handle "Cau Truc Tu" case
+                            var isDefAvailable = definitionArr[j].querySelector("h5>span>a");
+                            if (isDefAvailable !== null) {
+                                definitionObj.def = "";
 
-                            var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
-                            if (phrVerbArr !== null) {
-                              for (var z = 0; z < phrVerbArr.length; z++) {
-                                console.log(phrVerbArr[z].innerText);
-                                phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
+                                var phrVerbInEng = definitionArr[j].querySelectorAll("h5");
+                                var phrVerbInVN = definitionArr[j].querySelectorAll("dl>dd>dl>dd");
 
-                              }
+                                phrVerbInEng = phrVerbInEng[0] !== undefined ? phrVerbInEng[0].innerText : "";
+                                phrVerbInVN = phrVerbInVN[0] !== undefined ? phrVerbInVN[0].innerText : "";
+                                
+                                phrasalVerbObj.phrVerb.push(phrVerbInEng);
+                                phrasalVerbObj.phrVerb.push(phrVerbInVN);
+                            } else {
+                                var def = definitionArr[j].querySelector("h5").innerText;
+                                console.log(def);
+                                definitionObj.def = def;
+
+                                var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
+                                if (phrVerbArr !== null) {
+                                    for (var z = 0; z < phrVerbArr.length; z++) {
+                                        console.log(phrVerbArr[z].innerText);
+                                        phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
+                                    }
+                                }
                             }
                           }
                           
@@ -800,6 +813,7 @@ let isAddOrEditWord;
                         }
 
                         termObj.term = word;
+                        console.log(termObj);
 
                         // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
                         // " Danh từ"
