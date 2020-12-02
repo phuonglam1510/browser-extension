@@ -758,26 +758,28 @@ let isAddOrEditWord;
 
                         for (var i = 0; i < wordTypeArr.length; i++) {
 
-                          var definitionObj = {
-                            def: "",
-                            phrasalVerb : []
-                          }
+                          
                           
                           var wordTypeObj = {
                             typeName: "",
-                            definition: {}
+                            definition: []
                           }
 
-                          var phrasalVerbObj = {
-                            phrVerb: [],
-                            phrVernInVn: ""
-                          };
+                          
 
                           var wordTypeStr = wordTypeArr[i].querySelector("h3").innerText;
                           wordTypeObj.typeName = wordTypeStr;
 
                           var definitionArr = wordTypeArr[i].querySelectorAll("div");
                           for (var j = 0; j < definitionArr.length; j++) {
+                            var definitionObj = {
+                              def: "",
+                              phrasalVerb : []
+                            }
+                            var phrasalVerbObj = {
+                              phrVerb: [],
+                              phrVernInVn: ""
+                            };
 
                             // isDefAvailable: To handle "Cau Truc Tu" case
                             var isDefAvailable = definitionArr[j].querySelector("h5>span>a");
@@ -805,16 +807,16 @@ let isAddOrEditWord;
                                     }
                                 }
                             }
+                            definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
+                            wordTypeObj.definition.push(definitionObj);
                           }
                           
-                          definitionObj.phrasalVerb = phrasalVerbObj.phrVerb;
-                          wordTypeObj.definition = definitionObj;
+                          
+                          
                           termObj.wordType.push(wordTypeObj);
                         }
-
                         termObj.term = word;
                         console.log(termObj);
-
                         // elm.querySelectorAll("#show-alter > div:nth-of-type(1) > h3")[0].innerText
                         // " Danh từ"
 
