@@ -798,7 +798,8 @@ var termObj;
 
         var wordTypeArr = elm.querySelectorAll("#show-alter > div");
 
-        for (var i = 0; i < wordTypeArr.length; i++) {
+        // We don't need to get "Hinh Thai Tu", just need use loop for n-1
+        for (var i = 0; i < wordTypeArr.length-1; i++) {
 
             var wordTypeObj = {
                 typeName: "",
