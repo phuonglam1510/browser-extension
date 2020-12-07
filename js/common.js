@@ -842,13 +842,13 @@ var termObj;
                     phrasalVerbObj.phrVerb.push(phrVerbInVN);
                 } else {
                     var def = definitionArr[j].querySelector("h5").innerText;
-                    //console.log(def);
+                    console.log(def);
                     definitionObj.def = def;
 
                     var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
                     if (phrVerbArr !== null) {
                         for (var z = 0; z < phrVerbArr.length; z++) {
-                            // console.log(phrVerbArr[z].innerText);
+                            console.log(phrVerbArr[z].innerText);
                             phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
                         }
                     }
