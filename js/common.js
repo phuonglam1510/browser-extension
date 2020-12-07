@@ -626,12 +626,14 @@ var termObj;
         let html = '';
 
         definition_vn_array.map(item => {
+            console.log(item.definition[0])
             html += `<div class="suggest-group">
                         <div class="subtitle">${item.typeName}</div>
                         <ul class="list-group">`
 
             html += `<li class="list-group-item">
-                    <div class="definition">${item.definition[0].def}</div>
+                ${item.definition.length > 0 ?
+                    `<div class="definition">${item.definition[0].def}</div>
 
                     
                     ${
@@ -652,7 +654,10 @@ var termObj;
                     }
                         
         
-            </div>
+                    </div>`
+                    :
+                    ''
+                }
             </li>`
         })
         
@@ -751,7 +756,7 @@ var termObj;
                         await createVietnameseDefinitionObject(resultVi, word);
                         let definition_vn = createSectionSuggestDefintionHTMLVietnamese(termObj.wordType);
                         $(".list-definition").html('<p class="vietnamese-def-title">Vietnamese</p>')
-                        console.log(definition_vn)
+                        // console.log(definition_vn)
                         if (definition_vn != '</ul></div>') {
                             $(".list-definition").append(definition_vn)
                         }
@@ -837,13 +842,13 @@ var termObj;
                     phrasalVerbObj.phrVerb.push(phrVerbInVN);
                 } else {
                     var def = definitionArr[j].querySelector("h5").innerText;
-                    console.log(def);
+                    //console.log(def);
                     definitionObj.def = def;
 
                     var phrVerbArr = definitionArr[j].querySelectorAll("dd>dl>dd");
                     if (phrVerbArr !== null) {
                         for (var z = 0; z < phrVerbArr.length; z++) {
-                            console.log(phrVerbArr[z].innerText);
+                            // console.log(phrVerbArr[z].innerText);
                             phrasalVerbObj.phrVerb.push(phrVerbArr[z].innerText);
                         }
                     }
