@@ -593,6 +593,7 @@ var termObj;
                                 <div class="subtitle">${title}</div>
                                 <ul class="list-group">`
         data.map(item => {
+            console.log("the current is :",currentEditedWord)
             const example = (item.examples && item.examples[0]) || null
             html += `<li class="list-group-item">
                                         <div class="definition">${item.definition}</div>
@@ -626,7 +627,8 @@ var termObj;
         let html = '';
 
         definition_vn_array.map(item => {
-            console.log(item.definition[0])
+            // console.log(item.definition[0])
+            // console.log(currentEditedWord)
             html += `<div class="suggest-group">
                         <div class="subtitle">${item.typeName}</div>
                         <ul class="list-group">`
@@ -649,7 +651,7 @@ var termObj;
                                 : 
                                 `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
                             :
-                            ''
+                            `<span class="icon">&#43;</span> <span class="status">${BTN_ADD_DEFINITION.NOT_ADDED}</span>`
 
                     }
                         
