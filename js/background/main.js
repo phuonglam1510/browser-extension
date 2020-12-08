@@ -8,7 +8,10 @@
  */
 
 function setUnread() {
-  chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 128] });
+  chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 128] })
+  setTimeout( () => {
+    chrome.browserAction.setBadgeBackgroundColor({color: '#ffc100'})
+  }, 700);
   chrome.browserAction.setBadgeText({ text: '.' });
 }
 
@@ -43,7 +46,10 @@ function saveFirstSelectedWord() {
           //alert("SUCCESSFULLY added word: '" + content + "'")
 
           // alert(document.all[0].innerText)
+          var snd = new Audio("/static/sound/addWord.mp3"); // buffers automatically when created
+          snd.play();
           setUnread()
+          
         });
     });
     // // The srcUrl property is only available for image elements.

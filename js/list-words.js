@@ -30,10 +30,11 @@ $(document).ready(function () {
         }
     });
 
-    $(".m-delete").click(function(e){
-        aha.deleteMultipleWord()
+    $(".m-delete").on("click", ".m-delete-multiple", async function(e){
+        await aha.deleteMultipleWord()
         $('.checkbox-check-all').prop('checked', false)
     });
+    
 
     $(".m-cancel").click(function(){
         aha.unCheckAllWords()
@@ -156,7 +157,7 @@ $(document).ready(function () {
     })
 
     $(".list-words__check-all").click(function() {
-        checkAllWords()
+        // checkAllWords()
     })
 });
 

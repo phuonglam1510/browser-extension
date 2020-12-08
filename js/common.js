@@ -266,6 +266,7 @@ var termObj;
     }
 
     function deleteWord(word) {
+        console.log("deleted word is",word)
         aha.apiDeleteWord(word).
             done(function (result) {
                 updateListWordAfterDelete([word])
@@ -284,7 +285,7 @@ var termObj;
             console.log("list word checked", listWordsChecked)
             onPagination(1)
             listWordsChecked = []
-            console.log(listWords)
+            console.log("today is beautiful",listWords)
         }).fail(function (err) {
             // TODO
             console.log("cannot delete multiple words")
@@ -499,9 +500,11 @@ var termObj;
         $('#askDeleteModal').modal('show');
         if (word !== undefined) {
             $(".delete-msg").text(`Delete "${word}"?`)
+            $(".m-delete").html(`<button type="button" class="btn m-delete-one btn-primary-custom" data-dismiss="modal" style ="padding: .5rem 2rem">Delete</button>`)
         }
         else {
             $(".delete-msg").text('Delete selected word(s)?')
+            $(".m-delete").html(`<button type="button" class="btn m-delete-multiple btn-primary-custom" data-dismiss="modal" style ="padding: .5rem 2rem">Delete</button>`)
         }
     }
 
@@ -533,9 +536,9 @@ var termObj;
             }
         });
 
-        $(".m-delete").click(function(e){
+        $(".m-delete").on("click",".m-delete-one", function(e){
+            console.log("m-delete-one",word)
             deleteWord(word);
-            $(".m-cancel").click()
         });
 
         $(".btn-delete").click(function (e) {
