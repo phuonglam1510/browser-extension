@@ -278,13 +278,12 @@ var termObj;
     }
 
     function deleteMultipleWord() {
+        const listWordsCheckedBeforeDelete = [...listWordsChecked]
         const ajaxArr = listWordsChecked.map(item => ajaxDelete(item))
         $.when(...ajaxArr).done(function () {
-            updateListWordAfterDelete(listWordsChecked)
-            console.log("list word checked", listWordsChecked)
+            updateListWordAfterDelete(listWordsCheckedBeforeDelete)
             onPagination(1)
             listWordsChecked = []
-            console.log(listWords)
         }).fail(function (err) {
             // TODO
             console.log("cannot delete multiple words")
