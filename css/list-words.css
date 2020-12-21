@@ -178,6 +178,7 @@ body {
 .list-words-wrap {
     padding-left: 10rem;
     padding-right: 10rem;
+    position: relative;
 }
 
 .list-words {
@@ -514,3 +515,72 @@ body {
     color: #fcfcfcc4;
     
   } */
+.lnr-leaf {
+    color: white;
+    cursor: pointer;
+    font-size: 2.5rem;
+}
+
+.feedback {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem
+}
+
+.dropleft .dropdown-menu    {
+    background-color: rgb(248, 248, 248);
+    width: 20rem;
+    height: 26rem;
+    box-shadow: 0 0 40px #2125296e;
+    border: none;
+    padding:0;
+}
+
+.feedback-header{
+    color: #fff;
+    font-size: 1.3rem;
+    align-items: center;
+    background-color: rgba(0, 147, 233, 1);
+    padding: 0.8rem;
+}
+
+.feedback-body{
+    padding: 1rem;
+    font-size: 1.05rem;
+}
+
+.feedback-lnr {
+    color: rgb(185, 179, 179);
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.feedback-lnr:hover {
+    color: rgb(250, 246, 12);
+}
+
+.feedback-text{
+    border: none;
+}
+
+.feedback-button-div{
+    padding-top: 1rem;
+}
+
+.feedback-button{
+    border: none;
+    background-color: rgba(0, 147, 233, 1);
+    color: #fff;
+    padding: 0.5rem;
+}
+
+.feedback-empty {
+    color: red;
+    font-size: 0.7rem;
+    margin: 0
+}
+
+.highlight{
+    color: rgb(250, 246, 12);
+}

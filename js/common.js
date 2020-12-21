@@ -49,6 +49,7 @@ var termObj;
     aha.apiLogout = apiLogout;
     aha.onClickLogout = onClickLogout;
     aha.apiSaveWord = apiSaveWord;
+    aha.apiPostFeedback = apiPostFeedback;
     aha.apiDeleteWord = apiDeleteWord;
     aha.apiListSavedWords = apiListSavedWords;
     aha.apiListSuggestDefintion = apiListSuggestDefintion;
@@ -136,6 +137,15 @@ var termObj;
         }))
     }
 
+    function apiPostFeedback(params) {
+        return $.when($.ajax({
+            url: "http://127.0.0.1:5000/api/feedback",
+            type: "POST",
+            data: params,
+        }))
+    }
+
+
     function apiListSavedWords() {
         // return $.when($.ajax(buildUrl("/api/word/list?orderBy=updatedAt")));
         return $.when($.ajax(buildUrl("/api/word/list")));
@@ -173,6 +183,7 @@ var termObj;
         }))
     }
 
+    
     // function apiAddNewWord(newWord, definition) {
     //     return $.when($.ajax({
     //         url: buildUrl(`/api/word?word=${newWord}&definition=${definition}&groupKey=transportation&subGroupKey=non-motor`),

@@ -67,23 +67,59 @@ $(document).ready(function () {
         // isAddOrEditWord = false;
     });
 
-    // $(".handle-save-add-new-word").click(function (e) {
-        
-        
-    //     e.stopPropagation()
-    //     if (checkWordInModal() != "error") {
-            
-    //         let newWord = $("#modal-edit-word__input-word").val().trim()
-    //         let definition = $("#modal-edit-word-definition").val().trim()
-            
-    //         definition = aha.formatDefinitionIntoRawString(definition)
+    $(".feedback-menu").click(function(e) {
+        e.stopPropagation()
+    })
 
-    //         // await aha.addNewWord(newWord, definition)
-            
-    //         // close modal
-    //         $(".handle-close-modal-edit").click()
-    //     }
-    // });
+    $(".feedback-button").click(function (e) {
+        let content = $(".feedback-text").val().trim()
+        let icons = document.querySelectorAll(".feedback-lnr")
+        let icon
+        for (var i=0; i<icons.length; i++) {
+            if (icons[i].classList.contains("highlight")) {
+                icon = icons[i].id
+            }
+        }
+        // console.log(icon)
+        if (content != "" || icon !="") {
+            aha.apiGetUserProfile().
+                done(function (profile) {
+                    let obj = {
+                        name: profile.authName,
+                        email: profile.authEmail,
+                        content: content,
+                        icon: icon
+                    }
+                    aha.apiPostFeedback(obj) 
+                }).
+                fail(function() {
+                    console.log("cannot post feedback")
+                })
+            $(".feedback-text").val("")
+            $(".feedback-button").html("Sent")
+        }
+        else {
+            $(".feedback-empty").html("Feedback cannot be empty")
+        }
+    });
+
+    $(".feedback-text").click(function() {
+        $(".feedback-empty").html("")
+    })
+
+    $(".feedback-lnr").click(function(e) {
+        $(".feedback-lnr").removeClass("highlight");
+        $(e.target).addClass("highlight")
+    })
+
+    $(".lnr-leaf").click(function() {
+        $(".feedback-button").html("Send feedback")
+        console.log("does it have")
+        if ($(".feedback-menu").hasClass("show")) {
+            console.log("yes it has")
+            $(".feedback-text").focus()
+        }
+    })
 
     $(".checkbox-check-all").click(function (e) {
         if (e.currentTarget.checked) {
@@ -158,6 +194,10 @@ $(document).ready(function () {
 
     $(".list-words__check-all").click(function() {
         // checkAllWords()
+    })
+
+    $(".feedback-text").click(function(e) {
+        e.stopPropagation()
     })
 });
 

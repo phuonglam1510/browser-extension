@@ -153,6 +153,25 @@
         <a href="https://wordsmine.com/policy" target="_blank"> Policy</a>
       </div>
 
+      <div class="feedback dropup dropleft" data-toggle="dropdown">
+        <span class="lnr lnr-leaf" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+        <div class="dropdown-menu dropdown-menu-right feedback-menu" onshow="focustext()">
+          <h1 class="dropdown-header feedback-header">Tell us your feedback!</h1>
+          <div class="feedback-body">
+            <p>How was your experience?</p>
+            <span class="lnr lnr-smile feedback-lnr" id="good"></span><span class="lnr lnr-sad feedback-lnr" id="bad"></span><span class="lnr lnr-neutral feedback-lnr" id="neutral"></span>
+            <p>Tell us why? (257 characters left)</p>
+            <textarea autofocus rows="5" cols="30" maxlength="257" required class="feedback-text"></textarea>
+            <p class="feedback-empty"></p>
+            <div class="feedback-button-div">
+              <button class="feedback-button">Send feedback</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Edit Word-->
       <div
         class="modal-edit-word modal fade"
         id="editWordModal"
@@ -255,88 +274,6 @@
       </div>
     </div>
 
-    <!-- Modal Add New Word
-    <div
-        class="modal-add-new-word modal fade"
-        id="addNewWordModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content-add-new-word">
-            <div class="modal-header">
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body modal-add-new-word__body">
-              <div class="modal-add-new-word__column modal-edit-word__left">
-                <div class="modal-add-new-word-msg"></div>
-                <form>
-                  <div class="form-group">
-                    <div class="word-wrap">
-                      <div class="modal-edit-word__word"></div>
-                      <div class="instruction">* tap to edit word name</div>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control modal-add-new-word__input"
-                      id="modal-add-new-word__input-word"
-                      placeholder="Enter new word"
-                    />
-                    <span class="lnr-volume-high-wrap"></span>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="title" for="exampleFormControlTextarea1"
-                      >Definition</label
-                    >
-                    <textarea
-                      class="form-control modal-add-new-word__input"
-                      id="modal-add-new-word-definition"
-                      rows="6"
-                      placeholder="Enter definition"
-                    ></textarea>
-                  </div>
-                </form>
-
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn-footer btn btn-lg btn-primary-outline-custom handle-close-modal-add-new"
-                    data-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-footer btn btn-lg btn-primary-custom handle-save-add-newword"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-
-              <div class="modal-add-new-word__column modal-add-new-word__right">
-                <div class="modal-add-new-word__suggest-definition">
-                  <div class="title">From dictionary</div>
-
-                  <div class="list-definition">
-                    <div class="loader"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </main>
 
     <script src="/js/lib/lodash-4.17.15.min.js"></script>
