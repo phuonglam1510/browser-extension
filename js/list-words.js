@@ -80,8 +80,10 @@ $(document).ready(function () {
                 icon = icons[i].id
             }
         }
-        // console.log(icon)
-        if (content != "" || icon !="") {
+        
+        if (content != "" || icon != undefined) {
+            console.log('icon',icon)
+            console.log("content",content)
             aha.apiGetUserProfile().
                 done(function (profile) {
                     let obj = {
@@ -96,7 +98,10 @@ $(document).ready(function () {
                     console.log("cannot post feedback")
                 })
             $(".feedback-text").val("")
+            $(".feedback-lnr").removeClass("highlight")
             $(".feedback-button").html("Sent")
+            $(".feedback-button").prop('disabled', true);
+            $(".feedback-button").css('background-color', 'rgb(126, 199, 241)')
         }
         else {
             $(".feedback-empty").html("Feedback cannot be empty")
@@ -108,15 +113,22 @@ $(document).ready(function () {
     })
 
     $(".feedback-lnr").click(function(e) {
-        $(".feedback-lnr").removeClass("highlight");
-        $(e.target).addClass("highlight")
+        if ($(e.target).hasClass("highlight"))
+            $(e.target).removeClass("highlight")
+        else {
+            $(".feedback-lnr").removeClass("highlight");
+            $(e.target).addClass("highlight")
+        }
+            
     })
 
     $(".lnr-leaf").click(function() {
+        $(".feedback-button").css('background-color','rgba(0, 147, 233, 1)')
         $(".feedback-button").html("Send feedback")
-        console.log("does it have")
+        $(".feedback-button").prop('disabled', false);
+        // console.log("does it have")
         if ($(".feedback-menu").hasClass("show")) {
-            console.log("yes it has")
+            // console.log("yes it has")
             $(".feedback-text").focus()
         }
     })
