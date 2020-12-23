@@ -100,7 +100,9 @@ $(document).ready(function () {
             $(".feedback-text").val("")
             $(".feedback-lnr").removeClass("highlight")
             $(".feedback-button").html("Sent")
-            $(".feedback-button").prop('disabled', true);
+            $(".feedback-button").prop('disabled', true)
+            $(".feedback-text").prop('disabled', true)
+            $(".feedback-lnr").prop('disabled', true)
             $(".feedback-button").css('background-color', 'rgb(126, 199, 241)')
         }
         else {
@@ -110,6 +112,12 @@ $(document).ready(function () {
 
     $(".feedback-text").click(function() {
         $(".feedback-empty").html("")
+    })
+
+    $(".feedback-text").keyup(function() {
+        let lengthOfContent = $(".feedback-text").val().length
+        console.log("length",lengthOfContent)
+        $(".feedback-countdown").html(257-lengthOfContent)
     })
 
     $(".feedback-lnr").click(function(e) {
@@ -126,6 +134,8 @@ $(document).ready(function () {
         $(".feedback-button").css('background-color','rgba(0, 147, 233, 1)')
         $(".feedback-button").html("Send feedback")
         $(".feedback-button").prop('disabled', false);
+        $(".feedback-text").prop('disabled', false)
+        $(".feedback-lnr").prop('disabled', false)
         // console.log("does it have")
         if ($(".feedback-menu").hasClass("show")) {
             // console.log("yes it has")

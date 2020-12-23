@@ -534,6 +534,7 @@ body {
     box-shadow: 0 0 40px #2125296e;
     border: none;
     padding:0;
+    border-radius: 0.7rem;
 }
 
 .feedback-header{
@@ -542,6 +543,8 @@ body {
     align-items: center;
     background-color: rgba(0, 147, 233, 1);
     padding: 0.8rem;
+    border-top-left-radius: 0.7rem;
+    border-top-right-radius: 0.7rem;
 }
 
 .feedback-body{
