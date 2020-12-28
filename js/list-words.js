@@ -9,8 +9,15 @@ let listWordsDisplay = null
 let listWordsChecked = []
 let currentEditedWord = null // Object: {word, id, ...}
 
-
+$(document).keydown(function(event) {
+    let keyShortcut = event.which;
+    if (event.metaKey && keyShortcut === 66) {
+        $(".add-new-word").click()
+    }
+})
 $(document).ready(function () {
+    
+
     let current_url = window.location;
     $('.dropdown-menu a').filter(function () {
         return this.href == current_url;

@@ -1,6 +1,9 @@
 let aha = {};
 let isAddOrEditWord;
 var termObj;
+// let countBadge = {
+//     count : 0,
+// };
 
 (function ($) {
     const baseUrl = "https://appword.kie.io";
@@ -139,7 +142,7 @@ var termObj;
 
     function apiPostFeedback(params) {
         return $.when($.ajax({
-            url: "http://127.0.0.1:5000/api/feedback",
+            url: createURL("/api/feedback"),
             type: "POST",
             data: params,
         }))

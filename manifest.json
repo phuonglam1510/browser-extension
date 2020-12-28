@@ -45,7 +45,15 @@
         "chromeos": "Ctrl+Shift+U",
         "linux": "Ctrl+Shift+J"
       }
+    },
+    "add-new-word": {
+      "suggested_key": {
+        "windows": "Ctrl+I",
+        "mac": "Command+I",
+        "chromeos": "Ctrl+Shift+U",
+        "linux": "Ctrl+Shift+J"
+      },
+      "description": "Add new word hahaha"
     }
-    
   }
 }

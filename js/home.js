@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    // $(".navbar-brand")[0].html(JSON.stringify(countBadge))
+    // alert(localStorage.getItem("count"))
+    // countBadge.resetCount
+    // if (countBadge.count == 3) {
+    //     countBadge.count = 0
+    //   }
     // enable tooltip css
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -16,7 +22,7 @@ $(document).ready(function () {
     let content = localStorage.getItem("words");
 
     chrome.browserAction.setBadgeText({ text: '' });
-
+    // alert(count)
     function showSelectedWords() {
         aha.util.listSelectedTexts(function (selections) {
             // console.log("Selected texts: ", selections);

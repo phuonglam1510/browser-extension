@@ -6,52 +6,21 @@
 /**
  * Returns a handler which will open a new window when activated.
  */
+// localStorage.setItem("count", 0)
+// let count = localStorage.getItem("count")
+let count = 0;
 
 function setUnread() {
   chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 128] })
-  setTimeout( () => {
-    chrome.browserAction.setBadgeBackgroundColor({color: '#ffc100'})
-  }, 700);
-  chrome.browserAction.setBadgeText({ text: '.' });
+  // setTimeout( () => {
+  //   chrome.browserAction.setBadgeBackgroundColor({color: '#ffc100'})
+  // }, 700);
+  chrome.browserAction.setBadgeText({ text: count.toString() });
 }
 
 function saveFirstSelectedWord() {
   return function (info, tab) {
-    aha.util.listSelectedTexts(function (selections) {
-      // console.log("Selected texts: ", selections);
-
-      let words = aha.util.splitWords(selections);
-      localStorage.setItem("words", words);
-      if (!words || !words.length) {
-        alert("No word found!");
-        return;
-      }
-
-      let content = aha.util.formatWord(words[0]);
-      let yes = confirm("Are you sure you want to add this word: '" + content + "'?");
-      if (!yes) {
-        return;
-      }
-
-      aha.apiSaveWord({
-        word: content
-      }).
-        always(function () {
-        }).
-        fail(function (err) {
-          alert("failed to add word with this bbbbbb error " + err.responseText);
-
-        }).
-        done(function () {
-          //alert("SUCCESSFULLY added word: '" + content + "'")
-
-          // alert(document.all[0].innerText)
-          var snd = new Audio("/static/sound/addWord.mp3"); // buffers automatically when created
-          snd.play();
-          setUnread()
-          
-        });
-    });
+    saveFirstSelectedWordHelper()
     // // The srcUrl property is only available for image elements.
     // // var url = 'info.html#' + info.srcUrl;
     // var url="save-word.html#";
@@ -76,6 +45,54 @@ function saveFirstSelectedWord() {
     // });
   };
 };
+function gotBadgeText(text) {
+  alert(text);
+}
+
+function saveFirstSelectedWordHelper() {
+  aha.util.listSelectedTexts(function (selections) {
+    // console.log("Selected texts: ", selections);
+
+    let words = aha.util.splitWords(selections);
+    localStorage.setItem("words", words);
+    if (!words || !words.length) {
+      return;
+    }
+
+    let content = aha.util.formatWord(words[0]);
+    
+    let yes = confirm("Are you sure you want to add this word: '" + content + "'?");
+    if (!yes) {
+      return;
+    }
+
+    aha.apiSaveWord({
+      word: content
+    }).
+      always(function () {
+      }).
+      fail(function (err) {
+        alert("failed to add word with this bbbbbb error " + err.responseText);
+
+      }).
+      done(function () {
+        //alert("SUCCESSFULLY added word: '" + content + "'")
+
+        // alert(document.all[0].innerText)
+        var snd = new Audio("/static/sound/addWord.mp3"); // buffers automatically when created
+        snd.play()
+        chrome.browserAction.getBadgeText({}, function(result) {
+          if (result == '') {
+            count = 1
+          } 
+          else {
+            count++;
+          }
+          setUnread()
+        })
+      });
+  });
+}
 
 function saveFirstWordFromClipboard() {
   return function (info, tab) {
@@ -125,6 +142,12 @@ function saveFirstWordFromClipboard() {
     "contexts": ["selection"],
     "onclick": saveFirstSelectedWord(),
     "parentId": parentSaveWord
+  });
+
+  chrome.commands.onCommand.addListener(function(command) {
+    if (command == "add-new-word") {
+      saveFirstSelectedWordHelper()
+    }
   });
 
   /**
