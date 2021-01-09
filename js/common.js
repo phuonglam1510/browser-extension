@@ -138,7 +138,7 @@ var termObj;
 
     function apiListSavedWords() {
         // return $.when($.ajax(buildUrl("/api/word/list?orderBy=updatedAt")));
-        return $.when($.ajax(buildUrl("/api/word/list")));
+        return $.when($.ajax(buildUrl("/api/word/list?pageSize=5000")));
     }
 
     function apiListSuggestDefintion(word) {
